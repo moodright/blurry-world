@@ -1,2 +1,2 @@
 # blurry-world
-A Blog Application made by SpringBoot
+A Blog System made by SpringBoot
