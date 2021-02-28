@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>仪表盘</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        /* Breadcrumb Section */
+        .dashboard-bc {
+            background: white;
+            padding-left: 205px;
+            margin-bottom: 0px;
+        }
+        /* End of Breadcrumb Section */
+        /* Main Section*/
+        .management-section{
+            background: #edf0fb;
+            text-align: center;
+        }
+        .mbody-part{
+            text-align: center;
+            margin: 25px 0;
+            width: 100%;
+            height: 300px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background: #fff;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);;
+        }
+        .mbody-part:hover{
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        .mbody-icon{
+            margin-top: 50px;
+            margin-bottom: 10px;
+            color: #38a3d9;
+        }
+        h3.mbody-title{
+            font-size: 22px;
+            color: #303a4b;
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+        p.mbody-subtitle{
+            font-size: 15px;
+            color: #99a1ba;
+
+        }
+        .mbody-link:hover{
+            text-decoration: none;
+        }
+        /*End of Main Section*/
+    </style>
+</head>
+<body>
+    <!-- Admin Nav bar -->
+    <div th:replace="~{/commons/admin-nav-bar :: admin-navbar}"></div>
+
+    <!-- BreadCrumb -->
+    <ol class="breadcrumb dashboard-bc">
+        <li class="breadcrumb-item"><a href="#">首页</a></li>
+        <li class="breadcrumb-item active">仪表盘</li>
+    </ol>
+
+    <!-- Main -->
+    <div class="container-fluid management-section" style="height: 100%">
+        <div class="row" style="margin-left: 175px;margin-right: 175px;">
+            <!-- part1 -->
+            <div class="col-md-4 col-lg-4">
+                <a href="#" class="mbody-link">
+                    <div class="mbody-part">
+                        <i class="fa fa-user fa-7x mbody-icon" aria-hidden="true"></i>
+                        <h3 class="mbody-title">用户管理</h3>
+                        <p class="mbody-subtitle">管理用户信息</p>
+                    </div>
+                </a>
+            </div>
+            <!-- part2 -->
+            <div class="col-md-4 col-lg-4">
+                <a href="#" class="mbody-link">
+                    <div class="mbody-part">
+                        <i class="fa fa-book fa-7x mbody-icon" aria-hidden="true"></i>
+                        <h3 class="mbody-title">文章管理</h3>
+                        <p class="mbody-subtitle">管理文章信息</p>
+                    </div>
+                </a>
+            </div>
+            <!-- part3 -->
+            <div class="col-md-4 col-lg-4">
+                <a href="#" class="mbody-link">
+                    <div class="mbody-part">
+                        <i class="fa fa-commenting-o fa-7x mbody-icon" aria-hidden="true"></i>
+                        <h3 class="mbody-title">评论管理</h3>
+                        <p class="mbody-subtitle">管理评论信息</p>
+                    </div>
+                </a>
+            </div>
+            <!-- part4 -->
+            <div class="col-md-4 col-lg-4">
+                <a href="#" class="mbody-link">
+                    <div class="mbody-part">
+                        <i class="fa fa-cog fa-7x mbody-icon" aria-hidden="true"></i>
+                        <h3 class="mbody-title">系统</h3>
+                        <p class="mbody-subtitle">关于此系统</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+<!-- jquery-3.5.1.js -->
+<script th:src="@{/js/jquery-3.5.1.js}"></script>
+<!-- bootstrap.bundle.js -->
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

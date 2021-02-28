@@ -7,16 +7,15 @@
     <link rel="icon" th:href="@{/images/favicon.ico}"/>
     <!-- bootstrap.css -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-    <!-- bootstrap 图标库 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
     <style>
         /* Login Section */
         .login-title{
             text-align: center;
             margin-top: 65px;
         }
-
-        .login-title img.logo-icon{
+        .login-title img.login-logo-icon{
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -64,25 +63,6 @@
             font-size: 14px;
             text-decoration: none;
         }
-        /* Register Section */
-        .modal-header img.logo-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: #409EFF;
-        }
-        .register-btn {
-            margin-top: 10px;
-            width: 100%;
-            background: #409EFF;
-            color: #ffffff;
-            border-color:rgba(27,31,35,.15);
-            border-radius: 10px;
-        }
-        .register-btn:hover {
-            background: #1571db;
-            color: #ffffff;
-        }
     </style>
 </head>
 <body>
@@ -92,7 +72,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="login-title">
-                        <img th:src="@{images/logo.png}" class="logo-icon" alt="logo">
+                        <img th:src="@{images/logo.png}" class="login-logo-icon" alt="logo">
                         <p>登录 Blurry World</p>
                     </div>
                     <div class="login-body">
@@ -116,40 +96,9 @@
             </div>
         </div>
     </section>
+    <!-- register section -->
+    <div th:replace="~{/commons/register-modal :: register-modal}"></div>
 
-    <!-- Register Section -->
-    <section>
-        <div class="modal fade" id="registerModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <img th:src="@{images/logo.png}" class="logo-icon" alt="logo">
-                    </div>
-                    <div class="modal-body">
-                        <p style="font-size: 23px;font-weight: 700;text-align: center;margin-bottom: 15px">创建您的账号</p>
-                        <form class="register-form">
-                            <div class="form-group">
-                                <label for="register_username" style="font-size:19px;font-weight: 400;">用户名或邮件地址</label>
-                                <input type="text" class="form-control" id="register_username">
-                            </div>
-                            <div class="form-group">
-                                <label for="register_password" style="font-size:19px;font-weight: 400;">密码</label>
-                                <input type="password" class="form-control" id="register_password">
-                            </div>
-                            <div class="form-group">
-                                <label for="check_password" style="font-size:19px;font-weight: 400;">确认密码</label>
-                                <input type="password" class="form-control" id="check_password">
-                            </div>
-                            <input type="submit" role="button" class="btn register-btn" value="注册">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <p style="text-align: left">注册即表示你同意<a href="#"> 服务条款 </a>和<a href="#"> 隐私选项 </a>，包括Cookie的使用。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
 <!-- jquery-3.5.1.js -->
 <script th:src="@{/js/jquery-3.5.1.js}"></script>

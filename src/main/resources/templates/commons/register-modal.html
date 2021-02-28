@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册模态框</title>
+</head>
+<body>
+    <!-- Register Section -->
+    <section th:fragment="register-modal">
+        <style>
+            /* Register Section */
+            .register-logo-icon {
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                background: #409EFF;
+            }
+            .register-btn {
+                margin-top: 10px;
+                width: 100%;
+                background: #409EFF;
+                color: #ffffff;
+                border-color:rgba(27,31,35,.15);
+                border-radius: 10px;
+            }
+            .register-btn:hover {
+                background: #1571db;
+                color: #ffffff;
+            }
+        </style>
+        <div class="modal fade" id="registerModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <img th:src="@{images/logo.png}" class="register-logo-icon" alt="logo">
+                    </div>
+                    <div class="modal-body">
+                        <p style="font-size: 23px;font-weight: 700;text-align: center;margin-bottom: 15px">创建您的账号</p>
+                        <form class="register-form">
+                            <div class="form-group">
+                                <label for="register_username" style="font-size:19px;font-weight: 400;">用户名或邮件地址</label>
+                                <input type="text" class="form-control" id="register_username">
+                            </div>
+                            <div class="form-group">
+                                <label for="register_password" style="font-size:19px;font-weight: 400;">密码</label>
+                                <input type="password" class="form-control" id="register_password">
+                            </div>
+                            <div class="form-group">
+                                <label for="check_password" style="font-size:19px;font-weight: 400;">确认密码</label>
+                                <input type="password" class="form-control" id="check_password">
+                            </div>
+                            <input type="submit" role="button" class="btn register-btn" value="注册">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <p style="text-align: left">注册即表示你同意<a href="#"> 服务条款 </a>和<a href="#"> 隐私选项 </a>，包括Cookie的使用。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of Register Section -->
+</body>
+</html>
