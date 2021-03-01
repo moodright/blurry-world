@@ -8,4 +8,4 @@ ${AnsiColor.BLUE}
 ░███████  ███░░██████░███   ░███     ██       ░██░   ░░░██░░██████ ░███    ███░░██████
 ░░░░░░░  ░░░  ░░░░░░ ░░░    ░░░     ░░        ░░       ░░  ░░░░░░  ░░░    ░░░  ░░░░░░
 ${AnsiColor.BRIGHT_YELLOW}
-Version: ${application.version} ${AnsiColor.RED} Made by moodright(https://www.moodright.cn)
+Version: ${application.version} ${AnsiColor.BLUE} Made by moodright(https://www.moodright.cn)
