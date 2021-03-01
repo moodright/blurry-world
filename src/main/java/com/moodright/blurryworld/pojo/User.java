@@ -61,6 +61,23 @@ public class User {
     public User(Integer userId,
                 String username,
                 String password,
+                String nickname,
+                Integer gender) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.gender = gender;
+        // 默认值
+        this.accountCreateTime = new Date();
+        this.accountLastLoginTime = new Date();
+        this.accountIsDeleted = false;
+        this.avatar = null;
+    }
+
+    public User(Integer userId,
+                String username,
+                String password,
                 String nickname) {
         this.userId = userId;
         this.username = username;

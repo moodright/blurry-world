@@ -68,11 +68,52 @@
                         </div>
                     </div>
                 </form>
-                <!-- User List -->
+                <!-- User List Management -->
                 <div class="col-12" style="background: white;margin-top: 20px;">
-                    <a class="btn btn-primary" role="button" href="#"><i class="fa fa-plus mr-2" aria-hidden="true"></i>添加用户</a>
+                    <!-- 添加用户 -->
+                    <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#addUser"><i class="fa fa-plus mr-2" aria-hidden="true"></i>添加用户</a>
                     <!-- 添加用户 modal -->
-
+                    <div class="modal fade" id="addUser" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">添加用户</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/admin/user/add" method="post">
+                                        <div class="form-group">
+                                            <label for="username" style="font-weight: bold">邮箱地址</label>
+                                            <input type="email" class="form-control" id="username" name="username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password" style="font-weight: bold">密码</label>
+                                            <input type="password" class="form-control" id="password" name="password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nickname" style="font-weight: bold">别名</label>
+                                            <input type="text" class="form-control" id="nickname" name="nickname" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mr-1" style="font-weight: bold">性别</label><br>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" value="0">男
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" value="1">女
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" value="2" checked>保密
+                                            </div>
+                                            <div class="form-group justify-content-end" style="display: flex">
+                                                <input class="btn btn-primary mr-2" type="submit">
+                                                <a class="btn btn-secondary" role="button" data-dismiss="modal">取消</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <table class="table table-hover mt-3">
                         <thead>
                             <tr>
@@ -93,12 +134,12 @@
                                 <td th:text="${user.getUsername()}"></td>
                                 <td th:text="${user.getPassword()}"></td>
                                 <td th:text="${user.getNickname()}"></td>
-                                <td th:text="${user.getGender()=='0'?'男':(user.getGender()=='1'?'女':'保密')}"></td>
+                                <td th:text="${user.getGender()==0?'男':(user.getGender()==1?'女':'保密')}"></td>
                                 <td th:text="${#dates.format(user.getAccountCreateTime(),'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${#dates.format(user.getAccountLastLoginTime(),'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${user.getAccountIsDeleted()=='false'?'正常':'已注销'}"></td>
                                 <td>
-                                    <a class="btn btn-success btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-primary btn-sm" role="button" data-toggle="modal" th:data-target="${'#updateUserModal'+user.getUserId()}" th:onclick="|javascript:getUpdateUserInfo(${user.getUserId()})|">编辑</a>
                                     <a class="btn btn-danger btn-sm" role="button" data-toggle="modal" th:data-target="${'#deleteUserModal'+user.getUserId()}">删除</a>
                                 </td>
                                 <!-- 删除用户 Modal -->
@@ -113,7 +154,48 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <!-- 编辑用户 Modal -->
+                                <div class="modal fade" th:id="${'updateUserModal'+user.getUserId()}" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">编辑用户</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form th:action="@{'/admin/user/update/' + ${user.getUserId()}}" method="post">
+                                                    <div class="form-group">
+                                                        <label th:for="${'update_username'+user.getUserId()}" style="font-weight: bold">邮箱地址</label>
+                                                        <input type="email" class="form-control" th:id="${'update_username'+user.getUserId()}" name="update_username" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label th:for="${'update_password'+user.getUserId()}" style="font-weight: bold">密码</label>
+                                                        <input type="text" class="form-control" th:id="${'update_password'+user.getUserId()}" name="update_password" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label th:for="${'update_nickname'+user.getUserId()}" style="font-weight: bold">别名</label>
+                                                        <input type="text" class="form-control" th:id="${'update_nickname'+user.getUserId()}" name="update_nickname" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="mr-1" style="font-weight: bold">性别</label><br>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" th:id="${'update_gender_male'+user.getUserId()}" name="update_gender" value="0">男
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" th:id="${'update_gender_female'+user.getUserId()}" name="update_gender" value="1">女
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" th:id="${'update_gender_secret'+user.getUserId()}" name="update_gender" value="2">保密
+                                                        </div>
+                                                        <div class="form-group justify-content-end" style="display: flex">
+                                                            <input class="btn btn-primary mr-2" type="submit">
+                                                            <a class="btn btn-secondary" role="button" data-dismiss="modal">取消</a>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
                         </tbody>
                     </table>
@@ -143,13 +225,29 @@
     <div th:replace="~{/commons/admin-footer :: admin-footer}"></div>
 
     <script>
+        // 异步请求删除用户信息
         function deleteUser(id) {
-            // ajax 异步请求
             $.get("/admin/user/delete/" + id, function(data) {
                 console.log(data);
                 if(data === 1) {
                     // 后台删除成功后删除用户标签数据
                     $('#'+id).remove();
+                }
+            });
+        }
+        // 异步请求获取更新的用户信息
+        function getUpdateUserInfo(id) {
+            $.get("/admin/user/update/" + id, function(user) {
+                console.log(user);
+                $('#' + 'update_username' + id).attr('value', user.username);
+                $('#' + 'update_password' + id).attr('value', user.password);
+                $('#' + 'update_nickname' + id).attr('value', user.nickname);
+                if(user.gender === 0) {
+                    $('#' + 'update_gender_male' + id).attr('checked', 'checked');
+                }else if(user.gender === 1) {
+                    $('#' + 'update_gender_female' + id).attr('checked', 'checked');
+                }else {
+                    $('#' + 'update_gender_secret' + id).attr('checked', 'checked');
                 }
             });
         }
