@@ -10,8 +10,11 @@
     <!-- Fontawesome Icon -->
     <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
     <style>
-        /* User-Manegement Section */
-        /* User Search form */
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+        /* User Search Bar Form */
         .reset-btn {
             color: rgba(0,0,0,.65);
             border-color: #d9d9d9;
@@ -19,6 +22,7 @@
         .reset-btn:hover {
             background: #d9d9d9;
         }
+
     </style>
 </head>
 <body>
@@ -32,9 +36,9 @@
     </ol>
 
     <!-- User-Management Section -->
-    <div class="container-fluid" style="background: #edf0fb;">
-        <div class="row" style="margin-left: 110px;margin-right: 110px;">
-            <div class="col-12 user-search" style="background: white;margin-top: 25px;">
+    <div class="container-fluid" style="background: #edf0fb;height: 100%;">
+        <div class="row management-body" style="margin-left: 110px;margin-right: 110px;height: 100%;">
+            <div class="col-12 user-search" style="background: white;margin-top: 25px;height: 95%">
                 <!-- User Search Bar Form -->
                 <form>
                     <div class="form-row form-inline mt-4" style="font-size: 15px">
@@ -65,8 +69,10 @@
                     </div>
                 </form>
                 <!-- User List -->
-                <div class="col-12 user-list" style="background: white;margin-top: 20px">
+                <div class="col-12" style="background: white;margin-top: 20px;">
                     <a class="btn btn-primary" role="button" href="#"><i class="fa fa-plus mr-2" aria-hidden="true"></i>添加用户</a>
+                    <!-- 添加用户 modal -->
+
                     <table class="table table-hover mt-3">
                         <thead>
                             <tr>
@@ -82,122 +88,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1001</td>
-                                <td>moonlight-3@foxmail.com</td>
-                                <td>123456</td>
-                                <td>moonlight</td>
-                                <td>男</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>已删除</td>
+                            <tr th:each="user : ${userList}" th:id="${user.getUserId()}">
+                                <td th:text="${user.getUserId()}"></td>
+                                <td th:text="${user.getUsername()}"></td>
+                                <td th:text="${user.getPassword()}"></td>
+                                <td th:text="${user.getNickname()}"></td>
+                                <td th:text="${user.getGender()=='0'?'男':(user.getGender()=='1'?'女':'保密')}"></td>
+                                <td th:text="${#dates.format(user.getAccountCreateTime(),'yyyy-MM-dd HH:mm')}"></td>
+                                <td th:text="${#dates.format(user.getAccountLastLoginTime(),'yyyy-MM-dd HH:mm')}"></td>
+                                <td th:text="${user.getAccountIsDeleted()=='false'?'正常':'已注销'}"></td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
-                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                    <a class="btn btn-success btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" data-toggle="modal" th:data-target="${'#deleteUserModal'+user.getUserId()}">删除</a>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>1001</td>
-                                <td>moonlight-3@foxmail.com</td>
-                                <td>123456</td>
-                                <td>moonlight</td>
-                                <td>男</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>已删除</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
-                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1001</td>
-                                <td>moonlight-3@foxmail.com</td>
-                                <td>123456</td>
-                                <td>moonlight</td>
-                                <td>男</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>已删除</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
-                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1001</td>
-                                <td>moonlight-3@foxmail.com</td>
-                                <td>123456</td>
-                                <td>moonlight</td>
-                                <td>男</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>已删除</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
-                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1001</td>
-                                <td>moonlight-3@foxmail.com</td>
-                                <td>123456</td>
-                                <td>moonlight</td>
-                                <td>男</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>正常</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
-                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1001</td>
-                                <td>moonlight-3@foxmail.com</td>
-                                <td>123456</td>
-                                <td>moonlight</td>
-                                <td>男</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>已删除</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
-                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1001</td>
-                                <td>moonlight-3@foxmail.com</td>
-                                <td>123456</td>
-                                <td>moonlight</td>
-                                <td>男</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>已删除</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
-                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1001</td>
-                                <td>moonlight-3@foxmail.com</td>
-                                <td>123456</td>
-                                <td>moonlight</td>
-                                <td>男</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>2021-10-10 00:00:00</td>
-                                <td>已删除</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
-                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
-                                </td>
+                                <!-- 删除用户 Modal -->
+                                <div class="modal fade" th:id="${'deleteUserModal'+user.getUserId()}" tabindex="-1" style="text-align: center">
+                                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <h4>确认删除</h4>
+                                                <a class="btn btn-danger" role="button" th:onclick="|javascript:deleteUser(${user.getUserId()})|" data-dismiss="modal">删除</a>
+                                                <a class="btn btn-secondary" role="button" data-dismiss="modal">取消</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <!-- Page Navigation -->
+            </div>
+            <!-- Page Navigation -->
+            <div class="col-12" style="background: white">
                 <nav>
                     <ul class="pagination justify-content-end mt-2 mr-4">
                         <li class="page-item disabled">
@@ -215,8 +138,22 @@
         </div>
     </div>
 
+    <div class="modal-open" ></div>
     <!-- footer -->
     <div th:replace="~{/commons/admin-footer :: admin-footer}"></div>
+
+    <script>
+        function deleteUser(id) {
+            // ajax 异步请求
+            $.get("/admin/user/delete/" + id, function(data) {
+                console.log(data);
+                if(data === 1) {
+                    // 后台删除成功后删除用户标签数据
+                    $('#'+id).remove();
+                }
+            });
+        }
+    </script>
 
 
 

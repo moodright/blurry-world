@@ -18,10 +18,5 @@ public class DashBoardController {
         return "admin/dashboard";
     }
 
-    // 用户管理页面跳转
-    @GetMapping("/user")
-    public String userManagement() {
-        return "admin/user-management";
-    }
 
 }

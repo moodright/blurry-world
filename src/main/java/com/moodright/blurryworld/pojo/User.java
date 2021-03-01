@@ -69,7 +69,7 @@ public class User {
         // 默认值
         this.gender = 2;
         this.accountCreateTime = new Date();
-        this.accountLastLoginTime = null;
+        this.accountLastLoginTime = new Date();
         this.accountIsDeleted = false;
         this.avatar = null;
     }
@@ -84,7 +84,7 @@ public class User {
         this.nickname = "";
         this.gender = 2;
         this.accountCreateTime = new Date();
-        this.accountLastLoginTime = null;
+        this.accountLastLoginTime = new Date();
         this.accountIsDeleted = false;
         this.avatar = null;
     }

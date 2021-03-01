@@ -3,8 +3,8 @@ package com.moodright.blurryworld.dao;
 import com.moodright.blurryworld.pojo.User;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 /**
  * @author moodright
@@ -17,9 +17,9 @@ public class UserDao {
     private static Map<Integer, User> users = null;
     static {
         users = new HashMap<Integer, User>();
-        users.put(1001, new User(1001, "amoonlight-3@foxmail.com", "123456", "moon1light"));
+        users.put(1001, new User(1001, "amoonlight-3@foxmail.com", "123456", "Xinjie Yu"));
         users.put(1002, new User(1002, "bmoonlight-3@foxmail.com", "123456", "moon2light"));
-        users.put(1003, new User(1003, "cmoonlight-3@foxmail.com", "123456", "moon3light"));
+        users.put(1003, new User(1003, "cmoonlight-3@foxmail.com", "123456", "俞新杰"));
         users.put(1004, new User(1004, "dmoonlight-3@foxmail.com", "123456", "moon4light"));
         users.put(1005, new User(1005, "emoonlight-3@foxmail.com", "123456", "moon5light"));
     }
@@ -46,5 +46,15 @@ public class UserDao {
             // 删除失败
             return 0;
         }
+    }
+
+    // 查询全部用户
+    public List<User> queryAllUser() {
+        List<User> userList = new ArrayList<User>();
+        // 遍历 Map
+        for(Integer key : users.keySet()) {
+            userList.add(users.get(key));
+        }
+        return userList;
     }
 }
