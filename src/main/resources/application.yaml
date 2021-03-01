@@ -1,3 +1,7 @@
 server:
   port: 8090
 
+# 定义应用程序版本号
+application:
+  version: Blurry World Beta
+
