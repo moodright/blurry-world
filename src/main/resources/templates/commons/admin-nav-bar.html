@@ -45,16 +45,16 @@
         <div class="container-fluid mx-5 my-1">
             <!-- heading -->
             <a class="navbar-brand" href="#">
-                <img src="images/favicon.ico" width="30" height="30" class="align-top" alt="logo">
+                <img th:src="@{/images/favicon.ico}" width="30" height="30" class="align-top" alt="logo">
                 <span style="font-weight: bold;color: white">BW Dashboard</span>
             </a>
             <!-- left nav link -->
             <div class="navbar-nav mr-auto">
-                <div class="nav-item menu-link link-active">
-                    <a class="nav-link active mx-2" href="#"><i class="fa fa-tachometer mx-2" aria-hidden="true"></i>仪表盘</a>
+                <div th:class="${active=='index'?'nav-item menu-link link-active':'nav-item menu-link'}">
+                    <a class="nav-link active mx-2" th:href="@{/admin}"><i class="fa fa-tachometer mx-2" aria-hidden="true"></i>仪表盘</a>
                 </div>
-                <div class="nav-item menu-link">
-                    <a class="nav-link mx-1" href="#"><i class="fa fa-user mx-2" aria-hidden="true"></i>用户管理</a>
+                <div th:class="${active=='user-management'?'nav-item menu-link link-active':'nav-item menu-link'}">
+                    <a class="nav-link mx-1" th:href="@{/admin/user}"><i class="fa fa-user mx-2" aria-hidden="true"></i>用户管理</a>
                 </div>
                 <div class="nav-item menu-link">
                     <a class="nav-link mx-1" href="#"><i class="fa fa-book mx-2" aria-hidden="true"></i>文章管理</a>

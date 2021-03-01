@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
+    <style>
+        /* User-Manegement Section */
+        /* User Search form */
+        .reset-btn {
+            color: rgba(0,0,0,.65);
+            border-color: #d9d9d9;
+        }
+        .reset-btn:hover {
+            background: #d9d9d9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Nav bar -->
+    <div th:replace="~{/commons/admin-nav-bar :: admin-navbar(active='user-management')}"></div>
+
+    <!-- BreadCrumb -->
+    <ol class="breadcrumb" style="background: white;padding-left: 205px;margin-bottom: 0;">
+        <li class="breadcrumb-item"><a th:href="@{/admin}">首页</a></li>
+        <li class="breadcrumb-item active">所有用户</li>
+    </ol>
+
+    <!-- User-Management Section -->
+    <div class="container-fluid" style="background: #edf0fb;">
+        <div class="row" style="margin-left: 110px;margin-right: 110px;">
+            <div class="col-12 user-search" style="background: white;margin-top: 25px;">
+                <!-- User Search Bar Form -->
+                <form>
+                    <div class="form-row form-inline mt-4" style="font-size: 15px">
+                        <div class="form-group col-3">
+                            <label for="keyword" class="ml-3">关键词：</label>
+                            <input type="text" class="form-control" id="keyword" style="width: 60%">
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="user-status" class="ml-3">用户状态：</label>
+                            <select class="form-control" id="user-status" style="width: 60%">
+                                <option>正常</option>
+                                <option>已删除</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="directory" class="ml-3">分类目录：</label>
+                            <select class="form-control" id="directory" style="width: 60%">
+                                <option>类别1</option>
+                                <option>类别2</option>
+                                <option>类别3</option>
+                                <option>类别4</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <a class="btn btn-primary form-control ml-5" role="button" href="#">查询</a>
+                            <a class="btn form-control ml-2 reset-btn" role="button" href="#">重置</a>
+                        </div>
+                    </div>
+                </form>
+                <!-- User List -->
+                <div class="col-12 user-list" style="background: white;margin-top: 20px">
+                    <a class="btn btn-primary" role="button" href="#"><i class="fa fa-plus mr-2" aria-hidden="true"></i>添加用户</a>
+                    <table class="table table-hover mt-3">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>用户名</th>
+                                <th>用户密码</th>
+                                <th>别名</th>
+                                <th>性别</th>
+                                <th>账号创建时间</th>
+                                <th>上次登录时间</th>
+                                <th>账户状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>moonlight-3@foxmail.com</td>
+                                <td>123456</td>
+                                <td>moonlight</td>
+                                <td>男</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>已删除</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>moonlight-3@foxmail.com</td>
+                                <td>123456</td>
+                                <td>moonlight</td>
+                                <td>男</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>已删除</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>moonlight-3@foxmail.com</td>
+                                <td>123456</td>
+                                <td>moonlight</td>
+                                <td>男</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>已删除</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>moonlight-3@foxmail.com</td>
+                                <td>123456</td>
+                                <td>moonlight</td>
+                                <td>男</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>已删除</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>moonlight-3@foxmail.com</td>
+                                <td>123456</td>
+                                <td>moonlight</td>
+                                <td>男</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>正常</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>moonlight-3@foxmail.com</td>
+                                <td>123456</td>
+                                <td>moonlight</td>
+                                <td>男</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>已删除</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>moonlight-3@foxmail.com</td>
+                                <td>123456</td>
+                                <td>moonlight</td>
+                                <td>男</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>已删除</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>moonlight-3@foxmail.com</td>
+                                <td>123456</td>
+                                <td>moonlight</td>
+                                <td>男</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>2021-10-10 00:00:00</td>
+                                <td>已删除</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" role="button" href="#">编辑</a>
+                                    <a class="btn btn-danger btn-sm" role="button" href="#">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Page Navigation -->
+                <nav>
+                    <ul class="pagination justify-content-end mt-2 mr-4">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">首页</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">下一页</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div th:replace="~{/commons/admin-footer :: admin-footer}"></div>
+
+
+
+<!-- jquery-3.5.1.js -->
+<script th:src="@{/js/jquery-3.5.1.js}"></script>
+<!-- bootstrap.bundle.js -->
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
