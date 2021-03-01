@@ -2,6 +2,7 @@ package com.moodright.blurryworld.controller.admin;
 
 import com.moodright.blurryworld.dao.UserDao;
 import com.moodright.blurryworld.pojo.User;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +38,7 @@ public class UserManagementController {
 
     /**
      * 查询全部用户
-     * @param model 存储用户列表
+     * @param model 模型：存储用户列表
      * @return 用户管理模板
      */
     @GetMapping(path = "/all")
@@ -52,7 +53,7 @@ public class UserManagementController {
      * 异步请求
      * 根据用户ID删除用户
      * @param id 用户编号
-     * @return 删除是否成功判断字段
+     * @return 是否删除判断字段
      */
     @GetMapping(path = "/delete/{id}")
     @ResponseBody
@@ -93,7 +94,6 @@ public class UserManagementController {
     @GetMapping(path = "/update/{id}")
     @ResponseBody
     public User updateUser(@PathVariable Integer id) {
-        System.out.println("id==>" + id);
         return userDao.queryUserById(id);
     }
 
@@ -104,6 +104,7 @@ public class UserManagementController {
      * @param password 用户密码
      * @param nickname 别名
      * @param gender 性别
+     * @param accountStatus 账户状态
      * @return 重定向至查询全部用户的Mapping -> allUsers()
      */
     @PostMapping(path = "/update/{id}")
@@ -111,7 +112,8 @@ public class UserManagementController {
                              @RequestParam("update_username")String username,
                              @RequestParam("update_password")String password,
                              @RequestParam("update_nickname")String nickname,
-                             @RequestParam("update_gender")Integer gender) {
+                             @RequestParam("update_gender")Integer gender,
+                             @RequestParam("update_accountStatus")Boolean accountStatus) {
         // 查询用户旧的信息
         User oldUserInfo = userDao.queryUserById(id);
         // 更新用户信息
@@ -119,6 +121,7 @@ public class UserManagementController {
         oldUserInfo.setPassword(password);
         oldUserInfo.setNickname(nickname);
         oldUserInfo.setGender(gender);
+        oldUserInfo.setAccountIsDeleted(accountStatus);
         userDao.updateUser(id, oldUserInfo);
         return "redirect:/admin/user/all";
     }

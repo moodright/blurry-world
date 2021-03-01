@@ -26,20 +26,20 @@
     </style>
 </head>
 <body>
-    <!-- Admin Nav bar -->
+    <!-- 后台导航栏 -->
     <div th:replace="~{/commons/admin-nav-bar :: admin-navbar(active='user-management')}"></div>
 
-    <!-- BreadCrumb -->
+    <!-- 面包屑导航 -->
     <ol class="breadcrumb" style="background: white;padding-left: 205px;margin-bottom: 0;">
         <li class="breadcrumb-item"><a th:href="@{/admin}">首页</a></li>
         <li class="breadcrumb-item active">所有用户</li>
     </ol>
 
-    <!-- User-Management Section -->
+    <!-- 用户管理部分 -->
     <div class="container-fluid" style="background: #edf0fb;height: 100%;">
         <div class="row management-body" style="margin-left: 110px;margin-right: 110px;height: 100%;">
             <div class="col-12 user-search" style="background: white;margin-top: 25px;height: 95%">
-                <!-- User Search Bar Form -->
+                <!-- 用户搜索栏 -->
                 <form>
                     <div class="form-row form-inline mt-4" style="font-size: 15px">
                         <div class="form-group col-3">
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </form>
-                <!-- User List Management -->
+                <!-- 用户管理 -->
                 <div class="col-12" style="background: white;margin-top: 20px;">
                     <!-- 添加用户 -->
                     <a class="btn btn-primary" role="button" data-toggle="modal" data-target="#addUser"><i class="fa fa-plus mr-2" aria-hidden="true"></i>添加用户</a>
@@ -114,6 +114,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 用户列表 -->
                     <table class="table table-hover mt-3">
                         <thead>
                             <tr>
@@ -137,7 +138,7 @@
                                 <td th:text="${user.getGender()==0?'男':(user.getGender()==1?'女':'保密')}"></td>
                                 <td th:text="${#dates.format(user.getAccountCreateTime(),'yyyy-MM-dd HH:mm')}"></td>
                                 <td th:text="${#dates.format(user.getAccountLastLoginTime(),'yyyy-MM-dd HH:mm')}"></td>
-                                <td th:text="${user.getAccountIsDeleted()=='false'?'正常':'已注销'}"></td>
+                                <td th:text="${user.getAccountIsDeleted()==false?'正常':'已注销'}"></td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" role="button" data-toggle="modal" th:data-target="${'#updateUserModal'+user.getUserId()}" th:onclick="|javascript:getUpdateUserInfo(${user.getUserId()})|">编辑</a>
                                     <a class="btn btn-danger btn-sm" role="button" data-toggle="modal" th:data-target="${'#deleteUserModal'+user.getUserId()}">删除</a>
@@ -186,10 +187,17 @@
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" th:id="${'update_gender_secret'+user.getUserId()}" name="update_gender" value="2">保密
                                                         </div>
-                                                        <div class="form-group justify-content-end" style="display: flex">
-                                                            <input class="btn btn-primary mr-2" type="submit">
-                                                            <a class="btn btn-secondary" role="button" data-dismiss="modal">取消</a>
-                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label th:for="${'update_accountStatus'+user.getUserId()}" style="font-weight: bold">账户状态</label>
+                                                        <select class="form-control" th:id="${'update_accountStatus'+user.getUserId()}" name="update_accountStatus">
+                                                            <option value="false" th:id="${'update_accountStatus_false'+user.getUserId()}">正常</option>
+                                                            <option value="true" th:id="${'update_accountStatus_true'+user.getUserId()}">注销</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group justify-content-end" style="display: flex">
+                                                        <input class="btn btn-primary mr-2" type="submit">
+                                                        <a class="btn btn-secondary" role="button" data-dismiss="modal">取消</a>
                                                     </div>
                                                 </form>
                                             </div>
@@ -201,7 +209,7 @@
                     </table>
                 </div>
             </div>
-            <!-- Page Navigation -->
+            <!-- 分页导航 -->
             <div class="col-12" style="background: white">
                 <nav>
                     <ul class="pagination justify-content-end mt-2 mr-4">
@@ -221,14 +229,14 @@
     </div>
 
     <div class="modal-open" ></div>
-    <!-- footer -->
+    <!-- 页脚 -->
     <div th:replace="~{/commons/admin-footer :: admin-footer}"></div>
 
     <script>
         // 异步请求删除用户信息
         function deleteUser(id) {
             $.get("/admin/user/delete/" + id, function(data) {
-                console.log(data);
+                // console.log(data);
                 if(data === 1) {
                     // 后台删除成功后删除用户标签数据
                     $('#'+id).remove();
@@ -238,7 +246,7 @@
         // 异步请求获取更新的用户信息
         function getUpdateUserInfo(id) {
             $.get("/admin/user/update/" + id, function(user) {
-                console.log(user);
+                // console.log(user);
                 $('#' + 'update_username' + id).attr('value', user.username);
                 $('#' + 'update_password' + id).attr('value', user.password);
                 $('#' + 'update_nickname' + id).attr('value', user.nickname);
@@ -249,11 +257,14 @@
                 }else {
                     $('#' + 'update_gender_secret' + id).attr('checked', 'checked');
                 }
+                if(user.accountIsDeleted === true) {
+                    $('#' + 'update_accountStatus_true' + id).attr('selected', 'selected');
+                }else {
+                    $('#' + 'update_accountStatus_false' + id).attr('selected', 'selected');
+                }
             });
         }
     </script>
-
-
 
 <!-- jquery-3.5.1.js -->
 <script th:src="@{/js/jquery-3.5.1.js}"></script>

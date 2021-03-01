@@ -49,6 +49,7 @@ public class User {
     private Date accountLastLoginTime;
     /**
      *  账户状态
+     *  正常: false 已注销：true
      *  默认值：false
      */
     private Boolean accountIsDeleted;

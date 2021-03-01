@@ -43,12 +43,12 @@
             }
         </style>
         <div class="container-fluid mx-5 my-1">
-            <!-- heading -->
+            <!-- 导航头 -->
             <a class="navbar-brand" href="#">
                 <img th:src="@{/images/favicon.ico}" width="30" height="30" class="align-top" alt="logo">
                 <span style="font-weight: bold;color: white">BW Dashboard</span>
             </a>
-            <!-- left nav link -->
+            <!-- 左导航链接 -->
             <div class="navbar-nav mr-auto">
                 <div th:class="${active=='index'?'nav-item menu-link link-active':'nav-item menu-link'}">
                     <a class="nav-link active mx-2" th:href="@{/admin}"><i class="fa fa-tachometer mx-2" aria-hidden="true"></i>仪表盘</a>
@@ -66,7 +66,7 @@
                     <a class="nav-link mx-1" href="#"><i class="fa fa-cog mx-2" aria-hidden="true"></i>系统</a>
                 </div>
             </div>
-            <!-- right nav link -->
+            <!-- 右导航链接 -->
             <div class="navbar-nav ml-auto">
                 <div class="nav-item">
                     <span class="admin-name mr-2">Administrator</span>
