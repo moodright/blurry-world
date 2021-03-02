@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主界面导航栏</title>
+</head>
+<body>
+    <!-- 用户导航栏 -->
+    <div class="user-nav-bar" th:fragment="user-nav-bar">
+        <style>
+            /* 根元素规定宽高比, 页面失去响应式的灵活性 */
+            html, body {
+                height: 100%;
+                width: 100%;
+            }
+            /* 用户导航栏 */
+            .user-nav-bar{
+                width: 100%;
+                height: 10%;
+                background: white;
+                display: flex;
+                justify-content: space-between;
+            }
+            /* 左侧链接 */
+            .user-nav-link {
+                height: 100%;
+                width: 30%;
+            }
+            .user-nav-link .user-nav-logo {
+                margin-left: 30px;
+                width: 17%;
+                height: 100%;
+            }
+            .user-nav-link .user-nav-main-link {
+                margin-left: 10px;
+                margin-right: 10px;
+                font-size: 1.15rem;
+                color: #212121;
+                text-decoration: none;
+                cursor: pointer;
+                /* 调整链接位置 */
+                position: relative;
+                top: 2px;
+            }
+            /* 中心搜索栏 */
+            .user-nav-search {
+                height: 100%;
+                width: 30%;
+            }
+            .user-nav-search .user-nav-search-form {
+                margin-top: 18px;
+            }
+            .user-nav-search .user-nav-search-form input {
+                width: 80%;
+            }
+            .user-nav-search .user-nav-search-form a {
+                margin-left: 5px;
+            }
+            /* 右侧用户个人中心 */
+            .user-nav-center {
+                height: 100%;
+                width: 30%;
+            }
+            .user-nav-center .user-nav-center-avatar {
+                margin-left: 15px;
+                margin-top: 10px;
+                margin-right: 15px;
+                height: 50px;
+                width: 50px;
+                border-radius: 50px;
+            }
+            /* 头像 */
+            /* animation */
+            .head-box {
+                margin-right: 55px;
+                display: inline;
+            }
+            .image-box {
+                cursor: pointer;
+                position: absolute;
+                z-index: 1;
+                transform: translate(-50%, 0);
+                transition: transform .3s, width .3s, height .3s;
+            }
+            .head-box:hover .image-box{
+                width: 80px;
+                height: 80px;
+                transform: translate(-50%, 28%);
+            }
+            .message-box {
+                width: 332px;
+                height: 400px;
+                background: white;
+                border-radius: 10px;
+                /* 调整message box位置*/
+                position: absolute;
+                top: 70px;
+                left: 71%;
+                /* animation */
+                transform: translate(-50%, 0);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity .3s, visibility .3s;
+            }
+            .head-box:hover .message-box{
+                opacity: 1;
+                visibility: visible;
+            }
+            /* animation */
+            /* message box DIY */
+            .message-box .user-profile-heading {
+                text-align: center;
+                margin-top: 50px;
+            }
+            .message-box .user-profile-content {
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-top: 25px;
+                display: flex;
+                justify-content: space-around;
+            }
+            .message-box .user-profile-content .user-profile-content-link {
+                color: #212121;
+                text-decoration: none;
+            }
+            .message-box .user-profile-content .user-profile-content-link:hover {
+                color: #409EFF;
+            }
+            .message-box .user-profile-content p{
+                font-weight: bold;
+            }
+            .message-box .user-profile-footer {
+                width: 100%;
+                height: 40%;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                border-top: 2px solid #d2e9fb;
+                border-bottom: 2px solid #d2e9fb;
+            }
+            .message-box .user-profile-footer i{
+                color: #606266;
+            }
+            .message-box .user-profile-footer .user-profile-footer-link {
+                display: block;
+                text-decoration: none;
+                color: #212121;
+                cursor: pointer;
+                padding-left: 45px;
+                padding-top: 15px;
+                font-size: 18px;
+                width: 100%;
+                height: 50%;
+            }
+            .message-box .user-profile-footer .user-profile-footer-link:hover {
+                background: #F2F6FC;
+            }
+            .message-box .user-profile-exit {
+                width: 100%;
+                height: 15%;
+                margin-top: 10px;
+            }
+            .message-box .user-profile-exit .user-profile-exit-link {
+                display: block;
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+                color: #212121;
+                cursor: pointer;
+                padding-left: 45px;
+                padding-top: 15px;
+                font-size: 18px;
+            }
+            .message-box .user-profile-exit .user-profile-exit-link i{
+                color: #606266;
+            }
+            .message-box .user-profile-exit .user-profile-exit-link:hover {
+                background: #F2F6FC;
+            }
+            /* End of message box DIY */
+            .user-nav-center .user-nav-center-link {
+                margin-left: 10px;
+                margin-right: 10px;
+                font-size: 1.15rem;
+                color: #212121;
+                text-decoration: none;
+                cursor: pointer;
+                /* 调整位置 */
+                position: relative;
+                top: 8px;
+            }
+            .user-nav-center .user-nav-center-postbtn {
+                margin-top: 12px;
+                margin-left: 20px;
+            }
+        </style>
+        <div class="user-nav-link">
+            <img class="user-nav-logo" th:src="@{/images/logo.png}" />
+            <a href="#" class="user-nav-main-link">首页</a>
+            <a href="#" class="user-nav-main-link">专栏</a>
+            <a href="#" class="user-nav-main-link">分类</a>
+        </div>
+        <div class="user-nav-search">
+            <form class="user-nav-search-form">
+                <div class="form-group form-inline">
+                    <input type="text" class="form-control" placeholder="请输入要搜索的内容">
+                    <a href="#" class="form-control btn btn-primary" role="button"><i class="fa fa-search" aria-hidden="true"></i></a>
+                </div>
+            </form>
+        </div>
+        <div class="user-nav-center">
+            <!-- 头像 -->
+            <div class="head-box">
+                <img class="image-box user-nav-center-avatar" th:src="@{/images/BillieEilishDonuts.png}" />
+                <div class="message-box">
+                    <div class="user-profile-heading">
+                        <h6>Moodright</h6>
+                    </div>
+                    <div class="user-profile-content">
+                        <a href="#" class="user-profile-content-link">关注<p>9999</p></a>
+                        <a href="#" class="user-profile-content-link">粉丝<p>9999</p></a>
+                        <a href="#" class="user-profile-content-link">动态<p>9999</p></a>
+                    </div>
+                    <div class="user-profile-footer">
+                        <a class="user-profile-footer-link"><i class="fa fa-user pr-2" aria-hidden="true"></i>个人中心</a>
+                        <a class="user-profile-footer-link"><i class="fa fa-comments pr-2" aria-hidden="true"></i>动态</a>
+                    </div>
+                    <div class="user-profile-exit">
+                        <a class="user-profile-exit-link"><i class="fa fa-sign-out pr-2" aria-hidden="true"></i>退出</a>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="user-nav-center-link">个人中心</a>
+            <a href="#" class="user-nav-center-link">动态</a>
+            <a href="#" class="btn btn-primary btn-lg user-nav-center-postbtn" role="button"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>发布文章</a>
+        </div>
+    </div>
+
+
+</body>
+</html>
