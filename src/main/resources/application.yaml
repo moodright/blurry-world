@@ -5,3 +5,7 @@ server:
 application:
   version: Blurry World Beta
 
+# 关闭 Thymeleaf 缓存
+spring:
+  thymeleaf:
+    cache: false

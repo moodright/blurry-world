@@ -15,16 +15,203 @@
             width: 100%;
             background: #d2e9fb;
         }
+        /* 用户主界面 */
+        .user-main {
+            width: 100%;
+            height: 90%;
+            justify-content: center;
+            display: flex;
+            margin-top: 10px;
+        }
+        .user-main .left-main {
+            width: 17.5%;
+            margin-right: 10px;
+        }
+        /* 用户头像部分 */
+        .user-main .left-main .user-profile-avatar {
+            width: 100%;
+            height: 30%;
+            background: white;
+            border-radius: 7px;
+        }
+        .user-main .left-main .user-profile-avatar .background-img {
+            width: 100%;
+            height: 55%;
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+        }
+
+        .user-main .left-main .user-profile-avatar .user-profile-avatar-link {
+            width: 100%;
+            text-decoration: none;
+            cursor: pointer;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .user-main .left-main .user-profile-avatar .user-profile-avatar-link .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50px;
+            margin-top: -15px;
+        }
+        .user-main .left-main .user-profile-avatar .user-profile-avatar-link .username {
+            color: black;
+        }
+        /* 用户相册部分 */
+        .user-main .left-main .user-photo-album {
+            width: 100%;
+            height: 48%;
+            background: white;
+            border-radius: 7px;
+            margin-top: 10px;
+        }
+        .user-main .left-main .user-photo-album a {
+            text-decoration: none;
+            color: #212121;
+        }
+        .user-main .left-main .user-photo-album .album-header {
+            padding-left: 20px;
+            padding-top: 20px;
+            padding-bottom: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            border-bottom: 1px solid #E4E7ED;
+        }
+        /* 九宫格布局 */
+        .grid{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 相当于 1fr 1fr 1fr */
+            grid-template-rows: repeat(3, 1fr); /* fr单位可以将容器分为几等份 */
+            grid-gap: 1%; /* grid-column-gap 和 grid-row-gap的简写 */
+            grid-auto-flow: row;
+        }
+        .grid img {
+            width: 82px;
+            height: 82px;
+            border-radius: 5px;
+        }
+
+
+
+
+
+
+
+        .user-main .center-main {
+            width: 45%;
+            height: 100%;
+        }
+        .user-main .center-main .create-message {
+            width: 100%;
+            height: 20%;
+            background: white;
+            border-radius: 7px;
+        }
+        .user-main .center-main .category-nav {
+            margin-top: 10px;
+            width: 100%;
+            height: 10%;
+            background: white;
+            border-radius: 7px;
+        }
+        .user-main .center-main .category-content {
+            /* 此div标签高度没有设置, 因为是循环的div标签,
+               考虑到循环的的个数问题会不会影响到已经设置的
+               百分比高度, 故暂时没有设置.
+               ...
+               还是先设置了吧
+            */
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 7px;
+            margin-top: 10px;
+        }
+
+
+
+
+
+
+
+
+        .user-main .right-main {
+            width: 17.5%;
+            margin-left: 10px;
+        }
+        .user-main .right-main .recently-post {
+            width: 100%;
+            height: 92%;
+            border-radius: 7px;
+            background: white;
+        }
+
+
     </style>
 </head>
 <body>
     <!-- 用户导航栏 -->
     <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
 
+    <!-- 用户主界面 -->
+    <div class="user-main">
+        <!-- 左侧主界面 -->
+        <div class="left-main">
+            <!-- 用户头像 -->
+            <div class="user-profile-avatar">
+                <img th:src="@{/images/firelaunch.png}" class="background-img" />
+                <a href="#" class="user-profile-avatar-link">
+                    <img class="avatar" th:src="@{/images/BillieEilishDonuts.png}" alt="avatar" />
+                    <span class="username">moodright@qq.com</span>
+                </a>
+            </div>
+            <!-- 用户相册 -->
+            <div class="user-photo-album">
+               <a href="#">
+                   <div class="album-header">相册</div>
+               </a>
+                <div class="square mt-1">
+                    <div class="square-inner grid ml-1">
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                    </div>
+                </div>
 
 
+            </div>
+        </div>
+        <!-- 中心主界面 -->
+        <div class="center-main">
+            <!-- 发表动态表单 -->
+            <div class="create-message">
 
-<!-- jquery-3.5.1.js -->
+            </div>
+            <!-- 类别导航（全部、动态、专栏） -->
+            <div class="category-nav">
+
+            </div>
+            <!-- 全部信息/动态信息/文章信息 -->
+            <div class="category-content">
+
+            </div>
+        </div>
+        <!-- 右侧主界面 -->
+        <div class="right-main">
+            <!-- 热门推文/排行榜 -->
+            <div class="recently-post">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- jquery-3.5.1.js -->
 <script th:src="@{/js/jquery-3.5.1.js}"></script>
 <!-- bootstrap.bundle.js -->
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
