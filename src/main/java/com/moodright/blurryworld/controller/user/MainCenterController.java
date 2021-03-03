@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/main")
 public class MainCenterController {
 
+    /**
+     * 用户主界面Mapping
+     * @return 用户主界面
+     */
     @GetMapping
     public String main() {
         return "/user/user-main";

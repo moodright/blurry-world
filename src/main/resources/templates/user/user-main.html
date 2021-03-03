@@ -23,6 +23,7 @@
             display: flex;
             margin-top: 10px;
         }
+        /* 主界面左侧部分开始 */
         .user-main .left-main {
             width: 17.5%;
             margin-right: 10px;
@@ -85,56 +86,201 @@
             grid-gap: 1%; /* grid-column-gap 和 grid-row-gap的简写 */
             grid-auto-flow: row;
         }
+        .grid .img-lg {
+            grid-row-start: 1;
+            grid-row-end: 3;
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+        .grid .img-lg img{
+            width: 170px;
+            height: 164px;
+        }
         .grid img {
             width: 82px;
             height: 82px;
             border-radius: 5px;
         }
-
-
-
-
-
-
-
+        /* 主界面左侧部分结束 */
+        /* 主界面中心部分开始 */
         .user-main .center-main {
             width: 45%;
             height: 100%;
         }
+        /* 发表动态表单 */
         .user-main .center-main .create-message {
             width: 100%;
             height: 20%;
             background: white;
             border-radius: 7px;
         }
+        .user-main .center-main .create-message .message-form .message-text{
+            padding: 10px 5px;
+        }
+        .user-main .center-main .create-message .message-form  .message-text input {
+            width: 100%;
+            border: none;
+            outline: none;
+        }
+        .user-main .center-main .create-message .message-form .message-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .user-main .center-main .create-message .message-form .message-footer a {
+            color: #C0C4CC;
+            margin: 0 9px;
+        }
+        .user-main .center-main .create-message .message-form .message-footer a:hover {
+            color: #409EFF;
+        }
+        .user-main .center-main .create-message .message-footer-btn {
+            width: 15%;
+            padding-right: 10px;
+        }
+        .user-main .center-main .create-message .message-footer-btn input {
+            background: #409EFF;
+            color: white;
+            width: 100%;
+        }
+        /* 类别导航 */
         .user-main .center-main .category-nav {
             margin-top: 10px;
             width: 100%;
             height: 10%;
             background: white;
             border-radius: 7px;
+            display: flex;
+            justify-content: start;
         }
+        .user-main .center-main .category-nav .category-nav-link {
+            height: 100%;
+            width: 15%;
+            margin: 0 10px;
+            padding: 15px 0;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: #C0C4CC;
+        }
+        .user-main .center-main .category-nav .category-nav-link:hover {
+            color: #409EFF;
+            border-bottom: 2px solid #409EFF;
+        }
+        .user-main .center-main .category-nav .category-nav-link span {
+            font-size: 20px;
+        }
+        /* 全部信息/动态信息/文章信息 */
         .user-main .center-main .category-content {
             /* 此div标签高度没有设置, 因为是循环的div标签,
                考虑到循环的的个数问题会不会影响到已经设置的
                百分比高度, 故暂时没有设置.
                ...
-               还是先设置了吧
+               auto: 适应内容高度大小
             */
             width: 100%;
-            height: 100%;
+            height: 50%;
             background: white;
             border-radius: 7px;
             margin-top: 10px;
         }
+        /* 标题 */
+        .user-main .center-main .category-content .content-header {
+            width: 100%;
+            height: 23%;
+        }
+        .user-main .center-main .category-content .content-header .user-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            margin: 15px 10px 10px 30px;
+            cursor: pointer;
+        }
+        .user-main .center-main .category-content .content-header .user-nickname {
+            color: black;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            bottom: 7px;
+        }
+        .user-main .center-main .category-content .content-header .user-nickname:hover {
+            color: #409EFF;
+        }
+        .user-main .center-main .category-content .content-header .post-create-time {
+            font-size: 13px;
+            color: #909399;
+            text-decoration: none;
+            cursor: default;
+            position: relative;
+            top: 15px;
+            right: 80px;
+        }
+        /* 主体 */
+        .user-main .center-main .category-content .content-main {
+            width: 100%;
+            height: 61%;
+        }
+        .user-main .center-main .category-content .content-main .card {
+            margin-left: 80px;
+            width: 85%;
+            height: 100%;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .user-main .center-main .category-content .content-main .card:hover {
+            box-shadow: 2px 2px 2px #DCDFE6;
+        }
+        .user-main .center-main .category-content .content-main .card:hover .card-post-header {
+            color: #409EFF;
+        }
+        .user-main .center-main .category-content  .content-main .card .card-post-img {
+            width: 580px;
+            height: 126px;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+        .user-main .center-main .category-content .content-main .card .card-post-header {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-left: 20px;
+            color: black;
+            font-weight: bold;
+        }
 
+        .user-main .center-main .category-content .content-main .card .card-post-describe {
+            margin-left: 20px;
+            padding-bottom: 20px;
+            color: #909399;
+            font-size: 12px;
+        }
+        /* 主体尾部页脚 */
+        .user-main .center-main .category-content .content-footer {
+            width: 100%;
+            height: 16%;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .user-main .center-main .category-content .content-footer a {
+            color: #909399;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .user-main .center-main .category-content .content-footer a:hover {
+            color: #409EFF;
+        }
+        /* 中心主界面页脚 */
+        .user-footer {
+            width: 100%;
+            height: 10%;
+            margin-top: 10px;
+            padding: 20px 0;
+            text-align: center;
+            color: #99a1ba
+        }
+        /* 主界面中心部分结束 */
 
-
-
-
-
-
-
+        /* 主界面右侧部分开始 */
         .user-main .right-main {
             width: 17.5%;
             margin-left: 10px;
@@ -145,6 +291,7 @@
             border-radius: 7px;
             background: white;
         }
+        /* 主界面右侧部分结束 */
 
 
     </style>
@@ -172,10 +319,7 @@
                </a>
                 <div class="square mt-1">
                     <div class="square-inner grid ml-1">
-                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
-                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
-                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
-                        <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
+                        <a href="#" class="img-lg"><img th:src="@{/images/favicon.ico}" /></a>
                         <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
                         <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
                         <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
@@ -183,23 +327,165 @@
                         <a href="#"><img th:src="@{/images/favicon.ico}" /></a>
                     </div>
                 </div>
-
-
             </div>
         </div>
         <!-- 中心主界面 -->
         <div class="center-main">
             <!-- 发表动态表单 -->
             <div class="create-message">
-
+                <form class="message-form">
+                    <div class="message-text">
+                        <input type="text" class="message-text" placeholder="">
+                    </div>
+                    <div class="message-footer">
+                        <div class="message-footer-link">
+                            <a href="#"><i class="fa fa-2x fa-smile-o" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-2x fa-picture-o" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-2x fa-at" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-2x fa-clock-o" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="message-footer-btn">
+                            <input type="submit" class="btn disabled" role="button" value="发布">
+                        </div>
+                    </div>
+                </form>
             </div>
             <!-- 类别导航（全部、动态、专栏） -->
             <div class="category-nav">
-
+                <a href="#" class="category-nav-link">
+                    <span>全部</span>
+                </a>
+                <a href="#" class="category-nav-link">
+                    <span>文章</span>
+                </a>
+                <a href="#" class="category-nav-link">
+                    <span>动态</span>
+                </a>
             </div>
             <!-- 全部信息/动态信息/文章信息 -->
             <div class="category-content">
-
+                <div class="content-header">
+                    <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                    <a href="#" class="user-nickname">moodright</a>
+                    <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                </div>
+                <div class="content-main">
+                    <a href="#" class="card">
+                        <img class="card-post-img" th:src="@{/images/cloud.png}" />
+                        <div class="card-post-header">
+                            [彩虹六号:围攻] Tom Clancy's Rainbow Six Siege
+                        </div>
+                        <div class="card-post-describe">
+                            一次的结果不能说明全部，在准备比赛时，永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利。
+                            永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利一些机会来取得胜利一些机得胜利...
+                        </div>
+                    </a>
+                </div>
+                <div class="content-footer">
+                    <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                    <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                    <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                </div>
+            </div>
+            <div class="category-content">
+                <div class="content-header">
+                    <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                    <a href="#" class="user-nickname">moodright</a>
+                    <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                </div>
+                <div class="content-main">
+                    <a href="#" class="card">
+                        <img class="card-post-img" th:src="@{/images/cloud.png}" />
+                        <div class="card-post-header">
+                            [彩虹六号:围攻] Tom Clancy's Rainbow Six Siege
+                        </div>
+                        <div class="card-post-describe">
+                            一次的结果不能说明全部，在准备比赛时，永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利。
+                            永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利一些机会来取得胜利一些机得胜利...
+                        </div>
+                    </a>
+                </div>
+                <div class="content-footer">
+                    <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                    <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                    <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                </div>
+            </div>
+            <div class="category-content">
+                <div class="content-header">
+                    <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                    <a href="#" class="user-nickname">moodright</a>
+                    <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                </div>
+                <div class="content-main">
+                    <a href="#" class="card">
+                        <img class="card-post-img" th:src="@{/images/cloud.png}" />
+                        <div class="card-post-header">
+                            [彩虹六号:围攻] Tom Clancy's Rainbow Six Siege
+                        </div>
+                        <div class="card-post-describe">
+                            一次的结果不能说明全部，在准备比赛时，永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利。
+                            永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利一些机会来取得胜利一些机得胜利...
+                        </div>
+                    </a>
+                </div>
+                <div class="content-footer">
+                    <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                    <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                    <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                </div>
+            </div>
+            <div class="category-content">
+                <div class="content-header">
+                    <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                    <a href="#" class="user-nickname">moodright</a>
+                    <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                </div>
+                <div class="content-main">
+                    <a href="#" class="card">
+                        <img class="card-post-img" th:src="@{/images/cloud.png}" />
+                        <div class="card-post-header">
+                            [彩虹六号:围攻] Tom Clancy's Rainbow Six Siege
+                        </div>
+                        <div class="card-post-describe">
+                            一次的结果不能说明全部，在准备比赛时，永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利。
+                            永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利一些机会来取得胜利一些机得胜利...
+                        </div>
+                    </a>
+                </div>
+                <div class="content-footer">
+                    <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                    <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                    <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                </div>
+            </div>
+            <div class="category-content">
+                <div class="content-header">
+                    <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                    <a href="#" class="user-nickname">moodright</a>
+                    <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                </div>
+                <div class="content-main">
+                    <a href="#" class="card">
+                        <img class="card-post-img" th:src="@{/images/cloud.png}" />
+                        <div class="card-post-header">
+                            [彩虹六号:围攻] Tom Clancy's Rainbow Six Siege
+                        </div>
+                        <div class="card-post-describe">
+                            一次的结果不能说明全部，在准备比赛时，永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利。
+                            永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利一些机会来取得胜利一些机得胜利...
+                        </div>
+                    </a>
+                </div>
+                <div class="content-footer">
+                    <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                    <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                    <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                </div>
+            </div>
+            <!-- 中心主界面页脚 -->
+            <div class="user-footer">
+                Proudly powered by Blurry World
             </div>
         </div>
         <!-- 右侧主界面 -->
@@ -210,6 +496,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!-- jquery-3.5.1.js -->
 <script th:src="@{/js/jquery-3.5.1.js}"></script>
