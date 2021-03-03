@@ -7,6 +7,10 @@
 <body>
     <nav class="navbar navbar-expand-sm" style="background: #001529" th:fragment="admin-navbar">
         <style>
+            html, body {
+                height: 725px;
+                width: 1519px;
+            }
             /* Admin nav bar section */
             .menu-link a {
                 color: rgba(255, 255, 255, 0.65);
@@ -42,7 +46,7 @@
                 color: #ffffff;
             }
         </style>
-        <div class="container-fluid mx-5 my-1">
+        <div class="container mx-5 my-1">
             <!-- 导航头 -->
             <a class="navbar-brand" href="#">
                 <img th:src="@{/images/favicon.ico}" width="30" height="30" class="align-top" alt="logo">
