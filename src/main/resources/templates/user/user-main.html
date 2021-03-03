@@ -283,15 +283,69 @@
             width: 17.5%;
             margin-left: 10px;
         }
-        .user-main .right-main .recently-post {
+        .user-main .right-main .recently-hot-post {
             width: 100%;
             height: 92%;
             border-radius: 7px;
             background: white;
         }
+        .user-main .right-main .recently-hot-post .header {
+            width: 100%;
+            height: 10%;
+            text-align: center;
+            font-size: 20px;
+            color: #F25D8E;
+            cursor: default;
+            font-weight: bold;
+            padding-top: 15px;
+            border-bottom: 2px solid #E4E7ED;
+        }
+        .user-main .right-main .recently-hot-post .content {
+            width: 100%;
+            height: 80%;
+            list-style: none;
+            border-bottom: 2px solid #E4E7ED;
+            padding-top: 10px;
+        }
+        .user-main .right-main .recently-hot-post .content li {
+            width: 100%;
+            height: 10%;
+            position: relative;
+            right: 20px;
+        }
+        .user-main .right-main .recently-hot-post .content .index {
+            float: left;
+            width: 25px;
+            height: 25px;
+            background: #ccd0d7;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .user-main .right-main .recently-hot-post .content .top-three {
+            background: #F25D8E;
+        }
+        .user-main .right-main .recently-hot-post .content a {
+            font-weight: lighter;
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+        }
+        .user-main .right-main .recently-hot-post .content a:hover {
+            color: #409EFF;
+        }
+        .user-main .right-main .recently-hot-post .footer a {
+            background: #F25D8E;
+            color: white;
+            position: relative;
+            bottom: 5px;
+            left: 55px;
+        }
+        .user-main .right-main .recently-hot-post .footer a:hover {
+            background: #dc437f;
+        }
         /* 主界面右侧部分结束 */
-
-
     </style>
 </head>
 <body>
@@ -489,13 +543,28 @@
         <!-- 右侧主界面 -->
         <div class="right-main">
             <!-- 热门推文/排行榜 -->
-            <div class="recently-post">
-
+            <div class="recently-hot-post">
+                <div class="header">
+                    <span>近&nbsp;期&nbsp;热&nbsp;度&nbsp;榜</span>
+                </div>
+                <ul class="content">
+                    <li><a href="#"><span class="index top-three">1</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index top-three">2</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index top-three">3</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index">4</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index">5</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index">6</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index">7</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index">8</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index">9</span>这里是文章标题很多字</a></li>
+                    <li><a href="#"><span class="index">10</span>这里是文章标题很多字</a></li>
+                </ul>
+                <div class="footer">
+                    <a href="#" class="btn" role="button">查看完整榜单 》</a>
+                </div>
             </div>
         </div>
     </div>
-
-
 
     <!-- jquery-3.5.1.js -->
 <script th:src="@{/js/jquery-3.5.1.js}"></script>
