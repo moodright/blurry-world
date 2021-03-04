@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>导航栏</title>
+</head>
+<body>
+    <div class="nav-bar" th:fragment="nav-bar">
+        <style>
+            /* 主页面导航栏 */
+            .main .nav-bar {
+                width: 80%;
+                height: 7%;
+                background: white;
+                margin: 20px auto;
+                border-radius: 7px;
+                text-align: center;
+                display: flex;
+                justify-content: space-evenly;
+                padding-left: 100px;
+                padding-right: 100px;
+                box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+            }
+            .main .nav-bar a {
+                width: 20%;
+                height: 100%;
+                text-align: center;
+                padding-top: 10px;
+                font-size: 20px;
+                font-weight: bold;
+                cursor: pointer;
+                text-decoration: none;
+                color: #212121;
+            }
+            .main .nav-bar a:hover {
+                background: #409EFF;
+                color: white;
+            }
+        </style>
+        <a href="#">我的主页</a>
+        <a href="#">我的相册</a>
+        <a href="#">管理中心</a>
+    </div>
+
+</body>
+</html>

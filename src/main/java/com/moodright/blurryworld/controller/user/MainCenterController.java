@@ -14,7 +14,7 @@ public class MainCenterController {
 
     /**
      * 用户主界面Mapping
-     * @return 用户主界面
+     * @return 用户主界面模板
      */
     @GetMapping
     public String main() {
