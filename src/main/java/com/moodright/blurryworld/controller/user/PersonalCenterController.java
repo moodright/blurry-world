@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2021/3/4
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/space")
 public class PersonalCenterController {
 
 
     /**
-     * 用户个人主页动态
-     * @return 个人主页动态列表模板
+     * 用户个人主页 默认返回文章列表
+     * @return 个人主页文章列表模板
      */
     @GetMapping
     public String personalCenter() {
-        return "/user/user-personal-center-chatlist";
+        return "/user/personal-center/postlist";
     }
 
     /**
@@ -28,12 +28,26 @@ public class PersonalCenterController {
      */
     @GetMapping("post")
     public String personalCenterPostList() {
-        return "/user/user-personal-center-postlist";
+        return "/user/personal-center/postlist";
     }
 
+    /**
+     * 用户个人主页动态
+     * @return 个人主页动态列表模板
+     */
+    @GetMapping("chat")
+    public String personalCenterChatList() {
+        return "/user/personal-center/chatlist";
+    }
+
+    /**
+     * 用户个人主页相册
+     * @return 个人主页相册模板
+     */
     @GetMapping("album")
     public String personalCenterAlbumList() {
-        return "/user/user-personal-center-albumlist";
+        return "/user/personal-center/albumlist";
     }
+
 
 }

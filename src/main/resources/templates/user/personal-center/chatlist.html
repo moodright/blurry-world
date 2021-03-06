@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人文章</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background: #d2e9fb;
+        }
+        .main {
+            width: 100%;
+            height: 100%;
+        }
+        /* 主页面内容 */
+        .main-content {
+            width: 80%;
+            height: 100%;
+            margin: 0 auto;
+            background: transparent;
+            border-radius: 7px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        /* 主页面左侧内容 */
+        /* 关注、粉丝、文章栏 */
+        .main .left-main-content {
+            width: 30%;
+            height: 50%;
+            border-radius: 7px;
+        }
+        .main .left-main-content .account-info {
+            background: white;
+            width: 100%;
+            height: 20%;
+            border-radius: 7px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .main .left-main-content .account-info div {
+            margin-top: 12px;
+            height: 70%;
+            width: 30%;
+            text-align: center;
+        }
+        .main .left-main-content .account-info a {
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
+        }
+        .main .left-main-content .account-info p {
+            color: #808080;
+            font-size: 15px;
+        }
+        .main .left-main-content .account-info a:hover {
+            color: #409EFF;
+        }
+        .main .left-main-content .account-info .follower {
+            border-left: 2px solid #f2f2f5;
+            border-right: 2px solid #f2f2f5;
+        }
+        /* 个人信息 */
+        .main .left-main-content .personal-info {
+            width: 100%;
+            height: 100%;
+            background: white;
+            margin-top: 20px;
+            border-radius: 7px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        .main .left-main-content .title {
+            width: 85%;
+            height: 15%;
+            font-size: 20px;
+            font-weight: bold;
+            padding-top: 13px;
+            margin-left: 25px;
+            border-bottom: 2px solid #f2f2f5;
+        }
+        .main .left-main-content .region {
+            width: 85%;
+            height: 12%;
+            padding-top: 10px;
+            margin-left: 25px;
+            border-bottom: 2px solid #f2f2f5;
+        }
+        .main .left-main-content .birthday {
+            width: 85%;
+            height: 12%;
+            padding-top: 10px;
+            margin-left: 25px;
+            border-bottom: 2px solid #f2f2f5;
+        }
+        .main .left-main-content .description {
+            width: 85%;
+            height: 12%;
+            padding-top: 10px;
+            margin-left: 25px;
+            border-bottom: 2px solid #f2f2f5;
+
+        }
+        .main .left-main-content .mail {
+            width: 85%;
+            height: 12%;
+            padding-top: 10px;
+            margin-left: 25px;
+            border-bottom: 2px solid #f2f2f5;
+        }
+        .main .left-main-content .github {
+            width: 85%;
+            height: 12%;
+            padding-top: 10px;
+            margin-left: 25px;
+            border-bottom: 2px solid #f2f2f5;
+        }
+        .main .left-main-content .weibo {
+            width: 85%;
+            height: 12%;
+            padding-top: 10px;
+            margin-left: 25px;
+            border-bottom: 2px solid #f2f2f5;
+        }
+        /* 主页面右侧内容 */
+        .main .right-main-content {
+            width: 68%;
+            height: auto;
+            margin-top: -10px;
+        }
+        /* 动态 */
+        .right-main-content .category-content {
+            width: 100%;
+            height: auto;
+            background: white;
+            border-radius: 7px;
+            margin-top: 10px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        /* 标题 */
+        .right-main-content .category-content .content-header {
+            width: 100%;
+            height: 50px;
+        }
+        .right-main-content .category-content .content-header .user-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            margin: 15px 10px 10px 30px;
+            cursor: pointer;
+        }
+        .right-main-content .category-content .content-header .user-nickname {
+            color: black;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            bottom: 7px;
+        }
+        .right-main-content .category-content .content-header .user-nickname:hover {
+            color: #409EFF;
+        }
+        .right-main-content .category-content .content-header .post-create-time {
+            font-size: 13px;
+            color: #909399;
+            text-decoration: none;
+            cursor: default;
+            position: relative;
+            top: 15px;
+            right: 80px;
+        }
+        /* 删除模态框组件 */
+        .right-main-content .category-content .content-header .delete-chat {
+            font-size: 30px;
+            text-decoration: none;
+            float: right;
+            padding-right: 30px;
+            padding-top: 10px;
+        }
+        .right-main-content .category-content .content-header .modal-body .chat-delete-btn {
+            display: flex;
+            justify-content: center;
+        }
+        .right-main-content .category-content .content-header .modal-body .chat-delete-btn a {
+            width: 100px;
+            height: 100%;
+            margin: 0 5px;
+        }
+        /* 动态内容 */
+        .right-main-content .category-content .content-main {
+            width: 100%;
+            height: auto;
+            padding-left: 91px;
+            padding-right: 50px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        /* 转发、评论、点赞 */
+        .right-main-content .category-content .content-footer {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: space-around;
+            padding-top: 10px;
+        }
+        .right-main-content .category-content .content-footer a {
+            color: #909399;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .right-main-content .category-content .content-footer a:hover {
+            color: #409EFF;
+        }
+        /* 页脚 */
+        .footer {
+            width: 100%;
+            height: 65px;
+            text-align: center;
+            color: #99a1ba;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 用户导航栏 -->
+    <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
+
+    <!-- 主界面 -->
+    <div class="main">
+        <!-- 主页面头部 -->
+        <div th:replace="~{/commons/user-personal-center/header :: header}"></div>
+        <!--  主页面导航栏 -->
+        <div th:replace="~{/commons/user-personal-center/nav-bar :: nav-bar}"></div>
+        <!-- 主页面内容 -->
+        <div class="main-content">
+            <!-- 主页面左侧内容 -->
+            <div class="left-main-content">
+                <div class="account-info">
+                    <div class="follow">
+                        <a href="#">999<p>关注</p></a>
+                    </div>
+                    <div class="follower">
+                        <a href="#">999<p>粉丝</p></a>
+                    </div>
+                    <div class="post-account">
+                        <a href="#">999<p>文章</p></a>
+                    </div>
+                </div>
+                <div class="personal-info">
+                    <div class="title">个人信息</div>
+                    <div class="region"><i class="fa fa-location-arrow mr-2" aria-hidden="true"></i>上海</div>
+                    <div class="birthday"><i class="fa fa-birthday-cake mr-2" aria-hidden="true"></i>1998年12月12日</div>
+                    <div class="mail"><i class="fa fa-envelope mr-2" aria-hidden="true"></i>moodright@qq.com</div>
+                    <div class="description"><i class="fa fa-link mr-2" aria-hidden="true"></i><a href="https://www.moodright.cn">https://www.moodright.cn</a></div>
+                    <div class="github"><i class="fa fa-github mr-2" aria-hidden="true"></i><a href="https://github.com/moodright">https://github.com/moodright</a></div>
+                    <div class="weibo"><i class="fa fa-weibo mr-2" aria-hidden="true"></i><a href="https://weibo.com/p/1005055227255710">-moodright-</a></div>
+                </div>
+            </div>
+            <!-- 主页面右侧内容 -->
+            <div class="right-main-content">
+                <!-- 动态信息 -->
+                <div class="category-content">
+                    <div class="content-header">
+                        <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                        <a href="#" class="user-nickname">moodright</a>
+                        <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                        <a href="#" class="delete-chat" data-toggle="modal" data-target="#delete-chat1">&times;</a>
+                        <!-- 删除动态模态框 -->
+                        <div class="modal fade" id="delete-chat1" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p style="font-weight: bold;font-size: 20px">删除动态</p>
+                                        <p style="font-size: 15px">确定要删除此条动态吗？</p>
+                                        <div class="chat-delete-btn">
+                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">删除</a>
+                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">取消</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-main">
+                        动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动
+                        态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态
+                        内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内
+                        容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容
+                        动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容容
+                        动态内容
+                    </div>
+                    <div class="content-footer">
+                        <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                        <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                        <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                    </div>
+                </div>
+                <!-- 动态信息 -->
+                <div class="category-content">
+                    <div class="content-header">
+                        <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                        <a href="#" class="user-nickname">moodright</a>
+                        <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                        <a href="#" class="delete-chat" data-toggle="modal" data-target="#delete-chat2">&times;</a>
+                        <!-- 删除动态模态框 -->
+                        <div class="modal fade" id="delete-chat2" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p style="font-weight: bold;font-size: 20px">删除动态</p>
+                                        <p style="font-size: 15px">确定要删除此条动态吗？</p>
+                                        <div class="chat-delete-btn">
+                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">删除</a>
+                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">取消</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-main">
+                        动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动
+                        态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态
+                    </div>
+                    <div class="content-footer">
+                        <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                        <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                        <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                    </div>
+                </div>
+                <!-- 动态信息 -->
+                <div class="category-content">
+                    <div class="content-header">
+                        <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                        <a href="#" class="user-nickname">moodright</a>
+                        <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                        <a href="#" class="delete-chat" data-toggle="modal" data-target="#delete-chat3">&times;</a>
+                        <!-- 删除动态模态框 -->
+                        <div class="modal fade" id="delete-chat3" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p style="font-weight: bold;font-size: 20px">删除动态</p>
+                                        <p style="font-size: 15px">确定要删除此条动态吗？</p>
+                                        <div class="chat-delete-btn">
+                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">删除</a>
+                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">取消</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-main">
+                        动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动态内容动
+                        态内容动态内容动态内容动态内容动态内容
+                    </div>
+                    <div class="content-footer">
+                        <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                        <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                        <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                    </div>
+                </div>
+                <!-- 动态信息 -->
+                <div class="category-content">
+                    <div class="content-header">
+                        <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                        <a href="#" class="user-nickname">moodright</a>
+                        <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                        <a href="#" class="delete-chat" data-toggle="modal" data-target="#delete-chat4">&times;</a>
+                        <!-- 删除动态模态框 -->
+                        <div class="modal fade" id="delete-chat4" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p style="font-weight: bold;font-size: 20px">删除动态</p>
+                                        <p style="font-size: 15px">确定要删除此条动态吗？</p>
+                                        <div class="chat-delete-btn">
+                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">删除</a>
+                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">我点错了</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-main">
+                        动态内容
+                    </div>
+                    <div class="content-footer">
+                        <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
+                        <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
+                        <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 页脚 -->
+            <div class="footer">
+                Proudly powered by Blurry World
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
