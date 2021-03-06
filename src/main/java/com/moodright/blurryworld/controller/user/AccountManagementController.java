@@ -12,8 +12,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("account")
 public class AccountManagementController {
 
-    @GetMapping("home")
+    /**
+     * 账号管理主页面
+     * @return 个人信息页面模板
+     */
+    @GetMapping
     public String homepage() {
         return "/user/account-management/homepage";
+    }
+
+    /**
+     * 修改个人信息页面
+     * @return 个人信息页面模板
+     */
+    @GetMapping("setting")
+    public String settingInfo() {
+        return "/user/account-management/homepage";
+    }
+
+    /**
+     * 更新头像页面
+     * @return 头像页面模板
+     */
+    @GetMapping("avatar")
+    public String avatar() {
+        return "/user/account-management/avatar";
     }
 }

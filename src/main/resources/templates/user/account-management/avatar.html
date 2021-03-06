@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>用户账号管理主页</title>
+    <title>更新头像</title>
     <!-- favicon -->
     <link rel="icon" th:href="@{/images/favicon.ico}"/>
     <!-- bootstrap.css -->
@@ -66,7 +66,6 @@
             border-bottom: 1px solid #e1e2e5;
         }
 
-
         /* 右侧内容栏 */
         .right-content {
             width: 900px;
@@ -87,93 +86,60 @@
             border-top-left-radius: 7px;
             border-top-right-radius: 7px;
         }
-        /* 别名 */
-        .right-content .setting-info .nickname {
-            width: 100%;
-            height: 60px;
-            padding-top: 15px;
-            padding-left: 100px;
-        }
-        .right-content .setting-info .nickname input {
-            width: 250px;
-            border-radius: 5px;
-            outline: none;
-            padding: 5px 7px;
-            border: 1px solid #bfcbd9;
-        }
-        .right-content .setting-info .nickname input:focus {
-            border-color: #20a0ff;
-        }
-        .right-content .setting-info .username {
-            width: 100%;
-            height: 60px;
-            padding-top: 15px;
-            padding-left: 100px;
-            color: #99a2aa;
-        }
-        .right-content .setting-info .username label {
-            color: black;
-        }
-        /* 简介 */
-        .right-content .setting-info .signature {
-            width: 100%;
-            padding-top: 15px;
-            padding-left: 100px;
+        .right-content form {
             display: flex;
             justify-content: start;
+            flex-wrap: wrap;
         }
-        .right-content .setting-info .signature textarea {
-            width: 600px;
-            height: 90px;
-            resize: none;
-            padding: 5px 7px;
-            border-radius: 5px;
-            border: 1px solid #bfcbd9;
-            outline: none;
-
+        .right-content .choose-avatar {
+            width: 50%;
+            height: 350px;
+            text-align: center;
         }
-        .right-content .setting-info .signature textarea:focus {
-            border-color: #20a0ff;
-
+        .right-content .choose-avatar label {
+            width: 180px;
+            height: 180px;
+            background: #f1f2f5;
+            border: 1px solid #e5e9ef;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 60px;
+            margin-left: 100px;
+            padding-top: 50px;
+            color: #6d757a;
         }
-        /* 性别 */
-        .right-content .setting-info .gender {
+        .right-content .current-avatar {
+            width: 50%;
+            height: 350px;
+            text-align: center;
+            padding-top: 90px;
+            padding-right: 150px;
+            border-left: 1px solid #e5e9ef;
+        }
+        .right-content .current-avatar img {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 1px solid #e6eaf0;
+        }
+        .right-content .current-avatar p {
+            padding-top: 20px;
+            color: #99a2aa;
+            font-size: 25px;
+        }
+        .right-content .confirm-btn {
             width: 100%;
-            height: 60px;
-            padding-top: 15px;
-            padding-left: 100px;
+            height: 20px;
+            text-align: center;
+            border-top: 1px solid #e6eaf0;
+            padding-top: 20px;
+            margin-top: 20px;
         }
-        .right-content .setting-info .gender input {
-            margin: 0 10px;
-            height: 15px;
-            width: 15px;
+        .right-content .confirm-btn p {
+            font-size: 15px;
+            color: #99a2aa;
         }
-        /* 出生日期 */
-        .right-content .setting-info .birthday {
-            width: 100%;
-            height: 85px;
-            padding-top: 15px;
-            padding-left: 100px;
-            border-bottom: 1px solid #e1e2e5;
-        }
-        .right-content .setting-info .birthday input {
-            width: 200px;
-            outline: none;
-            border: 1px solid #bfcbd9;
-            padding: 5px 7px;
-            border-radius: 5px;
-        }
-        .right-content .setting-info .birthday input:focus {
-            border-color: #20a0ff;
-        }
-        /* 确认按钮 */
-        .right-content .setting-info .confirm-btn {
-            width: 100%;
-            padding-top: 30px;
-            display: flex;
-            justify-content: center;
-        }
-        .right-content .setting-info .confirm-btn a {
+        .right-content .confirm-btn a {
             width: 100px;
         }
         /* 页脚 */
@@ -234,32 +200,22 @@
             </div>
             <!-- 右侧内容栏 -->
             <div class="right-content">
-                <p class="title">我的信息</p>
-                <form class="setting-info">
-                    <div class="nickname">
-                        <label for="nickname">昵称：</label>
-                        <input id="nickname" name="nickname" placeholder="编辑您的昵称">
+                <p class="title">我的头像</p>
+                <form enctype="multipart/form-data">
+                    <div class="choose-avatar">
+                        <label for="avatar">
+                            <i class="fa fa-file-image-o fa-3x" aria-hidden="true"></i>
+                            <p>选择图片</p>
+                        </label>
+                        <input type="file" id="avatar" style="display: none">
                     </div>
-                    <div class="username">
-                        <label>用户名：</label>
-                        <span>moodright@qq.com</span>
-                    </div>
-                    <div class="signature">
-                        <label for="signature">我的签名：</label>
-                        <textarea id="signature" placeholder="编辑您的简介"></textarea>
-                    </div>
-                    <div class="gender">
-                        <label>性别：</label>
-                        <input type="radio" name="gender" value="0">男
-                        <input type="radio" name="gender" value="1">女
-                        <input type="radio" name="gender" value="2" checked>保密
-                    </div>
-                    <div class="birthday">
-                        <label id="birthday">出生日期：</label>
-                        <input type="date" name="birthday" placeholder="选择日期">
+                    <div class="current-avatar">
+                        <img class="current-avatar-img" th:src="@{/images/BillieEilishDonuts.png}"/>
+                        <p class="current-avatar-title">当前头像</p>
                     </div>
                     <div class="confirm-btn">
-                        <a href="#" type="submit" class="btn btn-primary" role="button">保存</a>
+                        <p>请选择图片上传：大小180*180像素支持JPG、PNG等格式，图片需小于2M</p>
+                        <a href="#" type="submit" class="btn btn-primary" role="button">更新</a>
                     </div>
                 </form>
             </div>
@@ -274,5 +230,23 @@
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
     <!-- bootstrap.bundle.js -->
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script>
+        // 显示更新后的头像
+        $('#avatar').change(function() {
+            // Jquery对象转换为DOM对象
+            var inputAvatarFile = $(this)[0].files[0];
+            // 创建一个阅读器对象
+            var reader = new FileReader();
+            // 读取头像文件流
+            reader.readAsDataURL(inputAvatarFile);
+            // 上述代码加载完再运行函数代码，否则图片未加载完下面的代码就有可能执行完了
+            reader.onload = function() {
+                // reader.result: 新头像文件流
+                // console.log(reader.result)
+                $('.current-avatar-img').attr('src', reader.result);
+                $('.current-avatar-title').text('更新后的头像');
+            };
+        })
+    </script>
 </body>
 </html>
