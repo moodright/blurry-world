@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>文章编辑页面</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
+    <!-- editor.md css -->
+    <link rel="stylesheet" th:href="@{/lib/editormd/css/editormd.css}" />
+    <style>
+        body {
+            height: 925px!important;
+            background: #d2e9fb;
+        }
+        /* 文章标题 */
+        .post-title {
+            width: 100%;
+            height: 80px;
+            padding: 20px 150px;
+            margin: 10px 0;
+        }
+        .post-title input {
+            width: 100%;
+            height: 40px;
+            padding: 6px 11px;
+            font-size: 16px;
+            outline: none;
+            border-radius: 7px;
+            border: 1px solid #bfcbd9;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        .post-title input:focus {
+            border-color: #20a0ff;
+        }
+        /* 文章编辑区域 */
+        #editormd {
+            border-radius: 7px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+
+        /* 确认按钮 */
+        .confirm-btn {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            z-index: 10;
+            height: 56px;
+            background: white;
+            margin-top: 30px;
+            padding: 10px 145px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        .confirm-btn input {
+            width: 80px;
+            float: right;
+            margin: 0 5px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
+
+    <form method="post" action="/post/write">
+        <!-- 文章标题 -->
+        <div class="post-title">
+            <input type="text" name="post-title" placeholder="请输入文章标题" required>
+        </div>
+        <!-- editormd -->
+        <div id="editormd">
+            <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
+            <textarea style="display: none" name="editormd-markdown-doc"></textarea>
+        </div>
+        <!-- 确认按钮 -->
+        <div class="confirm-btn">
+            <input type="submit" class="btn btn-primary" role="button" value="发布">
+            <input class="btn btn-danger" role="button" value="保存">
+            <!-- 发布模态框 -->
+
+        </div>
+    </form>
+
+
+
+
+
+
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <!-- editor.md js -->
+    <script th:src="@{/lib/editormd/editormd.js}"></script>
+    <script type="text/javascript">
+        $(function() {
+           contextEditor = editormd("editormd", {
+               width: "80%",
+               height: 640,
+               //markdown: "#请编辑您的文本", // 动态设置markdown编辑文本区域的内容
+               placeholder: "请编辑您的文本...",
+               path: "lib/editormd/lib/",  // 自动加载模组路径
+               syncScrolling: true,    // 编辑框渲染框同步滚动 true | false | "single" , default true
+               emoji: true,                // 开启表情支持
+               toolbarIcons: "blurryWorld",       // 工具栏模式选择,选项有 "full" | "simple" | "mini" 参考 `editormd.toolbarModes` 属性（该属性在src/editormd.js文件中）
+               fontSize: "15px",
+               imageUpload: true,
+               imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+               imageUploadURL: '/picture/upload'
+           });
+        });
+    </script>
+</body>
+</html>

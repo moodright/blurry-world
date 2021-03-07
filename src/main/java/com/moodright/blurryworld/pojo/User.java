@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 import java.util.Date;
 
 /**
+ * 用户实体类
  * @author moodright
  * @date 2021/2/27
  */
