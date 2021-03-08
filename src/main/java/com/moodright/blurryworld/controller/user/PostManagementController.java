@@ -43,7 +43,7 @@ public class PostManagementController {
         post.put("title", title);
         post.put("content", content);
 
-        return "redirect:/post/archives";
+        return "redirect:/post/read";
     }
 
     @GetMapping("read")

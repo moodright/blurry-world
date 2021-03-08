@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.joda.time.LocalDateTime;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,6 +56,14 @@ public class PictureUploadController {
             String saveFileName = LocalDateTime.now().toString("yyyyMMddHHmmss") + Thread.currentThread().getId() + extensionName;
             // 创建 物理位置+文件名 路径
             Path path = Paths.get(uploadConfig.getStorage(), saveFileName);
+
+            // 获取上传图片的宽度和高度
+//            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+//            int height = bufferedImage.getHeight();
+//            int width = bufferedImage.getWidth();
+//            System.out.println("height=>" + height);
+//            System.out.println("width=>" + width);
+
             // 写入文件比特流至具体位置
             Files.write(path, file.getBytes());
             file.transferTo(Paths.get(uploadConfig.getStorage(), saveFileName).toFile());

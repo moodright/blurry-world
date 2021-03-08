@@ -22,22 +22,96 @@
             margin-top: 20px;
         }
         /* 左侧类别导航栏 */
-        .left-category-nav {
+        .left-main {
             width: 20%;
-            height: 600px;
-            background: pink;
+            height: 700px;
+            padding-left: 145px;
         }
-
-
-
-
-
-        /*  中心文章内容 */
+        .left-main .category-nav {
+            width: 150px;
+            height: 700px;
+            background: white;
+            border-radius: 7px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        .left-main .category-nav .logo {
+            width: 100%;
+            height: 100px;
+            text-align: center;
+            color: #409EFF;
+            font-weight: lighter;
+        }
+        .left-main .category-nav div {
+            width: 100%;
+            height: 80px;
+            font-size: 23px;
+            text-align: center;
+            padding-top: 25px;
+        }
+        .left-main .category-nav div a {
+            text-decoration: none;
+            color: #222;
+        }
+        .left-main .category-nav div:hover {
+            background: #d2e9fb;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        .left-main .category-nav div:hover a {
+            color: #409EFF;
+        }
+        /*  中心文章界面 */
+        /* 文章头部 */
         .middle-main {
             width: 50%;
             height: 800px;
-            background: hotpink;
+            margin: 0 10px;
+            border-radius: 7px;
         }
+        .middle-main .post-header {
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+            background: white;
+        }
+        .middle-main .post-header .post-title {
+            width: 100%;
+            padding: 10px 10px;
+            font-size: 28px;
+            line-height: 1.4;
+            font-weight: 700;
+            word-wrap: break-word;
+        }
+        .middle-main .post-header .post-info {
+            width: 100%;
+            padding: 10px 10px;
+            color: #9b9b9b;
+            font-size: 13px;
+            font-weight: 400;
+        }
+        .middle-main .post-header .post-info span {
+            margin-right: 15px;
+        }
+
+        /* 文章内容 */
+        .middle-main .post-content {
+            width: 100%;
+            height: auto;
+            margin: 15px 0;
+            background: white;
+            padding: 10px 30px;
+            border-radius: 7px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+
+        /* 设置内容中图片百分比宽高,解决显示异常 */
+        .middle-main .post-content img {
+            margin-left: 65px;
+            width: 80%;
+            height: 80%;
+        }
+
+
+
 
 
 
@@ -47,16 +121,13 @@
 
         /* 右侧作者信息栏\推荐文章\更多 */
         .right-main {
-            width: 30%;
+            width: 27%;
             height: 500px;
-            background: #1c7430;
+            background: white;
+            margin: 0 10px;
+            border-radius: 7px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
         }
-
-
-
-
-
-
 
 
     </style>
@@ -68,16 +139,62 @@
     <!-- 主页面 -->
     <div class="main">
         <!-- 左侧类别导航栏 -->
-        <div class="left-category-nav">
-
+        <div class="left-main">
+            <div class="category-nav">
+                <!-- Logo -->
+                <h1 class="logo">
+                    Blurry World
+                </h1>
+                <!-- 推荐 -->
+                <div class="recommend">
+                    <a href="#"><i class="fa fa-thumbs-o-up mr-4" aria-hidden="true"></i>推荐</a>
+                </div>
+                <!-- 动漫 -->
+                <div class="anime">
+                    <a href="#"><i class="fa fa-github-alt mr-4" aria-hidden="true"></i>动漫</a>
+                </div>
+                <!-- 游戏 -->
+                <div class="game">
+                    <a href="#"><i class="fa fa-gamepad mr-4" aria-hidden="true"></i>游戏</a>
+                </div>
+                <!-- 影视 -->
+                <div class="movie">
+                    <a href="#"><i class="fa fa-film mr-4" aria-hidden="true"></i>影视</a>
+                </div>
+                <!-- 生活 -->
+                <div class="live">
+                    <a href="#"><i class="fa fa-pagelines mr-4" aria-hidden="true"></i>生活</a>
+                </div>
+                <!-- 兴趣 -->
+                <div class="interest">
+                    <a href="#"><i class="fa fa-paint-brush mr-4" aria-hidden="true"></i>兴趣</a>
+                </div>
+                <!-- 科技 -->
+                <div class="technology">
+                    <a href="#"><i class="fa fa-star mr-4" aria-hidden="true"></i>科技</a>
+                </div>
+            </div>
         </div>
-
         <!-- 中心文章内容 -->
-        <div class="middle-main" id="doc-content">
+        <div class="middle-main">
             <!-- 文章标题 -->
-            <div class="post-title" th:text="${post.get('title')}"></div>
+            <div class="post-header">
+                <div class="post-title">美国辍学囚犯破解数学难题，在狱中成为加州大学博士“特招生”</div>
+                <div class="post-info">
+                    <span class="category">人文历史</span>
+                    <span class="post-date">2021-3-8 14:24</span>
+                    <span class="reading-count">2688阅读</span>
+                    <span class="like-count">1855点赞</span>
+                    <span class="comment-count">30评论</span>
+                </div>
+            </div>
             <!-- 文章内容 -->
-            <textarea style="display: none" th:text="${post.get('content')}">1111</textarea>
+            <div class="post-content" id="doc-content">
+                <textarea style="display: none;" th:text="${post.get('content')}"></textarea>
+            </div>
+            <!-- 文章页脚 -->
+
+
         </div>
 
         <!-- 右侧作者信息栏\推荐文章\更多 -->
@@ -105,6 +222,7 @@
     <!-- prettify.min.js -->
     <script th:src="@{/lib/editormd/lib/prettify.min.js}"></script>
     <script>
+        // 渲染页面
         $(function() {
            testEditor = editormd.markdownToHTML("doc-content", {
                 htmlDecode: "style,script,iframe",
@@ -113,6 +231,27 @@
                 codeFold: true
            });
         });
+
+
+        // 废案
+        // 修改图片渲染页面时的宽高
+        // 页面最大宽度 700px
+        // $(function() {
+        //     var postContent = document.getElementById("doc-content");
+        //     var images = postContent.getElementsByTagName("img");
+        //     console.log(images);
+        //     for (let i = 0; i < images.length; i++) {
+        //         console.log(images[i].width);
+        //         console.log(images[i].height);
+        //         if(images[i].width > 700 && images[i].height == images[i].width) {
+        //             images[i].width = 500;
+        //             images[i].height = 500;
+        //         }else if(images[i].width > 700 && images[i].height != images[i].width) {
+        //             images[i].width = 448;
+        //             images[i].height = 252;
+        //         }
+        //     }
+        // })
     </script>
 
 </body>
