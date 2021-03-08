@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>显示文章页面</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background: #d2e9fb;
+        }
+        .main {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: start;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        /* 左侧类别导航栏 */
+        .left-category-nav {
+            width: 20%;
+            height: 600px;
+            background: pink;
+        }
+
+
+
+
+
+        /*  中心文章内容 */
+        .middle-main {
+            width: 50%;
+            height: 800px;
+            background: hotpink;
+        }
+
+
+
+
+
+
+
+        /* 右侧作者信息栏\推荐文章\更多 */
+        .right-main {
+            width: 30%;
+            height: 500px;
+            background: #1c7430;
+        }
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
+
+    <!-- 主页面 -->
+    <div class="main">
+        <!-- 左侧类别导航栏 -->
+        <div class="left-category-nav">
+
+        </div>
+
+        <!-- 中心文章内容 -->
+        <div class="middle-main" id="doc-content">
+            <!-- 文章标题 -->
+            <div class="post-title" th:text="${post.get('title')}"></div>
+            <!-- 文章内容 -->
+            <textarea style="display: none" th:text="${post.get('content')}">1111</textarea>
+        </div>
+
+        <!-- 右侧作者信息栏\推荐文章\更多 -->
+        <div class="right-main">
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <!-- editor.md js -->
+    <script th:src="@{/lib/editormd/editormd.js}"></script>
+    <!-- marked.min.js -->
+    <script th:src="@{/lib/editormd/lib/marked.min.js}"></script>
+    <!-- prettify.min.js -->
+    <script th:src="@{/lib/editormd/lib/prettify.min.js}"></script>
+    <script>
+        $(function() {
+           testEditor = editormd.markdownToHTML("doc-content", {
+                htmlDecode: "style,script,iframe",
+                emoji:true,
+                taskList:true,
+                codeFold: true
+           });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,10 +1,14 @@
 package com.moodright.blurryworld.controller.user;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author moodright
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("post")
 public class PostManagementController {
+
+    Map<String, Object> post = new HashMap<>();
 
     /**
      * 编写文章
@@ -27,13 +33,23 @@ public class PostManagementController {
      * 上传文章
      * @param title 文章标题
      * @param content 文章内容
-     * @return 用户个人中心模板
+     * @return 显示文章Mapping
      */
     @PostMapping("write")
     public String writePost(@RequestParam("post-title")String title, @RequestParam("editormd-markdown-doc")String content) {
         System.out.println("title=>" + title);
         System.out.println("content=>" + content);
-        return "/user/personal-center/postlist";
+        // 封装文章数据
+        post.put("title", title);
+        post.put("content", content);
+
+        return "redirect:/post/archives";
+    }
+
+    @GetMapping("read")
+    public String displayPost(Model model) {
+        model.addAttribute("post", post);
+        return "/user/post-management/display-post";
     }
 
 }
