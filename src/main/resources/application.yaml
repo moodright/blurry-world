@@ -1,3 +1,4 @@
+# 容器端口
 server:
   port: 8090
 
@@ -9,3 +10,10 @@ application:
 spring:
   thymeleaf:
     cache: false
+
+# 图片上传路径
+upload:
+  file:
+    path:
+      storage: E:\\blurryworld\\file\\image\\
+      host: http://localhost:${server.port}

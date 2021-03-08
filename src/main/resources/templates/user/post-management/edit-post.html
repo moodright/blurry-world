@@ -80,15 +80,10 @@
         <div class="confirm-btn">
             <input type="submit" class="btn btn-primary" role="button" value="发布">
             <input class="btn btn-danger" role="button" value="保存">
-            <!-- 发布模态框 -->
+            <!-- 文章发布模态框 -->
 
         </div>
     </form>
-
-
-
-
-
 
     <!-- jquery-3.5.1.js -->
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
@@ -99,15 +94,23 @@
     <script type="text/javascript">
         $(function() {
            contextEditor = editormd("editormd", {
+               // 设置文本编辑区域宽高比
                width: "80%",
                height: 640,
-               //markdown: "#请编辑您的文本", // 动态设置markdown编辑文本区域的内容
+               // 动态设置markdown编辑文本区域的内容
+               //markdown: "#请编辑您的文本",
                placeholder: "请编辑您的文本...",
-               path: "lib/editormd/lib/",  // 自动加载模组路径
-               syncScrolling: true,    // 编辑框渲染框同步滚动 true | false | "single" , default true
-               emoji: true,                // 开启表情支持
-               toolbarIcons: "blurryWorld",       // 工具栏模式选择,选项有 "full" | "simple" | "mini" 参考 `editormd.toolbarModes` 属性（该属性在src/editormd.js文件中）
+               // 自动加载模组路径
+               path: "lib/editormd/lib/",
+               // 编辑框渲染框同步滚动
+               syncScrolling: true,
+               // 开启表情支持
+               emoji: true,
+               // 工具栏模式选择, 参考 `editormd.toolbarModes` 属性（该属性在src/editormd.js文件中）
+               toolbarIcons: "blurryWorld",
+               // 侧边栏行数字体大小
                fontSize: "15px",
+               // 开启图片上传
                imageUpload: true,
                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                imageUploadURL: '/picture/upload'
