@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 文章管理控制器
  * @author moodright
  * @date 2021/3/7
  */
@@ -46,6 +47,11 @@ public class PostManagementController {
         return "redirect:/post/read";
     }
 
+    /**
+     * 浏览文章
+     * @param model 存放文章的模型
+     * @return 显示文章模板
+     */
     @GetMapping("read")
     public String displayPost(Model model) {
         model.addAttribute("post", post);

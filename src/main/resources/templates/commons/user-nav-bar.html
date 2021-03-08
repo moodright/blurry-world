@@ -26,11 +26,17 @@
             .user-nav-link {
                 height: 100%;
                 width: 30%;
+                padding-top: 11px;
             }
             .user-nav-link .user-nav-logo {
-                margin-left: 30px;
-                width: 17%;
+                margin: 0 25px;
+                width: 15%;
                 height: 100%;
+                color: #409EFF;
+                font-weight: lighter;
+                font-size: 25px;
+                position: relative;
+                top: 3px;
             }
             .user-nav-link .user-nav-main-link {
                 margin-left: 10px;
@@ -203,7 +209,7 @@
             }
         </style>
         <div class="user-nav-link">
-            <img class="user-nav-logo" th:src="@{/images/logo.png}" />
+            <span class="user-nav-logo">BlurryWorld</span>
             <a href="#" class="user-nav-main-link">首页</a>
             <a href="#" class="user-nav-main-link">专栏</a>
             <a href="#" class="user-nav-main-link">分类</a>

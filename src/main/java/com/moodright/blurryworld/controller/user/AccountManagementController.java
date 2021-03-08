@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * 账号管理控制器
  * @author moodright
  * @date 2021/3/6
  */
