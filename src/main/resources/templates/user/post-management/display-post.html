@@ -190,7 +190,7 @@
         /* 评论模块 */
         .comment {
             width: 100%;
-            height: 500px;
+            height: auto;
             margin: 15px 0;
             padding: 10px 20px;
             background: white;
@@ -228,6 +228,231 @@
             text-decoration: none;
             color: black;
         }
+        /* 发表评论 */
+        .comment .comment-send {
+            width: 100%;
+            height: 150px;
+            padding: 20px 10px;
+            border-bottom: 1px solid #e5e9ef;
+        }
+        .comment .comment-send .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 15px;
+            position: relative;
+            bottom: 35px;
+        }
+        .comment .comment-send .user-comment {
+            width: 500px;
+            height: 80px;
+            resize: none;
+            border-radius: 4px;
+            border: 1px solid #e5e9ef;
+            background-color: #f4f5f7;
+            overflow: auto;
+            color: #555;
+            font-size: 15px;
+            padding: 5px 10px;
+            line-height: normal;
+        }
+        .comment .comment-send .user-comment:focus {
+            outline: none;
+            background-color: white;
+            border-color: #409EFF;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        .comment .comment-send .comment-submit {
+            height: 80px;
+            width: 80px;
+            position: relative;
+            bottom: 45px;
+            left: 10px;
+            border: 1px solid #e5e9ef;
+            background: white;
+            border-radius: 4px;
+            padding: 10px 20px;
+        }
+        .comment .comment-send .comment-submit:hover {
+            background-color: #d2e9fb;
+            color: #409EFF;
+        }
+        .comment .comment-send .comment-submit:active {
+            bottom: 40px;
+            left: 15px;
+            transition: 0.1s;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        /* 评论列表 */
+        .comment .comment-list {
+            width: 100%;
+            height: auto;
+            padding: 20px 10px;
+            border-bottom: 1px solid #e5e9ef;
+            display: flex;
+            justify-content: start;
+
+        }
+        /* 评论者头像 */
+        .comment .comment-list .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 15px;
+        }
+        .comment .comment-list .user-info {
+            width: 550px;
+            height: auto;
+        }
+        /* 评论姓名 */
+        .comment .comment-list .user-info .user-nickname {
+            width: 550px;
+            height: 30px;
+            font-weight: 700;
+        }
+        .comment .comment-list a {
+            color: #6d757a;
+        }
+        .comment .comment-list a:hover {
+            color: #409EFF;
+            text-decoration: none;
+        }
+        /* 评论内容 */
+        .comment .comment-list .user-info .user-comment-msg {
+            width: 600px;
+            height: auto;
+        }
+        /* 评论页脚 */
+        .comment .comment-list .user-info .user-comment-footer {
+            width: 600px;
+            height: auto;
+            font-size: 13px;
+            color: #99a2aa;
+            padding-top: 5px;
+        }
+        .comment .comment-list .user-info .user-comment-footer span {
+            margin-right: 20px;
+        }
+        .comment .comment-list .user-info .user-comment-footer span a {
+            color: #99a2aa;
+        }
+        .comment .comment-list .user-info .user-comment-footer span a:hover {
+            color: #409EFF;
+        }
+        .comment .comment-list .user-comment-footer button {
+            border-radius: 4px;
+            color: #99a2aa;
+            font-size: 12px;
+            border: none;
+            background: transparent;
+        }
+        .comment .comment-list .user-comment-footer button:hover {
+            background: rgb(239, 239, 239);
+            color: #409EFF;
+        }
+
+        /* 评论的回复评论列表 */
+        .user-comment-footer .reply-comment-list {
+            width: 600px;
+            height: auto;
+            padding: 10px 0;
+            display: flex;
+            justify-content: start;
+        }
+        /* 回复者头像 */
+        .user-comment-footer .reply-comment-list .reply-user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-left: 25px;
+            margin-right: 15px;
+        }
+        /* 回复者具体信息 */
+        .user-comment-footer .reply-comment-list .reply-user-info {
+            width: 500px;
+        }
+        .reply-comment-list .reply-user-info .reply-user-nickname {
+            width: 500px;
+            font-size: 15px;
+            color: #99a2aa;
+            font-weight: 700;
+        }
+        .reply-comment-list .reply-user-info .reply-user-comment-msg {
+            width: 500px;
+            height: auto;
+            color: black;
+            font-size: 15px;
+            padding-bottom: 5px;
+        }
+        .reply-comment-list .reply-user-info .reply-user-comment-msg a{
+             color: #409EFF;
+         }
+        .reply-comment-list .reply-user-info .user-comment-footer {
+            width: 500px;
+        }
+
+        /* 用户回复 */
+        .comment .comment-list .user-comment-footer .comment-reply {
+            width: 100%;
+            height: 100px;
+            padding: 20px 10px;
+        }
+        /* 用户头像 */
+        .comment-reply .reply-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 15px;
+            position: relative;
+            bottom: 35px;
+        }
+        /* 用户回复内容 */
+        .comment-reply .reply-comment {
+            width: 410px;
+            height: 80px;
+            resize: none;
+            border-radius: 4px;
+            border: 1px solid #e5e9ef;
+            background-color: #f4f5f7;
+            overflow: auto;
+            color: #555;
+            font-size: 15px;
+            padding: 5px 10px;
+            line-height: normal;
+        }
+        .comment-reply .reply-comment:focus {
+            outline: none;
+            background-color: white;
+            border-color: #409EFF;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+        .comment-reply .reply-button {
+            height: 80px;
+            width: 80px;
+            position: relative;
+            bottom: 45px;
+            left: 10px;
+            border: 1px solid #e5e9ef!important;
+            background: white!important;
+            font-size: 15px!important;
+            color: black!important;
+            border-radius: 4px;
+            padding: 10px 20px;
+        }
+        .comment-reply .reply-button:hover {
+            background-color: #d2e9fb!important;
+            color: #409EFF!important;
+        }
+        .comment-reply .reply-button:active {
+            bottom: 40px;
+            left: 15px;
+            transition: 0.1s;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
+
+
+
+
 
 
 
@@ -380,12 +605,123 @@
                 </div>
                 <!-- 发表评论 -->
                 <div class="comment-send">
-
+                    <!-- 用户头像 -->
+                    <img class="user-avatar" th:src="@{/images/BillieEilishDonuts.png}" />
+                    <textarea id="user-send-comment" class="user-comment" placeholder="发条友善的评论"></textarea>
+                    <button type="submit" class="comment-submit" onmouseout="focusOutCommentTextarea()" onmouseover="focusCommentTextarea()">发表评论</button>
                 </div>
+                <!-- 评论列表 -->
+                <div class="comment-list">
+                    <!-- 评论者头像 -->
+                    <a href="#"><img class="user-avatar" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                    <div class="user-info">
+                        <!-- 评论者姓名 -->
+                        <div class="user-nickname"><a href="#">moodright</a></div>
+                        <!-- 评论内容 -->
+                        <div class="user-comment-msg">
+                            ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                            ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                            ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                        </div>
+                        <!-- 评论页脚 -->
+                        <div class="user-comment-footer">
+                            <span class="comment-date">2021-03-09 09:41</span>
+                            <span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>88</a></span>
+                            <span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>99</a></span>
+                            <!-- 回复 -->
+                            <button onclick="displayReplyBlock('comment-reply-1')">回复</button>
+                            <div class="comment-reply" style="display: none" id="comment-reply-1">
+                                <!-- 回复者头像 -->
+                                <img class="reply-avatar" th:src="@{/images/BillieEilishDonuts.png}" />
+                                <!-- 回复内容 -->
+                                <textarea class="reply-comment" placeholder="回复@moodright："></textarea>
+                                <button href="#" class="reply-button">发表评论</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 评论列表 -->
+                <div class="comment-list">
+                    <!-- 评论者头像 -->
+                    <a href="#"><img class="user-avatar" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                    <div class="user-info">
+                        <!-- 评论者姓名 -->
+                        <div class="user-nickname"><a href="#">moodright</a></div>
+                        <!-- 评论内容 -->
+                        <div class="user-comment-msg">
+                            ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                            ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                            ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                        </div>
+                        <!-- 评论页脚 -->
+                        <div class="user-comment-footer">
+                            <span class="comment-date">2021-03-09 09:41</span>
+                            <span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>88</a></span>
+                            <span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>99</a></span>
+                            <button onclick="displayReplyBlock('comment-reply-2')">回复</button>
 
+                            <!-- 评论的回复评论列表 -->
+                            <div class="reply-comment-list">
+                                <!-- 回复者头像 -->
+                                <a href="#"><img class="reply-user-avatar" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                                <!-- 回复者具体信息 -->
+                                <div class="reply-user-info">
+                                    <!-- 回复者姓名 -->
+                                    <div class="reply-user-nickname"><a href="#">moodright</a></div>
+                                    <!-- 回复内容 -->
+                                    <div class="reply-user-comment-msg">
+                                        回复<a href="#">@moodright</a>：
+                                        ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                                        ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                                        ガッキーｷﾀ━━（ *´∀｀）・ω・）ﾟ∀ﾟ)；ﾟДﾟ）・∀・）ﾟーﾟ)￣ー￣）=ﾟωﾟ)ﾉ━━ !!!
+                                    </div>
+                                    <!-- 回复页脚 -->
+                                    <div class="reply-comment-footer">
+                                        <span class="reply-comment-date">2021-03-09 09:41</span>
+                                        <span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>88</a></span>
+                                        <span class="reply-comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>99</a></span>
+                                        <button onclick="displayReplyBlock('comment-reply-2')">回复</button>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <!-- 评论的回复评论列表 -->
+                            <div class="reply-comment-list">
+                                <!-- 回复者头像 -->
+                                <a href="#"><img class="reply-user-avatar" th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                                <!-- 回复者具体信息 -->
+                                <div class="reply-user-info">
+                                    <!-- 回复者姓名 -->
+                                    <div class="reply-user-nickname"><a href="#">moodright</a></div>
+                                    <!-- 回复内容 -->
+                                    <div class="reply-user-comment-msg">
+                                        回复<a href="#">@moodright</a>：
+                                        评论内容长度宽度自适应
+                                    </div>
+                                    <!-- 回复页脚 -->
+                                    <div class="reply-comment-footer">
+                                        <span class="reply-comment-date">2021-03-09 09:41</span>
+                                        <span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>88</a></span>
+                                        <span class="reply-comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>99</a></span>
+                                        <button onclick="displayReplyBlock('comment-reply-2')">回复</button>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <!-- 用户回复 -->
+                            <div class="comment-reply" style="display: none" id="comment-reply-2">
+                                <!-- 用户头像 -->
+                                <img class="reply-avatar" th:src="@{/images/BillieEilishDonuts.png}" />
+                                <!-- 用户回复内容 -->
+                                <textarea class="reply-comment" placeholder="回复@moodright："></textarea>
+                                <button href="#" class="reply-button">发表评论</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
 
             <!-- 页脚 -->
             <div class="footer">
@@ -393,17 +729,13 @@
             </div>
         </div>
 
+
+
         <!-- 右侧作者信息栏\推荐文章\更多 -->
         <div class="right-main">
 
         </div>
     </div>
-
-
-
-
-
-
 
 
 
@@ -418,7 +750,7 @@
     <!-- prettify.min.js -->
     <script th:src="@{/lib/editormd/lib/prettify.min.js}"></script>
     <script>
-        // 渲染页面
+        // 将Editormd中的字符文本渲染成HTML标签文本
         $(function() {
            testEditor = editormd.markdownToHTML("doc-content", {
                 htmlDecode: "style,script,iframe",
@@ -428,26 +760,20 @@
            });
         });
 
+        // 评论按钮hover后自动聚焦评论栏
+        function focusCommentTextarea() {
+            $('#user-send-comment').focus();
+        }
+        function focusOutCommentTextarea() {
+            $('#user-send-comment').blur();
+        }
 
-        // 废案
-        // 修改图片渲染页面时的宽高
-        // 页面最大宽度 700px
-        // $(function() {
-        //     var postContent = document.getElementById("doc-content");
-        //     var images = postContent.getElementsByTagName("img");
-        //     console.log(images);
-        //     for (let i = 0; i < images.length; i++) {
-        //         console.log(images[i].width);
-        //         console.log(images[i].height);
-        //         if(images[i].width > 700 && images[i].height == images[i].width) {
-        //             images[i].width = 500;
-        //             images[i].height = 500;
-        //         }else if(images[i].width > 700 && images[i].height != images[i].width) {
-        //             images[i].width = 448;
-        //             images[i].height = 252;
-        //         }
-        //     }
-        // })
+        // 点击回复按钮显示回复栏
+        function displayReplyBlock(id) {
+            $('#' + id).css("display", "block");
+            // 回复栏自动聚焦
+            $('.reply-comment').focus();
+        }
     </script>
 
 </body>
