@@ -1,9 +1,8 @@
 package com.moodright.blurryworld.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
-
 import java.util.Date;
 
 /**
@@ -13,6 +12,7 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
     /**
      *  用户编号
@@ -29,7 +29,6 @@ public class User {
     private String password;
     /**
      *  用户别名
-     *  默认值：“”
      */
     private String nickname;
     /**
@@ -37,7 +36,7 @@ public class User {
      *  格式要求： 男：0 女：1 保密：2
      *  默认值：2
      */
-    private Integer gender;
+    private int gender = 2;
     /**
      *  账号创建时间
      *  格式要求： Timestamp
@@ -50,61 +49,23 @@ public class User {
     private Date accountLastLoginTime;
     /**
      *  账户状态
-     *  正常: false 已注销：true
-     *  默认值：false
+     *  正常: 0 已注销：1
+     *  默认值：0
      */
-    private Boolean accountIsDeleted;
+    private int accountStatus;
     /**
      *  用户头像
      *  默认值：null
      */
     private String avatar;
 
-    public User(Integer userId,
-                String username,
-                String password,
-                String nickname,
-                Integer gender) {
+
+    public User(Integer userId, String username, String password, String nickname, int gender, int accountStatus) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.gender = gender;
-        // 默认值
-        this.accountCreateTime = new Date();
-        this.accountLastLoginTime = new Date();
-        this.accountIsDeleted = false;
-        this.avatar = null;
-    }
-
-    public User(Integer userId,
-                String username,
-                String password,
-                String nickname) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        // 默认值
-        this.gender = 2;
-        this.accountCreateTime = new Date();
-        this.accountLastLoginTime = new Date();
-        this.accountIsDeleted = false;
-        this.avatar = null;
-    }
-
-    public User(Integer userId,
-                String username,
-                String password) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        // 默认值
-        this.nickname = "";
-        this.gender = 2;
-        this.accountCreateTime = new Date();
-        this.accountLastLoginTime = new Date();
-        this.accountIsDeleted = false;
-        this.avatar = null;
+        this.accountStatus = accountStatus;
     }
 }
