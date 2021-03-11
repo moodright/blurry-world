@@ -63,6 +63,16 @@
             font-size: 14px;
             text-decoration: none;
         }
+        .login-body .validate-msg {
+            margin: 10px auto;
+            padding-top: 15px;
+            text-align: center;
+            width: 27%;
+            height: 55px;
+            border: 1px solid #d8dee2;
+            border-radius: 5px;
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -76,14 +86,18 @@
                         <p>登录 Blurry World</p>
                     </div>
                     <div class="login-body">
-                        <form class="signin-form">
+                        <div th:if="${msg != null}" class="validate-msg">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            <span th:text="${msg}"></span>
+                        </div>
+                        <form class="signin-form" method="post" action="/login">
                             <div class="form-group">
-                                <label for="username" style="font-size:19px;font-weight: 400;">用户名或邮件地址</label>
-                                <input type="text" class="form-control" id="username">
+                                <label for="username" style="font-size:19px;font-weight: 400;">邮件地址</label>
+                                <input type="email" class="form-control" id="username" name="username" th:value="${username}" required>
                             </div>
                             <div class="form-group">
                                 <label for="password" style="font-size:19px;font-weight: 400;">密码</label>
-                                <input type="password" class="form-control" id="password">
+                                <input type="password" class="form-control" id="password" name="password" th:autofocus="${username!=null}" required>
                             </div>
                             <input type="submit" role="button" class="btn login-btn" value="登录">
                         </form>
@@ -100,9 +114,17 @@
     <div th:replace="~{/commons/register-modal :: register-modal}"></div>
 
 
-<!-- jquery-3.5.1.js -->
-<script th:src="@{/js/jquery-3.5.1.js}"></script>
-<!-- bootstrap.bundle.js -->
-<script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script>
+        $(function() {
+            // 注册跳转时直接显示注册模态框
+            if([[${register}]] === true) {
+                $('#registerModal').modal('show');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -97,4 +97,14 @@ public class UserService implements UserMapper {
     public List<User> queryUserByPagination(Map<String, Integer> limitInfo) {
         return userMapper.queryUserByPagination(limitInfo);
     }
+
+    /**
+     * 根据用户名查询用户
+     * @param username 用户名
+     * @return 用户实体类
+     */
+    @Override
+    public User queryUserByUsername(String username) {
+        return userMapper.queryUserByUsername(username);
+    }
 }

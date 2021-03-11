@@ -27,6 +27,17 @@
                 background: #1571db;
                 color: #ffffff;
             }
+            .register-validate {
+                width: 100%;
+                height: 50px;
+                text-align: center;
+                padding-top: 10px;
+                border: 1px solid #d8dee2;
+                border-radius: 5px;
+                color: red;
+                display: none;
+                margin: 3px 0;
+            }
         </style>
         <div class="modal fade" id="registerModal">
             <div class="modal-dialog">
@@ -36,20 +47,28 @@
                     </div>
                     <div class="modal-body">
                         <p style="font-size: 23px;font-weight: 700;text-align: center;margin-bottom: 15px">创建您的账号</p>
-                        <form class="register-form">
+                        <div class="register-validate" id="register-validate-username">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            <span id="check-username-msg"></span>
+                        </div>
+                        <div class="register-validate" id="register-validate-password">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            <span id="check-password-msg"></span>
+                        </div>
+                        <form class="register-form" method="post" action="/register">
                             <div class="form-group">
-                                <label for="register_username" style="font-size:19px;font-weight: 400;">用户名或邮件地址</label>
-                                <input type="text" class="form-control" id="register_username">
+                                <label for="register_username" style="font-size:19px;font-weight: 400;">邮件地址</label>
+                                <input type="email" class="form-control" id="register_username" name="register_username" required onchange="validateUsername()">
                             </div>
                             <div class="form-group">
                                 <label for="register_password" style="font-size:19px;font-weight: 400;">密码</label>
-                                <input type="password" class="form-control" id="register_password">
+                                <input type="password" class="form-control" id="register_password" required onchange="validatePassword()">
                             </div>
                             <div class="form-group">
                                 <label for="check_password" style="font-size:19px;font-weight: 400;">确认密码</label>
-                                <input type="password" class="form-control" id="check_password">
+                                <input type="password" class="form-control" id="check_password" name="register_password" required onchange="validatePassword()">
                             </div>
-                            <input type="submit" role="button" class="btn register-btn" value="注册">
+                            <input type="submit" role="button" class="btn register-btn" value="注册" id="register-confirm-btn" disabled>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -58,6 +77,52 @@
                 </div>
             </div>
         </div>
+        <script>
+            // 异步请求接口返回的校验数据
+            var responseData;
+            // 用户名验证
+            function validateUsername() {
+                const username = $('#register_username').val();
+                const password = $('#register_password').val();
+                const repeatPassword = $('#check_password').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/register/validate",
+                    data: "username=" + username,
+                    success: function(data) {
+                        responseData = data;
+                       if(data === '0') {
+                           $('#register-validate-username').css('display', 'block');
+                           $('#check-username-msg').text('账号已存在，请重新输入！');
+                           $('#register-confirm-btn').attr('disabled', 'disabled');
+                       }else {
+                           $('#register-validate-username').css('display', 'none');
+                           // 验证按钮是否开启
+                           if(responseData === '1' && password === repeatPassword && password !== ""){
+                               $('#register-confirm-btn').removeAttr("disabled");
+                           }
+                       }
+                    }
+                });
+            }
+            // 二次输入密码验证
+            function validatePassword() {
+                // 获取表单输入的密码和确认密码
+                const password = $('#register_password').val();
+                const repeatPassword = $('#check_password').val();
+                if (password !== repeatPassword && password !== "" && repeatPassword !== "") {
+                    $('#register-validate-password').css('display', 'block');
+                    $('#check-password-msg').text('二次输入密码不相同，请重新输入');
+                    $('#register-confirm-btn').attr('disabled', 'disabled');
+                } else {
+                    $('#register-validate-password').css('display', 'none');
+                    // 验证按钮是否开启
+                    if(responseData === '1' && password === repeatPassword && password !== ""){
+                        $('#register-confirm-btn').removeAttr("disabled");
+                    }
+                }
+            }
+        </script>
     </section>
     <!-- End of Register Section -->
 </body>

@@ -65,5 +65,10 @@
         limit #{currentStartIndex}, #{pageSize}
     </select>
 
+    <select id="queryUserByUsername" parameterType="String" resultMap="userResultMap">
+        select * from user
+        where `username` = #{username}
+    </select>
+
 
 </mapper>
