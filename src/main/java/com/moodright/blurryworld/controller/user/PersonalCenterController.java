@@ -1,8 +1,13 @@
 package com.moodright.blurryworld.controller.user;
 
+import com.moodright.blurryworld.pojo.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 个人中心控制器
@@ -13,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/space")
 public class PersonalCenterController {
 
-
     /**
      * 用户个人主页 默认返回文章列表
      * @return 个人主页文章列表模板
      */
-    @GetMapping
-    public String personalCenter() {
+    @GetMapping("/{id}")
+    public String personalCenter(@PathVariable("id")Integer userId) {
+        System.out.println("userId=>" + userId);
         return "/user/personal-center/postlist";
     }
 

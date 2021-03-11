@@ -226,28 +226,28 @@
         <div class="user-nav-center">
             <!-- 头像 -->
             <div class="head-box">
-                <img class="image-box user-nav-center-avatar" th:src="@{/images/BillieEilishDonuts.png}" />
+                <img class="image-box user-nav-center-avatar" th:src="${session.user.avatar}?:('/images/DefaultAvatar.png')" />
                 <div class="message-box">
                     <div class="user-profile-heading">
-                        <h6>Moodright</h6>
+                        <h6 th:text="${session.user.nickname == null?session.user.username:session.user.nickname}">Moodright</h6>
                     </div>
                     <div class="user-profile-content">
                         <a href="#" class="user-profile-content-link">关注<p>9999</p></a>
                         <a href="#" class="user-profile-content-link">粉丝<p>9999</p></a>
-                        <a href="#" class="user-profile-content-link">动态<p>9999</p></a>
+                        <a th:href="@{/main}" class="user-profile-content-link">动态<p>9999</p></a>
                     </div>
                     <div class="user-profile-footer">
-                        <a class="user-profile-footer-link"><i class="fa fa-user pr-2" aria-hidden="true"></i>个人中心</a>
-                        <a class="user-profile-footer-link"><i class="fa fa-comments pr-2" aria-hidden="true"></i>动态</a>
+                        <a th:href="@{'/space/' + ${session.user.getUserId()}}" class="user-profile-footer-link"><i class="fa fa-user pr-2" aria-hidden="true"></i>个人中心</a>
+                        <a th:href="@{/main}" class="user-profile-footer-link"><i class="fa fa-comments pr-2" aria-hidden="true"></i>动态</a>
                     </div>
                     <div class="user-profile-exit">
-                        <a class="user-profile-exit-link"><i class="fa fa-sign-out pr-2" aria-hidden="true"></i>退出</a>
+                        <a class="user-profile-exit-link" th:href="@{/exit}"><i class="fa fa-sign-out pr-2" aria-hidden="true"></i>退出</a>
                     </div>
                 </div>
             </div>
-            <a href="#" class="user-nav-center-link">个人中心</a>
+            <a th:href="@{'/space/' + ${session.user.getUserId()}}" class="user-nav-center-link">个人中心</a>
             <a href="#" class="user-nav-center-link">消息</a>
-            <a href="#" class="user-nav-center-link">动态</a>
+            <a th:href="@{/main}" class="user-nav-center-link">动态</a>
             <a href="#" class="btn btn-lg btn-primary user-nav-center-postbtn" role="button"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>发布文章</a>
         </div>
     </div>

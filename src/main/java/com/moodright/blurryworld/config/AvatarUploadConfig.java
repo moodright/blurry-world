@@ -5,21 +5,22 @@ import lombok.NoArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
 /**
- * 文件上传配置类
+ * 头像上传配置类
  * @author moodright
- * @date 2021/3/8
+ * @date 2021/3/11
  */
 @Data
 @NoArgsConstructor
 @Component
-@ConfigurationProperties(prefix = "upload.file.path")
-public class UploadConfig {
+@ConfigurationProperties(prefix = "upload.avatar.path")
+public class AvatarUploadConfig {
     /**
      * 存储文件物理位置
      */
@@ -29,9 +30,9 @@ public class UploadConfig {
      */
     private String host;
     /**
-     * 图片上传url前缀
+     * 头像上传url前缀
      */
-    private String urlPrefix = "/public/image/";
+    private String urlPrefix = "/public/avatar/";
 
     @PostConstruct
     public void init() throws IOException {

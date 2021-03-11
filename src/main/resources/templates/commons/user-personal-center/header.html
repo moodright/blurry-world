@@ -60,10 +60,10 @@
             }
         </style>
         <div class="user-avatar">
-            <img th:src="@{/images/BillieEilishDonuts.png}" />
+            <img th:src="${session.user.avatar}?:('/images/DefaultAvatar.png')" />
         </div>
         <div class="user-info">
-            <div class="nickname">moodright</div>
+            <div class="nickname" th:text="${session.user.nickname == null?session.user.username:session.user.nickname}"></div>
             <div class="signature">@Bean | 个人博客：https://www.moodright.cn</div>
         </div>
         <div class="user-footer">

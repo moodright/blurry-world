@@ -71,4 +71,11 @@ public interface UserMapper {
      * @return 用户实体类
      */
     User queryUserByUsername(String username);
+
+    /**
+     * 更新头像
+     * @param user 封装好头像url和用户编号的实体类
+     * @return 受影响的行数
+     */
+    int updateAvatar(User user);
 }

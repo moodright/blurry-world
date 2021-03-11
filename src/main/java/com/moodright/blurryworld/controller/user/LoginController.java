@@ -56,18 +56,15 @@ public class LoginController {
             return "user/login";
         } else {
             session.setAttribute("user", user);
-            return "redirect:/space/post";
+            return "redirect:/main";
         }
     }
 
 
-    /**
-     * 拦截器
-     * @return 拦截器模板
-     */
-    @GetMapping(path = "/interceptor")
-    public String interceptor() {
-        return "user/interceptor";
+    @GetMapping(path="/exit")
+    public String signOut(HttpSession session) {
+        // 注销会话
+        session.invalidate();
+        return "user/login";
     }
-
 }

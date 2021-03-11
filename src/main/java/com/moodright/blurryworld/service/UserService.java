@@ -107,4 +107,14 @@ public class UserService implements UserMapper {
     public User queryUserByUsername(String username) {
         return userMapper.queryUserByUsername(username);
     }
+
+    /**
+     * 更新头像
+     * @param user 封装好头像url和用户编号的实体类
+     * @return 受影响的行数
+     */
+    @Override
+    public int updateAvatar(User user) {
+        return userMapper.updateAvatar(user);
+    }
 }

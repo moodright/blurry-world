@@ -365,9 +365,9 @@
             <!-- 用户头像 -->
             <div class="user-profile-avatar">
                 <img th:src="@{/images/firelaunch.png}" class="background-img" />
-                <a href="#" class="user-profile-avatar-link">
-                    <img class="avatar" th:src="@{/images/BillieEilishDonuts.png}" alt="avatar" />
-                    <span class="username">moodright@qq.com</span>
+                <a th:href="@{'/space/' + ${session.user.getUserId()}}" class="user-profile-avatar-link">
+                    <img class="avatar" th:src="${session.user.avatar}?:('/images/DefaultAvatar.png')" alt="avatar" />
+                    <span class="username" th:text="${session.user.nickname == null?session.user.username:session.user.nickname}"></span>
                 </a>
             </div>
             <!-- 用户相册 -->

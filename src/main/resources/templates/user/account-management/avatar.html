@@ -167,12 +167,12 @@
             <div class="left-nav-bar">
                 <p class="title">个人中心</p>
                 <div class="setting-info-link">
-                    <a href="#">
+                    <a th:href="@{/account}">
                         <i class="fa fa-user-o mr-2"></i>我的信息
                     </a>
                 </div>
                 <div class="setting-avatar-link">
-                    <a href="#">
+                    <a th:href="@{/account/avatar}">
                         <i class="fa fa-user-circle-o mr-2"></i>我的头像
                     </a>
                 </div>
@@ -201,21 +201,21 @@
             <!-- 右侧内容栏 -->
             <div class="right-content">
                 <p class="title">我的头像</p>
-                <form enctype="multipart/form-data">
+                <form enctype="multipart/form-data" action="/account/avatar/update" method="post">
                     <div class="choose-avatar">
                         <label for="avatar">
                             <i class="fa fa-file-image-o fa-3x" aria-hidden="true"></i>
                             <p>选择图片</p>
                         </label>
-                        <input type="file" id="avatar" style="display: none">
+                        <input type="file" id="avatar" style="display: none" name="avatar">
                     </div>
                     <div class="current-avatar">
-                        <img class="current-avatar-img" th:src="@{/images/BillieEilishDonuts.png}"/>
+                        <img class="current-avatar-img" th:src="${session.user.avatar}?:('/images/DefaultAvatar.png')" />
                         <p class="current-avatar-title">当前头像</p>
                     </div>
                     <div class="confirm-btn">
                         <p>请选择图片上传：大小180*180像素支持JPG、PNG等格式，图片需小于2M</p>
-                        <a href="#" type="submit" class="btn btn-primary" role="button">更新</a>
+                        <input type="submit" class="btn btn-primary" role="button" value="更新">
                     </div>
                 </form>
             </div>
