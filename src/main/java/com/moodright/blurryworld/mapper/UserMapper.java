@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 用户映射器
  * @author moodright
  * @date 2021/3/10
  */

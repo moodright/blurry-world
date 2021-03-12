@@ -32,7 +32,7 @@ public class UserService implements UserMapper {
      */
     @Override
     public int addUser(User user) {
-        //账户时间初始化
+        // 账户时间初始化
         user.setAccountCreateTime(new Date());
         user.setAccountLastLoginTime(new Date());
         return userMapper.addUser(user);

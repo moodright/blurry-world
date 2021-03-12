@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodright.blurryworld.mapper.ProfileMapper">
+    <resultMap id="profileResultMap" type="Profile">
+        <id property="userId" column="user_id"/>
+        <result property="websiteLink" column="website_link" />
+        <result property="githubLink" column="github_link" />
+        <result property="weiboLink" column="weibo_link" />
+        <result property="postCount" column="post_count" />
+        <result property="momentCount" column="moment_count" />
+        <result property="followCount" column="follow_count" />
+        <result property="followerCount" column="follower_count" />
+    </resultMap>
+
+    <!-- 根据用户编号增加个人信息 -->
+    <insert id="addProfileById" parameterType="Integer">
+        insert into profile (`user_id`) values (#{userId})
+    </insert>
+
+    <!-- 根据用户编号查询个人信息 -->
+    <select id="queryProfileById" parameterType="Integer" resultMap="profileResultMap">
+        select * from profile
+        where `user_id` = #{userId}
+    </select>
+
+    <!-- 根据用户编号更新个人信息 -->
+    <update id="updateProfileById" parameterType="Profile">
+        update profile
+        <set>
+            <if test="signature != null">
+                `signature` = #{signature},
+            </if>
+            <if test="birthday != null">
+                `birthday` = #{birthday},
+            </if>
+            <if test="province != null">
+                `province` = #{province},
+            </if>
+            <if test="city != null">
+                `city` = #{city},
+            </if>
+            <if test="email != null">
+                `email` = #{email},
+            </if>
+            <if test="websiteLink != null">
+                `website_link` = #{websiteLink},
+            </if>
+            <if test="githubLink != null">
+                `github_link` = #{githubLink},
+            </if>
+            <if test="weiboLink != null">
+                `weibo_link` = #{weiboLink},
+            </if>
+        </set>
+        where `user_id` = #{userId}
+    </update>
+
+</mapper>

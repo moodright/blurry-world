@@ -1,6 +1,7 @@
 package com.moodright.blurryworld.controller.user;
 
 import com.moodright.blurryworld.pojo.User;
+import com.moodright.blurryworld.service.ProfileService;
 import com.moodright.blurryworld.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,15 @@ import javax.servlet.http.HttpSession;
 public class RegisterController {
 
     UserService userService;
+    ProfileService profileService;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+    @Autowired
+    public void setProfileService(ProfileService profileService) {
+        this.profileService = profileService;
     }
 
     /**
@@ -65,10 +71,13 @@ public class RegisterController {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
+        // 添加该用户至 User 表中
         userService.addUser(user);
+        user = userService.queryUserByUsername(username);
         // 将用户添加到会话中
-        user = userService.queryUserByUsername("username");
         session.setAttribute("user", user);
-        return "redirect:/space/post";
+        // 个人信息初始化
+        profileService.addProfileById(user.getUserId());
+        return "redirect:main";
     }
 }

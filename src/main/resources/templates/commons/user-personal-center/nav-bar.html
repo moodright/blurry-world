@@ -37,9 +37,10 @@
                 color: white;
             }
         </style>
-        <a href="#">我的主页</a>
+        <a th:if="${user.getUserId()} == ${session.user.getUserId()}" th:href="@{'/space/' + ${user.getUserId()}}">我的主页</a>
+        <a th:if="${user.getUserId()} != ${session.user.getUserId()}" th:href="@{'/space/' + ${user.getUserId()}}">他的主页</a>
         <a href="#">我的相册</a>
-        <a th:href="@{/account}">管理中心</a>
+        <a th:if="${user.getUserId()} == ${session.user.getUserId()}" th:href="@{/account/setting}">管理中心</a>
     </div>
 
 </body>

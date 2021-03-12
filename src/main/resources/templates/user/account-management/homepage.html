@@ -154,7 +154,6 @@
             height: 85px;
             padding-top: 15px;
             padding-left: 100px;
-            border-bottom: 1px solid #e1e2e5;
         }
         .right-content .setting-info .birthday input {
             width: 200px;
@@ -166,6 +165,49 @@
         .right-content .setting-info .birthday input:focus {
             border-color: #20a0ff;
         }
+        /* 所在地 */
+        .right-content .setting-info .location {
+            width: 100%;
+            height: 85px;
+            padding-top: 15px;
+            padding-left: 100px;
+            display: flex;
+            justify-content: start;
+        }
+        .right-content .setting-info .location select {
+            width: 200px;
+            outline: none;
+            border: 1px solid #bfcbd9;
+            padding: 5px 7px;
+            border-radius: 5px;
+            margin-right: 15px;
+            position: relative;
+            bottom: 5px;
+            left: 5px;
+        }
+        /* 联系邮箱 */
+        .right-content .setting-info .email {
+            width: 100%;
+            height: 85px;
+            padding-top: 15px;
+            padding-left: 100px;
+            border-bottom: 1px solid #e1e2e5;
+        }
+        .right-content .setting-info .email input {
+            width: 200px;
+            outline: none;
+            border: 1px solid #bfcbd9;
+            padding: 5px 7px;
+            border-radius: 5px;
+        }
+
+
+
+
+
+
+
+
         /* 确认按钮 */
         .right-content .setting-info .confirm-btn {
             width: 100%;
@@ -173,7 +215,7 @@
             display: flex;
             justify-content: center;
         }
-        .right-content .setting-info .confirm-btn a {
+        .right-content .setting-info .confirm-btn input {
             width: 100px;
         }
         /* 页脚 */
@@ -201,7 +243,7 @@
             <div class="left-nav-bar">
                 <p class="title">个人中心</p>
                 <div class="setting-info-link">
-                    <a th:href="@{/account}">
+                    <a th:href="@{/account/setting}">
                         <i class="fa fa-user-o mr-2"></i>我的信息
                     </a>
                 </div>
@@ -235,31 +277,44 @@
             <!-- 右侧内容栏 -->
             <div class="right-content">
                 <p class="title">我的信息</p>
-                <form class="setting-info">
+                <form class="setting-info" method="post" action="/account/setting/update">
                     <div class="nickname">
                         <label for="nickname">昵称：</label>
-                        <input id="nickname" name="nickname" placeholder="编辑您的昵称">
+                        <input id="nickname" name="nickname" placeholder="编辑您的昵称" th:value="${user.getNickname()}">
                     </div>
                     <div class="username">
                         <label>用户名：</label>
-                        <span>moodright@qq.com</span>
+                        <span th:text="${user.getUsername()}"></span>
                     </div>
                     <div class="signature">
                         <label for="signature">我的签名：</label>
-                        <textarea id="signature" placeholder="编辑您的简介"></textarea>
+                        <textarea id="signature" name="signature" placeholder="编辑您的简介" th:text="${profile.getSignature()}"></textarea>
                     </div>
                     <div class="gender">
                         <label>性别：</label>
-                        <input type="radio" name="gender" value="0">男
-                        <input type="radio" name="gender" value="1">女
-                        <input type="radio" name="gender" value="2" checked>保密
+                        <input type="radio" name="gender" value="0" th:checked="${user.getGender() == 0?:'checked'}">男
+                        <input type="radio" name="gender" value="1" th:checked="${user.getGender() == 1?:'checked'}">女
+                        <input type="radio" name="gender" value="2" th:checked="${user.getGender() == 2?:'checked'}">保密
                     </div>
                     <div class="birthday">
                         <label id="birthday">出生日期：</label>
-                        <input type="date" name="birthday" placeholder="选择日期">
+                        <input type="date" name="birthday" placeholder="选择日期" th:value="${#dates.format(profile.getBirthday(), 'yyyy-MM-dd')}">
+                    </div>
+                    <div class="location">
+                        <label>所在地：</label>
+                        <select name="input_province" id="input_province" class="form-control">
+                            <option value="" th:text="${profile.getProvince()} != ''?${profile.getProvince()}:'--请选择--'" th:value="${profile.getProvince()}"></option>
+                        </select>
+                        <select name="input_city" id="input_city" class="form-control">
+                            <option value="" th:text="${profile.getCity()} != ''?${profile.getCity()}:'--请选择--'" th:value="${profile.getCity()}"></option>
+                        </select>
+                    </div>
+                    <div class="email">
+                        <label for="email">联系邮箱：</label>
+                        <input id="email" type="email" name="email" th:value="${profile.getEmail()}" placeholder="编辑您的联系邮箱">
                     </div>
                     <div class="confirm-btn">
-                        <a href="#" type="submit" class="btn btn-primary" role="button">保存</a>
+                        <input type="submit" class="btn btn-primary" role="button" value="保存">
                     </div>
                 </form>
             </div>
@@ -274,5 +329,55 @@
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
     <!-- bootstrap.bundle.js -->
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <!-- 城市省份 -->
+    <script th:src="@{/js/cityAndPro.js}"></script>
+    <script>
+        $(function() {
+            var html = "";
+            var province_idx;
+            $("#input_city").append(html);
+
+            $.each(cityMessage, function(idx, item) {
+                if(item.parid == '1'){
+                    html += "<option value='" + item.regname + "' exid='" + item.regid + "'>" + item.regname + "</option>";
+                }
+
+            });
+            $("#input_province").append(html);
+            $("#input_province").change(function(e) {
+                var province =$(this).val();
+                var cityList = [];
+                if(province == "") return;
+                $("#input_city option").remove();
+                var html = "<option value=''>--请选择--</option>";
+
+                //获取已选择的省份的数组下标
+                $.each(cityMessage, function(idx, item) {
+                    if(province == item.regname && item.parid == '1') {
+                        province_idx=idx
+                    }
+                })
+
+                //获取已选择的省份的城市列表
+                $.each(cityMessage, function(idx, item) {
+                    if(cityMessage[idx].parid == cityMessage[province_idx].regid) {
+                        cityList.push(cityMessage[idx])
+                    }
+                })
+
+                //添加城市信息给标签
+                if(cityList instanceof Array && cityList.length>0){
+                    $.each(cityList, function(idx, item) {
+                        // console.log(item)
+                        html += "<option value='" + item.regname + "' exid='" + item.regid + "'>" + item.regname + "</option>";
+                    });
+                }else{
+                    html += "<option value='" + cityMessage[province_idx].regname + "' exid='" + cityMessage[province_idx].regid + "'>" + cityMessage[province_idx].regname + "</option>";
+
+                }
+                $("#input_city").append(html);
+            });
+        });
+    </script>
 </body>
 </html>

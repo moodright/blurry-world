@@ -58,4 +58,13 @@ public class DatabaseTests {
         }
     }
 
+    /**
+     * 根据用户名查询用户测试
+     */
+    @Test
+    public void UserMapperQueryUserByUsernameTest() {
+        User user = userMapper.queryUserByUsername("123456@ee.com");
+        System.out.println(user);
+    }
+
 }

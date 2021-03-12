@@ -1,6 +1,8 @@
 package com.moodright.blurryworld.controller.admin;
 
+import com.moodright.blurryworld.pojo.Profile;
 import com.moodright.blurryworld.pojo.User;
+import com.moodright.blurryworld.service.ProfileService;
 import com.moodright.blurryworld.service.UserService;
 import com.moodright.blurryworld.utils.PaginationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,16 @@ import java.util.function.ToDoubleBiFunction;
 @RequestMapping("/admin/user")
 public class UserManagementController {
 
-    // 用户管理业务层
     UserService userService;
+    ProfileService profileService;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+    @Autowired
+    public void setProfileService(ProfileService profileService) {
+        this.profileService = profileService;
     }
 
     // 分页工具类
@@ -111,6 +117,8 @@ public class UserManagementController {
     @PostMapping(path = "/add")
     public String addUser(User user) {
         userService.addUser(user);
+        // 初始化个人信息
+        profileService.addProfileById(userService.queryUserByUsername(user.getUsername()).getUserId());
         return "redirect:/admin/user/all";
     }
 

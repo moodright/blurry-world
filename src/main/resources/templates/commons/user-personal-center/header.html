@@ -60,15 +60,15 @@
             }
         </style>
         <div class="user-avatar">
-            <img th:src="${session.user.avatar}?:('/images/DefaultAvatar.png')" />
+            <img th:src="${user.getAvatar()}?:('/images/DefaultAvatar.png')" />
         </div>
         <div class="user-info">
-            <div class="nickname" th:text="${session.user.nickname == null?session.user.username:session.user.nickname}"></div>
-            <div class="signature">@Bean | 个人博客：https://www.moodright.cn</div>
+            <div class="nickname" th:text="${user.getNickname() == null?session.user.username:session.user.nickname}"></div>
+            <div class="signature" th:text="${profile.getSignature()}"></div>
         </div>
         <div class="user-footer">
-            <a class="btn btn-primary" role="button" href="#"><i class="fa fa-plus mr-2" aria-hidden="true"></i>关注</a>
-            <a class="btn btn-primary" role="button" href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>私信</a>
+            <a th:if="${user.getUserId()} != ${session.user.getUserId()}" class="btn btn-primary" role="button" href="#"><i class="fa fa-plus mr-2" aria-hidden="true"></i>关注</a>
+            <a th:if="${user.getUserId()} != ${session.user.getUserId()}" class="btn btn-primary" role="button" href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>私信</a>
         </div>
     </div>
 
