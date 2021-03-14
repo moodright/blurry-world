@@ -42,6 +42,8 @@ public class PersonalCenterController {
      */
     @GetMapping("/{id}")
     public String personalCenter(@PathVariable("id")Integer userId, Model model) {
+        // 待办：访问无效的用户id跳转到404页面
+        // ------------------------------
         User user = userService.queryUserById(userId);
         Profile profile = profileService.queryProfileById(userId);
         model.addAttribute("user", user);

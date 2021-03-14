@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;

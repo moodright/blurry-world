@@ -147,4 +147,47 @@ public class AccountManagementController {
         userService.updateAvatar(user);
         return "redirect:/account/avatar";
     }
+
+    /**
+     * 修改外部链接
+     * @return 外部链接模板
+     */
+    @GetMapping("/link")
+    public String link(HttpSession session, Model model) {
+        User user = (User)session.getAttribute("user");
+        Profile profile = profileService.queryProfileById(user.getUserId());
+        model.addAttribute("profile", profile);
+        model.addAttribute("user", user);
+        return "/user/account-management/link";
+    }
+
+    /**
+     * 更新外部链接
+     * @param github github链接
+     * @param website 个人网站链接
+     * @param weibo 微博链接
+     * @param session 查询当前会话的用户对象
+     * @param model 数据回显
+     * @return 重定向 @GetMapping("/link")
+     */
+    @PostMapping("/link/update")
+    public String updateLink(@RequestParam("github")String github,
+                             @RequestParam("personal-website")String website,
+                             @RequestParam("weibo")String weibo,
+                             HttpSession session,
+                             Model model) {
+        User user = (User)session.getAttribute("user");
+        Profile profile = new Profile();
+        profile.setGithubLink(github);
+        profile.setWebsiteLink(website);
+        profile.setWeiboLink(weibo);
+        profile.setUserId(user.getUserId());
+        // 更新信息
+        profileService.updateProfileById(profile);
+        // 数据回显
+        profile = profileService.queryProfileById(user.getUserId());
+        model.addAttribute("profile", profile);
+        return "redirect:/account/link";
+    }
+
 }

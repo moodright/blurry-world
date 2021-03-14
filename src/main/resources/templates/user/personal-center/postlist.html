@@ -285,12 +285,12 @@
                 </div>
                 <div class="personal-info">
                     <div class="title">个人信息</div>
-                    <div class="region"><i class="fa fa-location-arrow mr-2" aria-hidden="true"></i>上海</div>
-                    <div class="birthday"><i class="fa fa-birthday-cake mr-2" aria-hidden="true"></i>1998年12月12日</div>
-                    <div class="mail"><i class="fa fa-envelope mr-2" aria-hidden="true"></i>moodright@qq.com</div>
-                    <div class="description"><i class="fa fa-link mr-2" aria-hidden="true"></i><a href="https://www.moodright.cn">https://www.moodright.cn</a></div>
-                    <div class="github"><i class="fa fa-github mr-2" aria-hidden="true"></i><a href="https://github.com/moodright">https://github.com/moodright</a></div>
-                    <div class="weibo"><i class="fa fa-weibo mr-2" aria-hidden="true"></i><a href="https://weibo.com/p/1005055227255710">-moodright-</a></div>
+                    <div class="region"><i class="fa fa-location-arrow mr-2" aria-hidden="true"></i><span th:text="${profile.getProvince()}"></span></div>
+                    <div class="birthday"><i class="fa fa-birthday-cake mr-2" aria-hidden="true"></i><span th:text="${#dates.format(profile.getBirthday(), 'yyyy年MM月dd日')}"></span></div>
+                        <div class="mail"><i class="fa fa-envelope mr-2" aria-hidden="true"></i><span th:text="${profile.getEmail()}"></span></div>
+                    <div class="description"><i class="fa fa-link mr-2" aria-hidden="true"></i><a th:href="@{${profile.getWebsiteLink()}}" th:text="${profile.getWebsiteLink()}"></a></div>
+                    <div class="github"><i class="fa fa-github mr-2" aria-hidden="true"></i><a th:href="@{${profile.getGithubLink()}}" th:text="${profile.getGithubLink()}"></a></div>
+                    <div class="weibo"><i class="fa fa-weibo mr-2" aria-hidden="true"></i><a th:href="@{${profile.getWeiboLink()}}" th:text="${profile.getWeiboLink()}"></a></div>
                 </div>
             </div>
             <!-- 主页面右侧内容 -->

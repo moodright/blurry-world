@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>更新头像</title>
+    <title>外部链接管理</title>
     <!-- favicon -->
     <link rel="icon" th:href="@{/images/favicon.ico}"/>
     <!-- bootstrap.css -->
@@ -66,6 +66,7 @@
             border-bottom: 1px solid #e1e2e5;
         }
 
+
         /* 右侧内容栏 */
         .right-content {
             width: 900px;
@@ -86,60 +87,64 @@
             border-top-left-radius: 7px;
             border-top-right-radius: 7px;
         }
-        .right-content form {
-            display: flex;
-            justify-content: start;
-            flex-wrap: wrap;
-        }
-        .right-content .choose-avatar {
-            width: 50%;
-            height: 350px;
-            text-align: center;
-        }
-        .right-content .choose-avatar label {
-            width: 180px;
-            height: 180px;
-            background: #f1f2f5;
-            border: 1px solid #e5e9ef;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 60px;
-            margin-left: 100px;
-            padding-top: 50px;
-            color: #6d757a;
-        }
-        .right-content .current-avatar {
-            width: 50%;
-            height: 350px;
-            text-align: center;
-            padding-top: 90px;
-            padding-right: 150px;
-            border-left: 1px solid #e5e9ef;
-        }
-        .right-content .current-avatar img {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            border: 1px solid #e6eaf0;
-        }
-        .right-content .current-avatar p {
-            padding-top: 20px;
-            color: #99a2aa;
-            font-size: 25px;
-        }
-        .right-content .confirm-btn {
+        .right-content .setting-info .github {
             width: 100%;
-            height: 20px;
-            text-align: center;
-            border-top: 1px solid #e6eaf0;
-            padding-top: 20px;
-            margin-top: 20px;
+            height: 60px;
+            padding-top: 15px;
+            padding-left: 100px;
         }
-        .right-content .confirm-btn p {
-            font-size: 15px;
-            color: #99a2aa;
+        .right-content .setting-info .github input {
+            width: 300px;
+            border-radius: 5px;
+            outline: none;
+            padding: 5px 7px;
+            border: 1px solid #bfcbd9;
         }
-        .right-content .confirm-btn input {
+        .right-content .setting-info .github input:focus {
+            border-color: #20a0ff;
+        }
+        .right-content .setting-info .personal-website {
+            width: 100%;
+            height: 60px;
+            padding-top: 15px;
+            padding-left: 82px;
+        }
+        .right-content .setting-info .personal-website input {
+            width: 300px;
+            border-radius: 5px;
+            outline: none;
+            padding: 5px 7px;
+            border: 1px solid #bfcbd9;
+        }
+        .right-content .setting-info .weibo input:focus {
+            border-color: #20a0ff;
+        }
+        .right-content .setting-info .weibo {
+            width: 100%;
+            height: 60px;
+            padding-top: 15px;
+            padding-left: 105px;
+            padding-bottom: 80px;
+            border-bottom: 1px solid #e1e2e5;
+        }
+        .right-content .setting-info .weibo input {
+            width: 300px;
+            border-radius: 5px;
+            outline: none;
+            padding: 5px 7px;
+            border: 1px solid #bfcbd9;
+        }
+        .right-content .setting-info .weibo input:focus {
+            border-color: #20a0ff;
+        }
+        /* 确认按钮 */
+        .right-content .setting-info .confirm-btn {
+            width: 100%;
+            padding-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        .right-content .setting-info .confirm-btn input {
             width: 100px;
         }
         /* 页脚 */
@@ -153,9 +158,9 @@
     </style>
 </head>
 <body>
-    <!-- 用户导航栏 -->
-    <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
-    <!-- 主界面 -->
+<!-- 用户导航栏 -->
+<div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
+<!-- 主界面 -->
     <div class="main">
         <!-- 主页面头部 -->
         <div th:replace="~{/commons/user-personal-center/header :: header}"></div>
@@ -176,7 +181,7 @@
                         <i class="fa fa-user-circle-o mr-2"></i>我的头像
                     </a>
                 </div>
-                <div class="setting-outside-link">
+                <div class="setting-avatar-link">
                     <a th:href="@{/account/link}">
                         <i class="fa fa-link mr-2" aria-hidden="true"></i>外部链接
                     </a>
@@ -205,21 +210,21 @@
             </div>
             <!-- 右侧内容栏 -->
             <div class="right-content">
-                <p class="title">我的头像</p>
-                <form enctype="multipart/form-data" action="/account/avatar/update" method="post">
-                    <div class="choose-avatar">
-                        <label for="avatar">
-                            <i class="fa fa-file-image-o fa-3x" aria-hidden="true"></i>
-                            <p>选择图片</p>
-                        </label>
-                        <input type="file" id="avatar" style="display: none" name="avatar">
+                <p class="title">外部链接</p>
+                <form class="setting-info" method="post" action="/account/link/update">
+                    <div class="github">
+                        <label for="github">github：</label>
+                        <input id="github" name="github" placeholder="https://github.com/..." th:value="${profile.getGithubLink()}">
                     </div>
-                    <div class="current-avatar">
-                        <img class="current-avatar-img" th:src="${session.user.avatar}?:('/images/DefaultAvatar.png')" />
-                        <p class="current-avatar-title">当前头像</p>
+                    <div class="personal-website">
+                        <label for="personal-website">个人网页：</label>
+                        <input id="personal-website" name="personal-website" placeholder="您的网站域名" th:value="${profile.getWebsiteLink()}">
+                    </div>
+                    <div class="weibo">
+                        <label for="weibo">weibo：</label>
+                        <input id="weibo" name="weibo" placeholder="https://weibo.com/p/..." th:value="${profile.getWeiboLink()}">
                     </div>
                     <div class="confirm-btn">
-                        <p>请选择图片上传：大小180*180像素支持JPG、PNG等格式，图片需小于2M</p>
                         <input type="submit" class="btn btn-primary" role="button" value="更新">
                     </div>
                 </form>
@@ -231,27 +236,10 @@
         </div>
     </div>
 
+
     <!-- jquery-3.5.1.js -->
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
     <!-- bootstrap.bundle.js -->
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
-    <script>
-        // 显示更新后的头像
-        $('#avatar').change(function() {
-            // Jquery对象转换为DOM对象
-            var inputAvatarFile = $(this)[0].files[0];
-            // 创建一个阅读器对象
-            var reader = new FileReader();
-            // 读取头像文件流
-            reader.readAsDataURL(inputAvatarFile);
-            // 上述代码加载完再运行函数代码，否则图片未加载完下面的代码就有可能执行完了
-            reader.onload = function() {
-                // reader.result: 新头像文件流
-                // console.log(reader.result)
-                $('.current-avatar-img').attr('src', reader.result);
-                $('.current-avatar-title').text('更新后的头像');
-            };
-        })
-    </script>
 </body>
 </html>
