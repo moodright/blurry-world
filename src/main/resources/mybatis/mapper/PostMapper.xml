@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodright.blurryworld.mapper.PostMapper">
+    <resultMap id="postResultMap" type="Post">
+        <id property="postId" column="post_id" />
+        <result property="authorId" column="author_id" />
+        <result property="postTitle" column="post_title" />
+        <result property="postType" column="post_type" />
+        <result property="postDescription" column="post_description" />
+        <result property="postContent" column="post_content" />
+        <result property="postCover" column="post_cover" />
+        <result property="postComments" column="post_comments" />
+        <result property="postLikes" column="post_likes" />
+        <result property="postCreateTime" column="post_create_time" />
+        <result property="postUpdateTime" column="post_update_time" />
+        <result property="postReleaseTime" column="post_release_time" />
+        <result property="postStatus" column="post_status" />
+    </resultMap>
+
+    <!-- 创建文章 -->
+    <insert id="addPost" parameterType="Post">
+        insert into `post`
+        (`author_id`,`post_title`,`post_type`,`post_description`,`post_content`,`post_create_time`,`post_update_time`,`post_release_time`)
+        values
+        (#{authorId}, #{postTitle}, #{postType}, #{postDescription}, #{postContent}, #{postCreateTime}, #{postUpdateTime}, #{postReleaseTime})
+    </insert>
+
+    <!-- 根据文章编号更新文章 -->
+    <update id="updatePostByPostId" parameterType="Post">
+        update `post`
+        <set>
+            <if test="postTitle != null">
+                `post_title` = #{posttitle},
+            </if>
+            <if test="postType != null">
+                `post_type` = #{postType},
+            </if>
+            <if test="postDescription != null">
+                `post_description` = #{postDescription},
+            </if>
+            <if test="postContent != null">
+                `post_content` = #{postContent},
+            </if>
+            <if test="postCover != null">
+                `post_cover` = #{postCover},
+            </if>
+            <if test="postVisits != null">
+                `post_visits` = #{postVisits},
+            </if>
+            <if test="postComments != null">
+                `post_comments` = #{postComments},
+            </if>
+            <if test="postLikes != null">
+                `post_likes` = #{postLikes},
+            </if>
+            <if test="postUpdateTime != null">
+                `post_update_time` = #{postUpdateTime},
+            </if>
+            <if test="postReleaseTime != null">
+                `post_release_time` = #{postReleaseTime},
+            </if>
+            <if test="postStatus != null">
+                `post_status` = #{postStatus},
+            </if>
+        </set>
+        where `post_id` = #{postId}
+    </update>
+
+    <!-- 根据文章编号查询文章 -->
+    <select id="queryPostByPostId" parameterType="Integer" resultMap="postResultMap">
+        select * from `post`
+        where `post_id` = #{postId}
+    </select>
+
+    <!-- 根据作者编号查询该作者的全部文章 -->
+    <select id="queryAllPostsByUserId" parameterType="Integer" resultMap="postResultMap">
+        select * from `post`
+        where `author_id` = #{authorId}
+    </select>
+
+</mapper>

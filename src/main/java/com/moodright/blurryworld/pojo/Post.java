@@ -13,6 +13,7 @@ import java.util.Date;
  * @author moodright
  * @date 2021/3/7
  */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,13 +31,14 @@ public class Post {
      */
     private String postTitle;
     /**
-     * 文章别名
+     * 文章类型
+     * 默认值：0
      */
-    private String postAlias;
+    private int postType = 0;
     /**
      * 文章摘要
      */
-    private String postSummary;
+    private String postDescription;
     /**
      * 文章内容
      */
@@ -45,19 +47,19 @@ public class Post {
      * 文章封面图
      * 默认值：null
      */
-    private String postCoverPicture;
+    private String postCover;
     /**
      * 文章浏览次数
      */
-    private Integer postViewCount;
+    private Integer postVisits;
     /**
      * 文章评论次数
      */
-    private Integer postCommentCount;
+    private Integer postComments;
     /**
      * 文章点赞次数
      */
-    private Integer postLikeCount;
+    private Integer postLikes;
     /**
      * 文章创建时间
      * 格式要求：Timestamp
@@ -67,7 +69,7 @@ public class Post {
      * 文章上次更新时间
      * 格式要求：Timestamp
      */
-    private Date postLastUpdateTime;
+    private Date postUpdateTime;
     /**
      * 文章定时发布时间
      * 格式要求：Timestamp
@@ -78,6 +80,6 @@ public class Post {
      * 正常：false 已删除：true
      * 默认值：false
      */
-    private Boolean postIsDeleted;
+    private Boolean postStatus;
 
 }
