@@ -1,11 +1,15 @@
 package com.moodright.blurryworld.controller.user;
 
+import com.moodright.blurryworld.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,14 +22,19 @@ import java.util.Map;
 @RequestMapping("post")
 public class PostManagementController {
 
-    Map<String, Object> post = new HashMap<>();
+    PostService postService;
+
+    @Autowired
+    public void setPostService(PostService postService) {
+        this.postService = postService;
+    }
 
     /**
      * 编写文章
      * @return 编辑文章页面模板
      */
     @GetMapping
-    public String editPostPage() {
+    public String editPost() {
 
         return "/user/post-management/edit-post";
     }
@@ -37,12 +46,18 @@ public class PostManagementController {
      * @return 显示文章Mapping
      */
     @PostMapping("write")
-    public String writePost(@RequestParam("post-title")String title, @RequestParam("editormd-markdown-doc")String content) {
-        System.out.println("title=>" + title);
-        System.out.println("content=>" + content);
+    public String writePost(@RequestParam("post-title")String title,
+                            @RequestParam("editormd-markdown-doc")String content,
+                            @RequestParam("tags")String tags) {
+//        System.out.println("title=>" + title);
+//        System.out.println("content=>" + content);
+        // 输出标签测试
+        String[] split = tags.split(";");
+        for (int i = 0; i < split.length ; i++) {
+            System.out.println(split[i]);
+        }
         // 封装文章数据
-        post.put("title", title);
-        post.put("content", content);
+
 
         return "redirect:/post/read";
     }
@@ -54,7 +69,6 @@ public class PostManagementController {
      */
     @GetMapping("read")
     public String displayPost(Model model) {
-        model.addAttribute("post", post);
         return "/user/post-management/display-post";
     }
 

@@ -6112,8 +6112,7 @@ a.close.disabled {
   -ms-flex-align: center;
   align-items: center;
   -ms-flex-pack: end;
-  /*justify-content: flex-end;*/
-  justify-content: left;
+  justify-content: flex-end;
   padding: 0.75rem;
   border-top: 1px solid #dee2e6;
   border-bottom-right-radius: calc(0.3rem - 1px);

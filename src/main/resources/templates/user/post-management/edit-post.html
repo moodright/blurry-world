@@ -61,6 +61,102 @@
             margin: 0 5px;
             box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
         }
+
+        /* 文章发布模态框 */
+        .modal-body {
+            height: 500px;
+        }
+        .post-type {
+            width: 100%;
+            height: 60px;
+            padding: 10px 0;
+        }
+        .post-type label {
+            color: rgba(0,0,0,.85);
+            font-size: 14px;
+        }
+        .post-type select {
+            width: 40%;
+            height: 40px;
+            padding: 4px 11px;
+            border-radius: 4px;
+            border: 1px solid #d9d9d9;
+            color: rgba(0,0,0,.65);
+            outline: none;
+            font-size: 14px;
+        }
+        .post-type select:focus {
+            border-color: #40a9ff;
+        }
+        .post-release-time {
+            width: 100%;
+            height: 60px;
+            padding: 10px 0;
+        }
+        .post-release-time label {
+            color: rgba(0,0,0,.85);
+            font-size: 14px;
+        }
+        .post-release-time input {
+            width: 40%;
+            height: 40px;
+            padding: 4px 11px;
+            border-radius: 4px;
+            border: 1px solid #d9d9d9;
+            color: rgba(0,0,0,.65);
+            outline: none;
+            font-size: 14px;
+        }
+        .post-release-time input:focus {
+            border-color: #40a9ff;
+        }
+        .tags {
+            width: 100%;
+            height: 70px;
+            padding: 10px 0;
+        }
+        .tags .tags-title {
+            padding-left: 27px;
+            color: rgba(0,0,0,.85);
+            font-size: 14px;
+        }
+        .tags .tag {
+            width: 40%;
+            height: 40px;
+            padding: 4px 11px;
+            border-radius: 4px;
+            border: 1px solid #d9d9d9;
+            color: rgba(0,0,0,.65);
+            outline: none;
+            font-size: 14px;
+        }
+        .tags .tag:focus {
+            border-color: #40a9ff;
+        }
+        .tags .tag-list {
+            width: 85%;
+            height: 80px;
+            margin-left: 72px;
+            margin-top: 10px;
+        }
+        .tags .tag-list div {
+            width: auto;
+            height: 30px;
+            display: inline-block;
+            background: #e8e8e8;
+            border-radius: 4px;
+            padding: 2px 2px;
+            margin-right: 10px;
+            margin-top: 3px;
+            color: rgba(0,0,0,.65);
+        }
+        .tags .tag-list div a {
+            margin-left: 5px;
+            float: right;
+        }
+        .tags .tag-list div a:hover {
+            color: #40a9ff;
+        }
     </style>
 </head>
 <body>
@@ -80,10 +176,52 @@
         </div>
         <!-- 确认按钮 -->
         <div class="confirm-btn">
-            <input type="submit" class="btn btn-primary" role="button" value="发布">
+            <input class="btn btn-primary" role="button" value="发布" data-toggle="modal" data-target="#postArticle">
             <input class="btn btn-danger" role="button" value="保存">
-            <!-- 文章发布模态框 -->
-
+        </div>
+        <!-- 文章发布模态框 -->
+        <div class="modal fade" id="postArticle" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="font-weight: bold">文章设置</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="post-type">
+                            <label for="post-type">文章类别：</label>
+                            <select id="post-type" name="postType">
+                                <option value="0" selected>默认</option>
+                                <option value="1">动漫</option>
+                                <option value="2">游戏</option>
+                                <option value="3">影视</option>
+                                <option value="4">生活</option>
+                                <option value="5">兴趣</option>
+                                <option value="6">科技</option>
+                            </select>
+                        </div>
+                        <div class="post-release-time">
+                            <label for="post-release-time">发表时间：</label>
+                            <input type="datetime-local" id="post-release-time" name="postReleaseTime">
+                        </div>
+                        <div class="tags">
+                            <!-- 隐藏域传标签值 -->
+                            <input type="hidden" id="post-tags-hidden" name="tags">
+                            <span class="tags-title">标签：</span>
+                            <input class="tag" name="post-tags" id="post-tags" placeholder="输入需要添加的标签并按回车" onkeydown="return avoidEnter($(this).val())">
+                            <div class="tag-list" id="tag-list">
+<!--                                <div>SpringBoot<a onclick="deleteTag($(this))"><i class="fa fa-times"></i></a></div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">发布</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 
@@ -120,6 +258,51 @@
                codeFold: true
            });
         });
+        /**
+         * 拒绝input标签回车时提交表单
+         * @param tagValue 当前标签对象的value
+         */
+        function avoidEnter(tagValue) {
+            if(window.event.keyCode == 13) {
+                addTags(tagValue);
+                return false;
+            }
+        }
+        /**
+         * 添加标签
+         * @param tagValue 当前标签对象的value
+         */
+        function addTags(tagValue) {
+            // 创建标签元素
+            var div = document.createElement("div");
+            div.innerHTML = tagValue + '<a onclick="deleteTag($(this))"><i class="fa fa-times"></i></a>';
+            // 相同标签判断
+            var taglist = $('#tag-list').children();
+            for (let i = 0; i < taglist.length; i++) {
+                if(taglist[i].innerText === tagValue){
+                    // 清空输入框
+                    $('#post-tags').val('');
+                    alert('请勿输入重复的标签');
+                    return true;
+                }
+            }
+            // 值为空则不添加进父元素
+            if(tagValue !== '') {
+                $('#tag-list').append(div);
+                // 值写入隐藏域中并用分号分隔
+                $('#post-tags-hidden').val($('#post-tags-hidden').val() + tagValue + ';');
+            }
+            // 清空输入框
+            $('#post-tags').val('');
+        }
+
+        /**
+         * 删除标签
+         * @param tag 当前标签对象
+         */
+        function deleteTag(tag) {
+            tag.parent().remove();
+        }
     </script>
 </body>
 </html>
