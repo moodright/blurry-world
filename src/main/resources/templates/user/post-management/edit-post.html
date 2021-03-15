@@ -66,6 +66,7 @@
         .modal-body {
             height: 500px;
         }
+        /* 文章类型 */
         .post-type {
             width: 100%;
             height: 60px;
@@ -88,6 +89,7 @@
         .post-type select:focus {
             border-color: #40a9ff;
         }
+        /* 文章发布时间 */
         .post-release-time {
             width: 100%;
             height: 60px;
@@ -110,6 +112,7 @@
         .post-release-time input:focus {
             border-color: #40a9ff;
         }
+        /* 添加标签 */
         .tags {
             width: 100%;
             height: 70px;
@@ -138,6 +141,7 @@
             height: 80px;
             margin-left: 72px;
             margin-top: 10px;
+            border-bottom: 1px solid #d9d9d9;
         }
         .tags .tag-list div {
             width: auto;
@@ -157,6 +161,52 @@
         .tags .tag-list div a:hover {
             color: #40a9ff;
         }
+        /* 摘要和封面图 */
+        .footer {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            justify-content: start;
+            margin-top: 85px;
+        }
+        /* 摘要 */
+        .footer .post-description {
+            width: 50%;
+            height: 200px;
+            display: flex;
+            justify-content: start;
+            position: relative;
+            left: 23px;
+        }
+        .footer .post-description label {
+            color: rgba(0,0,0,.85);
+            font-size: 14px;
+        }
+        .footer .post-description textarea {
+            border-radius: 4px;
+            border: 1px solid #d9d9d9;
+            color: rgba(0,0,0,.65);
+            font-size: 14px;
+            width: 310px;
+            outline: none;
+            resize: none;
+            padding: 5px 5px;
+        }
+        .footer .post-description textarea:focus {
+            outline: none;
+            border-color: #40a9ff;
+        }
+        /* 封面图 */
+        .footer .post-cover {
+            position: relative;
+            left: 25px;
+            width: 40%;
+            height: 200px;
+        }
+        .footer .post-cover label img {
+            width: 310px;
+            height: 200px;
+        }
     </style>
 </head>
 <body>
@@ -164,7 +214,7 @@
     <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
 
     <!-- 文章编辑界面 -->
-    <form method="post" action="/post/write">
+    <form method="post" action="/post/write" enctype="multipart/form-data">
         <!-- 文章标题 -->
         <div class="post-title">
             <input type="text" name="post-title" placeholder="请输入文章标题" required>
@@ -213,6 +263,18 @@
                             <input class="tag" name="post-tags" id="post-tags" placeholder="输入需要添加的标签并按回车" onkeydown="return avoidEnter($(this).val())">
                             <div class="tag-list" id="tag-list">
 <!--                                <div>SpringBoot<a onclick="deleteTag($(this))"><i class="fa fa-times"></i></a></div>-->
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div class="post-description">
+                                <span>摘要：</span>
+                                <textarea id="post-description" placeholder="如不填写，会从文章中自动截取"></textarea>
+                            </div>
+                            <div class="post-cover">
+                                <label for="cover">
+                                    <img th:src="@{/images/defaultPostCover.png}" id="cover-img" />
+                                </label>
+                                <input id="cover" type="file" name="cover" style="display: none">
                             </div>
                         </div>
                     </div>
@@ -303,6 +365,24 @@
         function deleteTag(tag) {
             tag.parent().remove();
         }
+
+        /**
+         * 显示更新后的头像
+         */
+        $('#cover').change(function() {
+            // Jquery对象转换为DOM对象
+            var inputAvatarFile = $(this)[0].files[0];
+            // 创建一个阅读器对象
+            var reader = new FileReader();
+            // 读取头像文件流
+            reader.readAsDataURL(inputAvatarFile);
+            // 上述代码加载完再运行函数代码，否则图片未加载完下面的代码就有可能执行完了
+            reader.onload = function() {
+                // reader.result: 新头像文件流
+                console.log(reader.result)
+                $('#cover-img').attr('src', reader.result);
+            };
+        })
     </script>
 </body>
 </html>

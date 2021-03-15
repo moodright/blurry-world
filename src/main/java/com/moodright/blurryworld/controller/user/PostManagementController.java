@@ -1,6 +1,7 @@
 package com.moodright.blurryworld.controller.user;
 
 import com.moodright.blurryworld.service.PostService;
+import com.moodright.blurryworld.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,14 +51,20 @@ public class PostManagementController {
     @PostMapping("write")
     public String writePost(@RequestParam("post-title")String title,
                             @RequestParam("editormd-markdown-doc")String content,
-                            @RequestParam("tags")String tags) {
-//        System.out.println("title=>" + title);
-//        System.out.println("content=>" + content);
+                            @RequestParam("postReleaseTime")String releaseTime,
+                            @RequestParam("postType")String type,
+                            @RequestParam("tags")String tags,
+                            @RequestParam("cover")MultipartFile cover) {
+        System.out.println("title=>" + title);
+        System.out.println("content=>" + content);
+        System.out.println("releaseTime => " + DateUtil.releaseTimeStringToDate(releaseTime));
+        System.out.println("postType=>>" + type);
         // 输出标签测试
         String[] split = tags.split(";");
         for (int i = 0; i < split.length ; i++) {
             System.out.println(split[i]);
         }
+        System.out.println("cover=>" + cover);
         // 封装文章数据
 
 

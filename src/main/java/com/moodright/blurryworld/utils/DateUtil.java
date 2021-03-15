@@ -28,4 +28,17 @@ public class DateUtil {
         }
         return date;
     }
+    public static Date releaseTimeStringToDate(String releaseTime) {
+        Date date = null;
+        // 字符串处理
+        releaseTime = releaseTime.replace("T", " ");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            date = formatter.parse(releaseTime);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
 }
