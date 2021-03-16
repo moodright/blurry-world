@@ -574,18 +574,18 @@
         <div class="middle-main">
             <!-- 文章标题 -->
             <div class="post-header">
-                <div class="post-title">美国辍学囚犯破解数学难题，在狱中成为加州大学博士“特招生”</div>
+                <div class="post-title" th:text="${post.getPostTitle()}"></div>
                 <div class="post-info">
-                    <span class="category">人文历史</span>
-                    <span class="post-date">2021-3-8 14:24</span>
-                    <span class="reading-count">2688阅读</span>
-                    <span class="like-count">1855点赞</span>
-                    <span class="comment-count">30评论</span>
+                    <span class="category" th:text="${post.getPostType()}==0?'默认':(${post.getPostType()}==1?'动漫':(${post.getPostType()}==2?'游戏':(${post.getPostType()}==3?'影视':(${post.getPostType()}==4?'生活':(${post.getPostType()}==5?'兴趣':'科技')))))"></span>
+                    <span class="post-date" th:text="${#dates.format(post.getPostUpdateTime(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span class="reading-count" th:text="${post.getPostVisits()} + '阅读'"></span>
+                    <span class="like-count" th:text="${post.getPostLikes()} + '点赞'"></span>
+                    <span class="comment-count" th:text="${post.getPostComments()} + '评论'"></span>
                 </div>
             </div>
             <!-- 文章内容 -->
             <div class="post-content" id="doc-content">
-                <textarea style="display: none;" th:text="${post.get('content')}"></textarea>
+                <textarea style="display: none;" th:text="${post.getPostContent()}"></textarea>
             </div>
             <!-- 文章页脚 -->
             <div class="post-footer">
@@ -603,7 +603,7 @@
                 <!-- 点赞收藏、分享 -->
                 <div class="post-action">
                     <div class="like">
-                        <a href="#" title="点赞"><i class="fa fa-thumbs-up mr-2" aria-hidden="true"></i>251</a>
+                        <a href="#" title="点赞"><i class="fa fa-thumbs-up mr-2" aria-hidden="true"></i><span th:text="${post.getPostLikes()}"></span></a>
                         <a href="#" title="收藏"><i class="fa fa-star mr-2" aria-hidden="true"></i>850</a>
                     </div>
                     <div class="share">
@@ -630,7 +630,7 @@
                 <!-- 发表评论 -->
                 <div class="comment-send">
                     <!-- 用户头像 -->
-                    <img class="user-avatar" th:src="@{/images/BillieEilishDonuts.png}" />
+                    <img class="user-avatar" th:src="${session.user.getAvatar()}?:('/images/DefaultAvatar.png')" />
                     <textarea id="user-send-comment" class="user-comment" placeholder="发条友善的评论"></textarea>
                     <button type="submit" class="comment-submit" onmouseout="focusOutCommentTextarea()" onmouseover="focusCommentTextarea()">发表评论</button>
                 </div>
@@ -656,7 +656,7 @@
                             <button onclick="displayReplyBlock('comment-reply-1')">回复</button>
                             <div class="comment-reply" style="display: none" id="comment-reply-1">
                                 <!-- 回复者头像 -->
-                                <img class="reply-avatar" th:src="@{/images/BillieEilishDonuts.png}" />
+                                <img class="reply-avatar" th:src="${session.user.getAvatar()}?:('/images/DefaultAvatar.png')" />
                                 <!-- 回复内容 -->
                                 <textarea class="reply-comment" placeholder="回复@moodright："></textarea>
                                 <button href="#" class="reply-button">发表评论</button>
@@ -735,7 +735,7 @@
                             <!-- 用户回复 -->
                             <div class="comment-reply" style="display: none" id="comment-reply-2">
                                 <!-- 用户头像 -->
-                                <img class="reply-avatar" th:src="@{/images/BillieEilishDonuts.png}" />
+                                <img class="reply-avatar" th:src="${session.user.getAvatar()}?:('/images/DefaultAvatar.png')" />
                                 <!-- 用户回复内容 -->
                                 <textarea class="reply-comment" placeholder="回复@moodright："></textarea>
                                 <button href="#" class="reply-button">发表评论</button>
@@ -754,11 +754,11 @@
             <div class="author">
                 <!-- 作者头像 -->
                 <div class="author-avatar">
-                    <a href="#"><img th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                    <a href="#"><img th:src="${author.getAvatar()}?:('/images/DefaultAvatar.png')" /></a>
                 </div>
                 <!-- 作者具体信息 -->
                 <div class="author-info">
-                    <div class="author-username"><a href="#">moodright</a></div>
+                    <div class="author-username"><a th:href="'/space/' + ${author.getUserId()}" th:text="${author.getNickname()}?:${author.getUsername()}"></a></div>
                     <div class="follower-readingCount">
                         <span class="follower">粉丝：<span>3456</span></span>
                         <span>阅读：<span>5.3万</span></span>

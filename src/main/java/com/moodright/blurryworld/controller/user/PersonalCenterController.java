@@ -1,7 +1,9 @@
 package com.moodright.blurryworld.controller.user;
 
+import com.moodright.blurryworld.pojo.Post;
 import com.moodright.blurryworld.pojo.Profile;
 import com.moodright.blurryworld.pojo.User;
+import com.moodright.blurryworld.service.PostService;
 import com.moodright.blurryworld.service.ProfileService;
 import com.moodright.blurryworld.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 个人中心控制器
@@ -25,6 +25,7 @@ public class PersonalCenterController {
 
     UserService userService;
     ProfileService profileService;
+    PostService postService;
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -34,6 +35,11 @@ public class PersonalCenterController {
     @Autowired
     public void setProfileService(ProfileService profileService) {
         this.profileService = profileService;
+    }
+
+    @Autowired
+    public void setPostService(PostService postService) {
+        this.postService = postService;
     }
 
     /**
@@ -46,8 +52,14 @@ public class PersonalCenterController {
         // ------------------------------
         User user = userService.queryUserById(userId);
         Profile profile = profileService.queryProfileById(userId);
+        List<Post> posts = postService.queryAllPostsByUserId(userId);
         model.addAttribute("user", user);
         model.addAttribute("profile", profile);
+        if(posts.isEmpty()) {
+            model.addAttribute("posts", null);
+        }else {
+            model.addAttribute("posts", posts);
+        }
         return "/user/personal-center/postlist";
     }
 

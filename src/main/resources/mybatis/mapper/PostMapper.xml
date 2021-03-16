@@ -11,6 +11,7 @@
         <result property="postDescription" column="post_description" />
         <result property="postContent" column="post_content" />
         <result property="postCover" column="post_cover" />
+        <result property="postVisits" column="post_visits" />
         <result property="postComments" column="post_comments" />
         <result property="postLikes" column="post_likes" />
         <result property="postCreateTime" column="post_create_time" />

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 
 /**
  * 账号管理控制器
@@ -133,7 +134,9 @@ public class AccountManagementController {
         // 获取当前会话的用户对象
         User user = (User)session.getAttribute("user");
         // 定义保存在本地的头像文件名
-        String saveFileName = user.getUserId() + ".png";
+        // 待办：保存文件名没有变化，会导致浏览器取用缓存里的头像，而不显示更新后的头像资源
+        //      暂时将命名规则更改为动态的
+        String saveFileName = user.getUserId() + "" + new Date().getTime() +  ".png";
         // 创建路径
         Path path = Paths.get(avatarUploadConfig.getStorage(), saveFileName);
         // 写入文件比特流至具体位置

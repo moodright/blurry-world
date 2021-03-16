@@ -137,6 +137,14 @@
             height: auto;
             margin-top: -10px;
         }
+        .main .right-main-content-noposts-default {
+            width: 68%;
+            height: 453px;
+            margin-top: 1px;
+            background: white;
+            border-radius: 7px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+        }
         /* 文章 */
         .right-main-content .category-content {
             width: 100%;
@@ -175,7 +183,7 @@
             cursor: default;
             position: relative;
             top: 15px;
-            right: 80px;
+            right: 55px;
         }
         /* 删除模态框组件 */
         .right-main-content .category-content .content-header .delete-chat {
@@ -293,14 +301,18 @@
                     <div class="weibo"><i class="fa fa-weibo mr-2" aria-hidden="true"></i><a th:href="@{${profile.getWeiboLink()}}" th:text="${profile.getWeiboLink()}"></a></div>
                 </div>
             </div>
+            <!-- 账号没有文章时默认页面 -->
+            <div th:if="${posts}==null" class="right-main-content-noposts-default">
+                <div style="text-align: center;position: relative;top: 40%;color: #909399;font-size: 25px">该用户暂时没有发表文章</div>
+            </div>
             <!-- 主页面右侧内容 -->
-            <div class="right-main-content">
+            <div th:if="${posts}!=null" class="right-main-content">
                 <!-- 文章信息 -->
-                <div class="category-content">
+                <div th:each="post : ${posts}" class="category-content">
                     <div class="content-header">
-                        <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
-                        <a href="#" class="user-nickname">moodright</a>
-                        <a class="post-create-time" disabled>2021-12-12 14:14</a>
+                        <a href="#"><img class="user-logo" th:src="${user.getAvatar()}?:'/images/defaultAvatar.png'" /></a>
+                        <a href="#" class="user-nickname" th:text="${user.getNickname()}==null?${user.getUsername()}:(${user.getNickname()} == ''?${user.getUsername()}:${user.getNickname()})"></a>
+                        <a class="post-create-time" disabled th:text="${#dates.format(post.getPostUpdateTime(), 'yyyy-MM-dd HH:mm:ss')}"></a>
                         <a href="#" class="delete-chat" data-toggle="modal" data-target="#delete-chat1">&times;</a>
                         <!-- 删除动态模态框 -->
                         <div class="modal fade" id="delete-chat1" tabindex="-1">
@@ -319,103 +331,16 @@
                         </div>
                     </div>
                     <div class="content-main">
-                        <a href="#" class="card">
+                        <a th:href="'/post/read/' + ${post.getPostId()}" class="card">
                             <img class="card-post-img" th:src="@{/images/cloud.png}" />
-                            <div class="card-post-header">
-                                [彩虹六号:围攻] Tom Clancy's Rainbow Six Siege
-                            </div>
-                            <div class="card-post-describe">
-                                一次的结果不能说明全部，在准备比赛时，永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利。
-                                永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利一些机会来取得胜利一些机得胜利...
-                            </div>
+                            <div class="card-post-header" th:text="${post.getPostTitle()}"></div>
+                            <div class="card-post-describe" th:text="${post.getPostDescription()}"></div>
                         </a>
                     </div>
                     <div class="content-footer">
                         <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
-                        <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
-                        <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
-                    </div>
-                </div>
-                <!-- 文章信息 -->
-                <div class="category-content">
-                    <div class="content-header">
-                        <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
-                        <a href="#" class="user-nickname">moodright</a>
-                        <a class="post-create-time" disabled>2021-12-12 14:14</a>
-                        <a href="#" class="delete-chat" data-toggle="modal" data-target="#delete-chat2">&times;</a>
-                        <!-- 删除动态模态框 -->
-                        <div class="modal fade" id="delete-chat2" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <p style="font-weight: bold;font-size: 20px">删除文章</p>
-                                        <p style="font-size: 15px">确定要删除此篇文章吗？</p>
-                                        <div class="chat-delete-btn">
-                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">删除</a>
-                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">取消</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content-main">
-                        <a href="#" class="card">
-                            <img class="card-post-img" th:src="@{/images/cloud.png}" />
-                            <div class="card-post-header">
-                                [彩虹六号:围攻] Tom Clancy's Rainbow Six Siege
-                            </div>
-                            <div class="card-post-describe">
-                                一次的结果不能说明全部，在准备比赛时，永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利。
-                                永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利一些机会来取得胜利一些机得胜利...
-                            </div>
-                        </a>
-                    </div>
-                    <div class="content-footer">
-                        <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
-                        <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
-                        <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
-                    </div>
-                </div>
-                <!-- 文章信息 -->
-                <div class="category-content">
-                    <div class="content-header">
-                        <a href="#"><img class="user-logo" th:src="@{/images/BillieEilishDonuts.png}" /></a>
-                        <a href="#" class="user-nickname">moodright</a>
-                        <a class="post-create-time" disabled>2021-12-12 14:14</a>
-                        <a href="#" class="delete-chat" data-toggle="modal" data-target="#delete-chat3">&times;</a>
-                        <!-- 删除动态模态框 -->
-                        <div class="modal fade" id="delete-chat3" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <p style="font-weight: bold;font-size: 20px">删除文章</p>
-                                        <p style="font-size: 15px">确定要删除此篇文章吗？</p>
-                                        <div class="chat-delete-btn">
-                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">删除</a>
-                                            <a href="#" class="btn btn-primary" role="button" data-dismiss="modal">取消</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content-main">
-                        <a href="#" class="card">
-                            <img class="card-post-img" th:src="@{/images/cloud.png}" />
-                            <div class="card-post-header">
-                                [彩虹六号:围攻] Tom Clancy's Rainbow Six Siege
-                            </div>
-                            <div class="card-post-describe">
-                                一次的结果不能说明全部，在准备比赛时，永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利。
-                                永夜安港的干员们总是比其他人更会抓住一些机会来取得胜利一些机会来取得胜利一些机得胜利...
-                            </div>
-                        </a>
-                    </div>
-                    <div class="content-footer">
-                        <a href="#"><i class="fa fa-share-square-o mr-2" aria-hidden="true"></i>转发</a>
-                        <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i>999</a>
-                        <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i>9999</a>
+                        <a href="#"><i class="fa fa-commenting-o mr-2" aria-hidden="true"></i><span th:text="${post.getPostComments()}"></span></a>
+                        <a href="#"><i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i><span th:text="${post.getPostLikes()}"></span></a>
                     </div>
                 </div>
             </div>

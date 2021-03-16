@@ -63,7 +63,7 @@
             <img th:src="${user.getAvatar()}?:('/images/DefaultAvatar.png')" />
         </div>
         <div class="user-info">
-            <div class="nickname" th:text="${user.getNickname() == null?session.user.username:session.user.nickname}"></div>
+            <div class="nickname" th:text="${user.getNickname() == null?user.username:user.nickname}"></div>
             <div class="signature" th:text="${profile.getSignature()}"></div>
         </div>
         <div class="user-footer">
