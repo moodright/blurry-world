@@ -518,12 +518,12 @@
             width: 150px;
         }
 
-
-
-
-
-
-
+        /* 代码块样式 */
+        pre {
+            background: #f5f2f0;
+            /*text-shadow: 0 1px #fff;*/
+            border-radius: 4px;
+        }
 
     </style>
 </head>
@@ -777,12 +777,12 @@
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
     <!-- bootstrap.bundle.js -->
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
-    <!-- editor.md js -->
-    <script th:src="@{/lib/editormd/editormd.js}"></script>
     <!-- marked.min.js -->
     <script th:src="@{/lib/editormd/lib/marked.min.js}"></script>
     <!-- prettify.min.js -->
     <script th:src="@{/lib/editormd/lib/prettify.min.js}"></script>
+    <!-- editor.md js -->
+    <script th:src="@{/lib/editormd/editormd.js}"></script>
     <script>
         // 将Editormd中的字符文本渲染成HTML标签文本
         $(function() {

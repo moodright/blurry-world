@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodright.blurryworld.mapper.DraftMapper">
+    <resultMap id="draftResultMap" type="Draft">
+        <id property="authorId" column="author_id" />
+        <result property="draftTitle" column="draft_title" />
+        <result property="draftContent" column="draft_content" />
+    </resultMap>
+    
+    <!-- 添加草稿 -->
+    <insert id="addDraft" parameterType="Draft">
+        insert into `draft`
+        (`author_id`)
+        values
+        (#{authorId})
+    </insert>
+    
+    <!-- 根据作者编号删除草稿 -->
+    <delete id="deleteDraftByAuthorID" parameterType="Integer">
+        delete from `draft`
+        where `author_id` = #{authorId}
+    </delete>
+
+    <!-- 根据作者编号查询草稿 -->
+    <select id="queryDraftByAuthorId" parameterType="Integer" resultMap="draftResultMap">
+        select * from `draft`
+        where `author_id` = #{authorId}
+    </select>
+
+    <!-- 根据作者编号更新草稿 -->
+    <update id="updateDraftByAuthorId" parameterType="Draft">
+        update `draft`
+        <set>
+            <if test="draftTitle != null">
+                `draft_title` = #{draftTitle},
+            </if>
+            <if test="draftContent != null">
+                `draft_content` = #{draftContent},
+            </if>
+        </set>
+        where `author_id` = #{authorId}
+    </update>
+
+</mapper>

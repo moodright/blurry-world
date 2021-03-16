@@ -207,6 +207,23 @@
             width: 310px;
             height: 200px;
         }
+
+        /* 自定义弹出框 */
+        #alert-success {
+            width: 380px;
+            height: 50px;
+            text-align: center;
+            padding-top: 10px;
+            font-size: 16px;
+            position: fixed;
+            top: 20%;
+            left: 38%;
+            z-index: 99;
+            background: #f0f9eb;
+            color: #67c23a;
+            border-radius: 4px;
+            border: 1px solid #ebeef5;
+        }
     </style>
 </head>
 <body>
@@ -217,17 +234,21 @@
     <form method="post" action="/post/write" enctype="multipart/form-data">
         <!-- 文章标题 -->
         <div class="post-title">
-            <input type="text" name="post-title" placeholder="请输入文章标题" required>
+            <input type="text" name="post-title" id="post-title" placeholder="请输入文章标题" th:value="${draft.getDraftTitle()}" required>
         </div>
         <!-- editormd -->
         <div id="editormd">
             <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
-            <textarea style="display: none" name="editormd-markdown-doc"></textarea>
+            <textarea style="display: none" name="editormd-markdown-doc" id="post-content" th:text="${draft.getDraftContent()}"></textarea>
         </div>
         <!-- 确认按钮 -->
         <div class="confirm-btn">
             <input class="btn btn-primary" role="button" value="发布" data-toggle="modal" data-target="#postArticle">
-            <input class="btn btn-danger" role="button" value="保存">
+            <input class="btn btn-danger" role="button" onclick="saveDraft()" value="保存">
+            <!-- 保存成功提示框 -->
+            <div id="alert-success" style="display: none"><i class="fa fa-check mr-2"></i>保存成功！</div>
+            <!-- 保存失败提示框 -->
+            <div id="alert-failed" style="display: none"></div>
         </div>
         <!-- 文章发布模态框 -->
         <div class="modal fade" id="postArticle" tabindex="-1">
@@ -367,7 +388,7 @@
         }
 
         /**
-         * 显示更新后的头像
+         * 显示更新后的壁纸
          */
         $('#cover').change(function() {
             // Jquery对象转换为DOM对象
@@ -383,6 +404,37 @@
                 $('#cover-img').attr('src', reader.result);
             };
         })
+
+        /**
+         * 自定义弹出框
+         */
+        function alertSuccess() {
+            // 淡入
+            $("#alert-success").fadeIn();
+            // 1.5s后淡出
+            var t = setTimeout(function() {
+                $("#alert-success").fadeOut();
+            }, 1500);
+
+        }
+
+        /**
+         * 保存草稿
+         */
+        function saveDraft() {
+            $.ajax({
+                type: "POST",
+                url: "post/save",
+                data: "post-title=" + $('#post-title').val() + "&post-content=" + $('#post-content').val(),
+                success: function(msg) {
+                    if(msg === '1') {
+                        alertSuccess();
+                    }else {
+                        alert("保存失败！");
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
