@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>创作中心</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
+    <style>
+        /* 根元素规定宽高比, 页面失去响应式的灵活性 */
+        html, body {
+            height: 725px;
+            width: 1519px;
+            background: #fafafa;
+        }
+        /* 创作中心导航栏 */
+        .create-center-nav-bar {
+            width: 100%;
+            height: 60px;
+            background: white;
+            box-shadow: 0 2px 10px 0 rgb(0 0 0.5%);
+            padding: 0 100px 0 32px;
+            display: flex;
+            justify-content: space-between;
+        }
+        /* 左侧导航链接 */
+        /* Logo链接 */
+        .create-center-nav-bar .left-nav-link-logo {
+            text-decoration: none;
+            color: #409EFF;
+            font-weight: lighter;
+            font-size: 25px;
+            position: relative;
+            top: 10px;
+        }
+        /* 主页面链接 */
+        .create-center-nav-bar .left-nav-link-main {
+            margin-left: 32px;
+            font-size: 14px;
+            color: #757575;
+            text-decoration: none;
+            position: relative;
+            top: 8px;
+        }
+        /* 右侧导航链接 */
+        .create-center-nav-bar .right-nav {
+            display: flex;
+            justify-content: end;
+        }
+        /* 个人信息 */
+        .create-center-nav-bar .right-nav .head-icon {
+            width: 250px;
+            height: 35px;
+            margin-top: 10px;
+            border-right: 1px solid #C0C4CC;
+            display: flex;
+            justify-content: start;
+        }
+        .create-center-nav-bar .right-nav .head-icon .head-info {
+            width: 200px;
+            height: 35px;
+            padding: 8px 10px;
+            margin-left: 6px;
+            border: 1px solid rgba(250,142,87,.43);
+            border-radius: 14px;
+            background: rgba(250,142,87,.1);
+            font-size: 12px;
+            color: #fa8e57;
+            cursor: pointer;
+        }
+        .create-center-nav-bar .right-nav .head-icon img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #ccc;
+            border: 1px solid #f4f4f4;
+        }
+        /* 个人信息选项卡 */
+        .create-center-nav-bar .right-nav .head-icon .option-card {
+            width: 150px;
+            height: 175px;
+            background: white;
+            padding: 10px 0;
+            position: absolute;
+            top: 55px;
+            left: 67%;
+            border-radius: 4px;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .3s, visibility .3s;
+        }
+        .create-center-nav-bar .right-nav .head-icon:hover .option-card {
+            opacity: 1;
+            visibility: visible;
+        }
+        .option-card .option {
+            width: 100%;
+            height: 35px;
+            font-size: 15px;
+            text-align: center;
+            padding: 5px 0;
+        }
+        .option-card .option:hover {
+            background: #FAFAFA;
+        }
+        .option-card .option a {
+            text-decoration: none;
+            color: #6C6E72;
+        }
+        .option-card .option i {
+            color: #6C6E72;
+        }
+        .option-separator {
+            width: 80%;
+            height: 1px;
+            background: #C0C4CC;
+            margin: 0 auto;
+            position: relative;
+            top: 14px;
+        }
+        /* 消息 */
+        .create-center-nav-bar .right-nav .message-center {
+            width: 100px;
+            height: 35px;
+            margin-top: 10px;
+            padding-top: 5px;
+            text-align: center;
+        }
+        .create-center-nav-bar .right-nav .message-center a {
+            color: #6C6E72;
+        }
+        /* 消息选项卡 */
+        .message-option-card {
+            width: 150px;
+            height: 160px;
+            background: white;
+            padding: 10px 0;
+            position: absolute;
+            top: 55px;
+            left: 85%;
+            border-radius: 4px;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .3s, visibility .3s;
+        }
+        .message-center:hover .message-option-card {
+            opacity: 1;
+            visibility: visible;
+        }
+        .message-option-card .message-option {
+            width: 100%;
+            height: 35px;
+            font-size: 15px;
+            text-align: center;
+            padding: 5px 0;
+        }
+        .message-option-card .message-option:hover {
+            background: #FAFAFA;
+        }
+        .message-option-card .message-option a {
+            text-decoration: none;
+            color: #6C6E72;
+        }
+        .message-option-card .message-option i {
+            color: #6C6E72;
+        }
+    </style>
+</head>
+<body>
+    <!-- 创作中心导航栏 -->
+    <div class="create-center-nav-bar">
+        <div class="left-nav">
+            <a class="left-nav-link-logo" href="#">Blurry World创作中心</a>
+            <a class="left-nav-link-main" href="#">首页</a>
+        </div>
+        <div class="right-nav">
+            <!-- 头像选项卡 -->
+            <div class="head-icon">
+                <a class="head-icon-logo" href="#"><img th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                <div class="option-card">
+                    <div class="option">
+                        <a href="#"><i class="fa fa-user-o mr-3"></i>个人中心</a>
+                    </div>
+                    <div class="option">
+                        <a href="#"><i class="fa fa-pencil-square-o mr-3"></i>稿件管理</a>
+                    </div>
+                    <div class="option">
+                        <a href="#"><i class="fa fa-commenting-o mr-3"></i>互动管理</a>
+                    </div>
+                    <div class="option-separator"></div>
+                    <div class="option" style="margin-top:15px;">
+                        <a href="#"><i class="fa fa-sign-out mr-3"></i>退出登录</a>
+                    </div>
+                </div>
+                <div class="head-info">
+                    来到Blurry World的第397天
+                </div>
+            </div>
+            <!-- 消息中心 -->
+            <div class="message-center">
+                <a href="#"><i class="fa fa-envelope-o"></i></a>
+                <div class="message-option-card">
+                    <div class="message-option">
+                        <a href="#">回复我的</a>
+                    </div>
+                    <div class="message-option">
+                        <a href="#">@我的</a>
+                    </div>
+                    <div class="message-option">
+                        <a href="#">系统通知</a>
+                    </div>
+                    <div class="message-option">
+                        <a href="#">我的消息</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
