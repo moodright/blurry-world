@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>内容管理</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
+    <style>
+        /* 根元素规定宽高比, 页面失去响应式的灵活性 */
+        html, body {
+            height: 725px;
+            width: 1519px;
+            background: #fafafa;
+            overflow: hidden;
+        }
+        /* 右侧内容栏 */
+        .right-main {
+            width: auto;
+            height: 600px;
+            /* 固定位置 */
+            margin-left: 200px;
+            margin-top: 60px;
+            padding: 20px 70px;
+        }
+        /* 文章管理 */
+        .right-main .post-management {
+            width: 100%;
+            height: 600px;
+            background: white;
+            border-radius: 3px;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+        }
+        /* 头部 */
+        .post-management .header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 25px;
+            border-bottom: 1px solid #e7e7e7;
+        }
+        .header .title {
+            color: #00a1d6;
+            font-weight: bolder;
+        }
+        .header .post-search-bar {
+            border: 1px solid #e7e7e7;
+            font-size: 12px;
+            color: #505050;
+            border-radius: 4px;
+            padding: 3px;
+        }
+        .post-search-bar .input-search {
+            outline: none;
+            border: none;
+        }
+        .post-search-bar .input-search:focus {
+            outline: none;
+        }
+        /* 中部 */
+        .post-management .middle {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        /* 文章类型 */
+        .middle .type-selection {
+            width: 100px;
+            height: 30px;
+            border: 1px solid #e7e7e7;
+            border-radius: 4px;
+            color: #505050;
+            text-align: center;
+            padding-top: 2px;
+            margin-top: 10px;
+            position: relative;
+            right: 50px;
+            cursor: pointer;
+        }
+        .middle .type-options {
+            width: 100px;
+            height: auto;
+            background: white;
+            padding: 10px 0;
+            border-radius: 4px;
+            box-shadow:0 2px 12px 0 #e7e7e7;
+            position: absolute;
+            top: 28px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .3s, visibility .3s;
+        }
+        .middle .type-selection:hover .type-options{
+            opacity: 1;
+            visibility: visible;
+        }
+        .middle .type-options .type-option {
+            display: block;
+            width: 100%;
+            height: 30px;
+            font-size: 15px;
+            text-align: center;
+            padding: 5px 0;
+            text-decoration: none;
+            color: #6C6E72;
+        }
+        .middle .type-options .type-option:hover {
+            background: #FAFAFA;
+        }
+        /* 排序 */
+        .middle .order-selection {
+            width: 100px;
+            height: 30px;
+            border: 1px solid #e7e7e7;
+            border-radius: 4px;
+            color: #505050;
+            text-align: center;
+            padding-top: 2px;
+            margin-top: 10px;
+            position: relative;
+            right: 25px;
+            cursor: pointer;
+
+        }
+        .middle .order-options {
+            width: 100px;
+            height: auto;
+            background: white;
+            padding: 10px 0;
+            border-radius: 4px;
+            box-shadow:0 2px 12px 0 #e7e7e7;
+            position: absolute;
+            top: 28px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .3s, visibility .3s;
+        }
+        .middle .order-selection:hover .order-options{
+            opacity: 1;
+            visibility: visible;
+        }
+        .middle .order-options .order-option {
+            display: block;
+            width: 100%;
+            height: 30px;
+            font-size: 15px;
+            text-align: center;
+            padding: 5px 0;
+            text-decoration: none;
+            color: #6C6E72;
+        }
+        .middle .order-options .order-option:hover {
+            background: #FAFAFA;
+        }
+        /* 内容 */
+        .post-management .content {
+            width: 100%;
+            height: 490px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .content .text {
+            position: relative;
+            top: 120px;
+            font-size: 25px;
+            font-weight: 400;
+            color: #C0C4CC;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <!-- 创作中心导航栏 -->
+    <div th:replace="~{/commons/create-center/nav-bar :: create-center-nav-bar}"></div>
+
+    <!-- 主页面左侧导航栏 -->
+    <div th:replace="~{/commons/create-center/left-main-nav-bar :: left-main-nav-bar}"></div>
+
+    <!-- 主页面右侧内容栏 -->
+    <div class="right-main">
+        <div class="post-management">
+            <div class="header">
+                <div class="title">
+                    文章管理
+                </div>
+                <div class="post-search-bar">
+                    <input type="text" class="input-search" placeholder="搜索文章">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="middle">
+                <div class="type-selection">
+                    选择分类
+                    <div class="type-options">
+                        <a href="#" class="type-option">动漫</a>
+                        <a href="#" class="type-option">游戏</a>
+                        <a href="#" class="type-option">影视</a>
+                        <a href="#" class="type-option">生活</a>
+                        <a href="#" class="type-option">兴趣</a>
+                    </div>
+                </div>
+                <div class="order-selection">
+                    排序
+                    <div class="order-options">
+                        <a href="#" class="order-option">时间</a>
+                        <a href="#" class="order-option">评论</a>
+                        <a href="#" class="order-option">点赞</a>
+                        <a href="#" class="order-option">阅读</a>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="text">
+                    <i class="fa fa-2x fa-paper-plane-o mb-3" aria-hidden="true"></i>
+                    <p>还没有文章, 快去创作吧!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

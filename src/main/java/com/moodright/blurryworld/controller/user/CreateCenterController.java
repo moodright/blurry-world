@@ -16,4 +16,11 @@ public class CreateCenterController {
     public String createCenterIndex() {
         return "/user/post-management/create-center";
     }
+
+    @GetMapping("post")
+    public String postManagementIndex() {
+        return "/user/post-management/post-management";
+    }
+
+
 }
