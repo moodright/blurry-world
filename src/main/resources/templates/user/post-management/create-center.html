@@ -16,213 +16,378 @@
             width: 1519px;
             background: #fafafa;
         }
-        /* 创作中心导航栏 */
-        .create-center-nav-bar {
-            width: 100%;
-            height: 60px;
-            background: white;
-            box-shadow: 0 2px 10px 0 rgb(0 0 0.5%);
-            padding: 0 100px 0 32px;
-            display: flex;
-            justify-content: space-between;
+        /* 右侧内容栏 */
+        .right-main {
+            width: auto;
+            height: 900px;
+            /* 固定位置 */
+            margin-left: 200px;
+            margin-top: 60px;
         }
-        /* 左侧导航链接 */
-        /* Logo链接 */
-        .create-center-nav-bar .left-nav-link-logo {
-            text-decoration: none;
-            color: #409EFF;
-            font-weight: lighter;
-            font-size: 25px;
-            position: relative;
-            top: 10px;
-        }
-        /* 主页面链接 */
-        .create-center-nav-bar .left-nav-link-main {
-            margin-left: 32px;
-            font-size: 14px;
-            color: #757575;
-            text-decoration: none;
-            position: relative;
-            top: 8px;
-        }
-        /* 右侧导航链接 */
-        .create-center-nav-bar .right-nav {
-            display: flex;
-            justify-content: end;
-        }
-        /* 个人信息 */
-        .create-center-nav-bar .right-nav .head-icon {
-            width: 250px;
-            height: 35px;
-            margin-top: 10px;
-            border-right: 1px solid #C0C4CC;
+        /* 第一板块 */
+        .right-main .first-section {
             display: flex;
             justify-content: start;
+            width: 100%;
+            height: 230px;
+            padding: 0 65px;
         }
-        .create-center-nav-bar .right-nav .head-icon .head-info {
-            width: 200px;
-            height: 35px;
-            padding: 8px 10px;
-            margin-left: 6px;
-            border: 1px solid rgba(250,142,87,.43);
-            border-radius: 14px;
-            background: rgba(250,142,87,.1);
+        /* 轮播图 */
+        .first-section .main-carousel {
+            width: 50%;
+            height: 200px;
+            margin-top: 18px;
+        }
+        .carousel-pic img{
+            height: 200px;
+        }
+        /* 待定区域 */
+        .first-section .tbd-block {
+            width: 50%;
+            height: 200px;
+            margin-top: 18px;
+            margin-left: 10px;
+            background: white;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+        }
+
+        /* 第二板块 */
+        .second-section {
+            width: 100%;
+            height: 300px;
+            padding: 10px 65px;
+        }
+        .second-section .post-info {
+            width: 100%;
+            height: 280px;
+            background: white;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+        }
+        .post-info .header {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 25px;
+        }
+        .post-info .header .title {
+            text-decoration: none;
+            font-weight: 700;
+            color: #00a1d6;
+        }
+        .post-info .header .precise {
+            color: #999;
+            text-decoration: none;
+        }
+        .post-info .body {
+            width: 100%;
+            height: 220px;
+            padding: 0 53px;
+            display: flex;
+            justify-content: start;
+            flex-wrap: wrap;
+        }
+        .data-link {
+            display: block;
+            width: 350px;
+            height: 100px;
+            background: #F7FCFE;
+            margin: 0 5px;
+            padding: 0 50px;
+            text-decoration: none!important;
+        }
+        .data-link .data-title {
+            width: 100%;
+            height: 25px;
             font-size: 12px;
-            color: #fa8e57;
-            cursor: pointer;
+            color: #757575;
+            padding: 5px 0;
         }
-        .create-center-nav-bar .right-nav .head-icon img {
-            width: 35px;
-            height: 35px;
+        .data-link .data-count {
+            width: 100%;
+            height: 40px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #00a1d6;
+        }
+        .data-link .data-yesterday {
+            width: 100%;
+            height: 25px;
+            font-size: 12px;
+            color: #757575;
+        }
+        .data-link .data-yesterday span {
+            color: #00a1d6;
+        }
+
+        /* 第三板块 */
+        .third-section {
+            width: 100%;
+            height: 300px;
+            padding: 10px 65px;
+        }
+        .third-section .comment-recently {
+            width: 100%;
+            height: 280px;
+            background: white;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+        }
+        .comment-recently .header {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 25px;
+        }
+        .comment-recently .header .title {
+            text-decoration: none;
+            font-weight: 700;
+            color: #00a1d6;
+        }
+        .comment-recently .header .precise {
+            color: #999;
+            text-decoration: none;
+        }
+        .comment-recently .body {
+            padding: 0 53px;
+            display: flex;
+            justify-content: start;
+            flex-wrap: wrap;
+        }
+        .comment-recently .body .comment-link {
+            width: 350px;
+            height: 200px;
+            background: #F7FCFE;
+            margin: 0 5px;
+            display: flex;
+            justify-content: start;
+            text-decoration: none;
+        }
+        .comment-link .avatar {
+            width: 10%;
+            height: 100%;
+            text-align: center;
+            padding-top: 10px;
+            padding-left: 5px;
+        }
+        .comment-link img {
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: #ccc;
-            border: 1px solid #f4f4f4;
         }
-        /* 个人信息选项卡 */
-        .create-center-nav-bar .right-nav .head-icon .option-card {
-            width: 150px;
-            height: 175px;
-            background: white;
-            padding: 10px 0;
-            position: absolute;
-            top: 55px;
-            left: 67%;
-            border-radius: 4px;
-            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity .3s, visibility .3s;
-        }
-        .create-center-nav-bar .right-nav .head-icon:hover .option-card {
-            opacity: 1;
-            visibility: visible;
-        }
-        .option-card .option {
-            width: 100%;
-            height: 35px;
-            font-size: 15px;
-            text-align: center;
-            padding: 5px 0;
-        }
-        .option-card .option:hover {
-            background: #FAFAFA;
-        }
-        .option-card .option a {
-            text-decoration: none;
-            color: #6C6E72;
-        }
-        .option-card .option i {
-            color: #6C6E72;
-        }
-        .option-separator {
+        .comment-link .comment-info {
             width: 80%;
-            height: 1px;
-            background: #C0C4CC;
-            margin: 0 auto;
-            position: relative;
-            top: 14px;
+            height: 100%;
         }
-        /* 消息 */
-        .create-center-nav-bar .right-nav .message-center {
-            width: 100px;
-            height: 35px;
-            margin-top: 10px;
-            padding-top: 5px;
-            text-align: center;
-        }
-        .create-center-nav-bar .right-nav .message-center a {
-            color: #6C6E72;
-        }
-        /* 消息选项卡 */
-        .message-option-card {
-            width: 150px;
-            height: 160px;
-            background: white;
-            padding: 10px 0;
-            position: absolute;
-            top: 55px;
-            left: 85%;
-            border-radius: 4px;
-            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity .3s, visibility .3s;
-        }
-        .message-center:hover .message-option-card {
-            opacity: 1;
-            visibility: visible;
-        }
-        .message-option-card .message-option {
+        .comment-link .commenter {
             width: 100%;
-            height: 35px;
+            height: 20%;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 5px;
             font-size: 15px;
-            text-align: center;
-            padding: 5px 0;
+            color: #757575;
         }
-        .message-option-card .message-option:hover {
-            background: #FAFAFA;
+        .commenter .username {
+            margin-right: 15px;
         }
-        .message-option-card .message-option a {
-            text-decoration: none;
-            color: #6C6E72;
+        .comment-link .comment-content {
+            width: 100%;
+            height: 55%;
+            border-bottom: 1px solid #C0C4CC;
         }
-        .message-option-card .message-option i {
-            color: #6C6E72;
+        .comment-content .content {
+            width: 100%;
+            height: 70%;
+            font-size: 17px;
+            color: black;
         }
+        .comment-link .comment-footer {
+            width: 100%;
+            height: 25%;
+            padding-top: 10px;
+            color: #757575;
+            font-size: 14px;
+        }
+
+
+
+
     </style>
 </head>
 <body>
     <!-- 创作中心导航栏 -->
-    <div class="create-center-nav-bar">
-        <div class="left-nav">
-            <a class="left-nav-link-logo" href="#">Blurry World创作中心</a>
-            <a class="left-nav-link-main" href="#">首页</a>
-        </div>
-        <div class="right-nav">
-            <!-- 头像选项卡 -->
-            <div class="head-icon">
-                <a class="head-icon-logo" href="#"><img th:src="@{/images/BillieEilishDonuts.png}" /></a>
-                <div class="option-card">
-                    <div class="option">
-                        <a href="#"><i class="fa fa-user-o mr-3"></i>个人中心</a>
+    <div th:replace="~{/commons/create-center/nav-bar :: create-center-nav-bar}"></div>
+
+    <!-- 主页面左侧导航栏 -->
+    <div th:replace="~{/commons/create-center/left-main-nav-bar :: left-main-nav-bar}"></div>
+
+    <!-- 主页面右侧内容栏 -->
+    <div class="right-main">
+        <div class="first-section">
+            <!-- 轮播图 -->
+            <div id="carouselControls" class="main-carousel carousel slide" data-ride="carousel" style="box-shadow:3px 3px 10px rgba(0, 0, 0, .12);">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselControls" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselControls" data-slide-to="1"></li>
+                    <li data-target="#carouselControls" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item carousel-pic active">
+                        <img src="/images/carousel-default.png" class="d-block w-100" alt="default carousel pic">
                     </div>
-                    <div class="option">
-                        <a href="#"><i class="fa fa-pencil-square-o mr-3"></i>稿件管理</a>
+                    <div class="carousel-item carousel-pic">
+                        <img src="/images/carousel-default.png" class="d-block w-100" alt="default carousel pic">
                     </div>
-                    <div class="option">
-                        <a href="#"><i class="fa fa-commenting-o mr-3"></i>互动管理</a>
-                    </div>
-                    <div class="option-separator"></div>
-                    <div class="option" style="margin-top:15px;">
-                        <a href="#"><i class="fa fa-sign-out mr-3"></i>退出登录</a>
+                    <div class="carousel-item carousel-pic">
+                        <img src="/images/carousel-default.png" class="d-block w-100" alt="default carousel pic">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Third slide label</h5>
+                            <p>Some representative placeholder content for the first slide.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="head-info">
-                    来到Blurry World的第397天
+                <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <!-- 待定板块 -->
+            <div class="tbd-block">
+
+            </div>
+        </div>
+        <div class="second-section">
+            <!-- 文章数据 -->
+            <div class="post-info">
+                <div class="header">
+                    <a href="#" class="title">文章数据</a>
+                    <a href="#" class="precise">具体数据 ></a>
+                </div>
+                <div class="body">
+                    <a href="#" class="data-link">
+                        <div class="data-title">粉丝数 ></div>
+                        <div class="data-count">959</div>
+                        <div class="data-yesterday">昨日<span class="ml-2">--</span></div>
+                    </a>
+                    <a href="#" class="data-link">
+                        <div class="data-title">阅读数 ></div>
+                        <div class="data-count">959</div>
+                        <div class="data-yesterday">昨日<span class="ml-2">--</span></div>
+                    </a>
+                    <a href="#" class="data-link">
+                        <div class="data-title">评论数 ></div>
+                        <div class="data-count">959</div>
+                        <div class="data-yesterday">昨日<span class="ml-2">--</span></div>
+                    </a>
+                    <a href="#" class="data-link">
+                        <div class="data-title">点赞数 ></div>
+                        <div class="data-count">959</div>
+                        <div class="data-yesterday">昨日<span class="ml-2">+6</span></div>
+                    </a>
+                    <a href="#" class="data-link">
+                        <div class="data-title">收藏数 ></div>
+                        <div class="data-count">9999</div>
+                        <div class="data-yesterday">昨日<span class="ml-2">+99</span></div>
+                    </a>
+                    <a href="#" class="data-link">
+                        <div class="data-title">分享数 ></div>
+                        <div class="data-count">959</div>
+                        <div class="data-yesterday">昨日<span class="ml-2">--</span></div>
+                    </a>
                 </div>
             </div>
-            <!-- 消息中心 -->
-            <div class="message-center">
-                <a href="#"><i class="fa fa-envelope-o"></i></a>
-                <div class="message-option-card">
-                    <div class="message-option">
-                        <a href="#">回复我的</a>
-                    </div>
-                    <div class="message-option">
-                        <a href="#">@我的</a>
-                    </div>
-                    <div class="message-option">
-                        <a href="#">系统通知</a>
-                    </div>
-                    <div class="message-option">
-                        <a href="#">我的消息</a>
-                    </div>
+        </div>
+        <div class="third-section">
+            <!-- 近期评论 -->
+            <div class="comment-recently">
+                <div class="header">
+                    <a href="#" class="title">评论</a>
+                    <a href="#" class="precise">更多 ></a>
+                </div>
+                <div class="body">
+                    <a href="#" class="comment-link">
+                        <div class="avatar">
+                            <img src="/images/BillieEilishDonuts.png">
+                        </div>
+                        <div class="comment-info">
+                            <div class="commenter">
+                                <div class="username">
+                                    -moodright-
+                                </div>
+                                <div class="date">
+                                    2021-03-17 17:51
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                <div class="content">
+                                    回复 @爱吃肠粉的鱼 :佐！
+                                </div>
+                            </div>
+                            <div class="comment-footer">
+                                来源：<span>[Montage]A MEMORY WITH FRIE...</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="comment-link">
+                        <div class="avatar">
+                            <img src="/images/BillieEilishDonuts.png">
+                        </div>
+                        <div class="comment-info">
+                            <div class="commenter">
+                                <div class="username">
+                                    -moodright-
+                                </div>
+                                <div class="date">
+                                    2021-03-17 17:51
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                <div class="content">
+                                    回复 @爱吃肠粉的鱼 :佐！
+                                </div>
+                            </div>
+                            <div class="comment-footer">
+                                来源：<span>[Montage]A MEMORY WITH FRIE...</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="comment-link">
+                        <div class="avatar">
+                            <img src="/images/BillieEilishDonuts.png">
+                        </div>
+                        <div class="comment-info">
+                            <div class="commenter">
+                                <div class="username">
+                                    -moodright-
+                                </div>
+                                <div class="date">
+                                    2021-03-17 17:51
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                <div class="content">
+                                    回复 @爱吃肠粉的鱼 :佐！
+                                </div>
+                            </div>
+                            <div class="comment-footer">
+                                来源：<span>[Montage]A MEMORY WITH FRIE...</span>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
+
 
 
 

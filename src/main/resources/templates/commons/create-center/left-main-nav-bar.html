@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>创作中心主页面左侧导航栏</title>
+</head>
+<body>
+    <!-- 主页面左侧导航栏 -->
+    <div class="left-main-nav-bar" th:fragment="left-main-nav-bar">
+        <style>
+            /* 左侧导航栏 */
+            .left-main-nav-bar {
+                height: 100%;
+                width: 200px;
+                background: #ffffff;
+                border-right: 1px solid #e5e9ef;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                z-index: 1;
+            }
+            .left-main-nav-bar .create-post {
+                width: 100%;
+                height: 90px;
+                padding-top: 20px;
+            }
+            .create-post a {
+                display: block;
+                margin: 0 auto;
+                padding-top: 7px;
+                width: 136px;
+                height: 40px;
+                background: #00a1d6;
+                color: white;
+                font-size: 16px;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .create-post a:hover {
+                background: #1AABDA;
+            }
+            .left-nav-link {
+                display: block;
+                width: 100%;
+                height: 50px;
+                padding-left: 35px;
+                padding-right: 24px;
+                padding-top: 15px;
+                color: #6C6E72;
+                cursor: pointer;
+            }
+            .left-nav-link:hover {
+                text-decoration: none;
+                background: #FAFAFA;
+                color: #00a1d6;
+            }
+            .left-main-nav-bar .left-main-separator {
+                width: 80%;
+                height: 1px;
+                background: #f4f4f4;
+                margin: 5px auto;
+            }
+        </style>
+        <div class="create-post">
+            <a href="#"><i class="fa fa-paper-plane-o mr-2"></i>发布文章</a>
+        </div>
+        <a class="left-nav-link">
+            <i class="fa fa-home mr-3"></i>首页</a>
+        </a>
+        <a class="left-nav-link">
+            <i class="fa fa-paper-plane-o mr-3"></i>内容管理</a>
+        </a>
+        <a class="left-nav-link">
+            <i class="fa fa-bar-chart mr-3"></i>数据中心</a>
+        </a>
+        <a class="left-nav-link">
+            <i class="fa fa-user-plus mr-3"></i>粉丝管理</a>
+        </a>
+        <a class="left-nav-link">
+            <i class="fa fa-commenting-o mr-3"></i>互动管理</a>
+        </a>
+        <div class="left-main-separator"></div>
+    </div>
+
+</body>
+</html>
