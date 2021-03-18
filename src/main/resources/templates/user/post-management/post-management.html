@@ -15,12 +15,11 @@
             height: 725px;
             width: 1519px;
             background: #fafafa;
-            overflow: hidden;
         }
         /* 右侧内容栏 */
         .right-main {
             width: auto;
-            height: 600px;
+            height: auto;
             /* 固定位置 */
             margin-left: 200px;
             margin-top: 60px;
@@ -29,7 +28,7 @@
         /* 文章管理 */
         .right-main .post-management {
             width: 100%;
-            height: 600px;
+            height: auto;
             background: white;
             border-radius: 3px;
             box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
@@ -83,6 +82,7 @@
             cursor: pointer;
         }
         .middle .type-options {
+            z-index: 99;
             width: 100px;
             height: auto;
             background: white;
@@ -128,6 +128,7 @@
 
         }
         .middle .order-options {
+            z-index: 99;
             width: 100px;
             height: auto;
             background: white;
@@ -157,20 +158,173 @@
         .middle .order-options .order-option:hover {
             background: #FAFAFA;
         }
-        /* 内容 */
-        .post-management .content {
+        /* 空内容 */
+        .post-management .empty-content {
             width: 100%;
             height: 490px;
             margin-top: 10px;
             text-align: center;
         }
-        .content .text {
+        .empty-content .text {
             position: relative;
             top: 120px;
             font-size: 25px;
             font-weight: 400;
             color: #C0C4CC;
         }
+        /* 内容 */
+        .post-management .content {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+        .content .post-info {
+            margin: 0 auto;
+            width: 95%;
+            height: 145px;
+            display: flex;
+            justify-content: start;
+            padding: 20px 0;
+            border-bottom: 1px solid #e7e7e7;
+        }
+        /* 文章封面 */
+        .post-cover {
+            width: 154px;
+            height: 96px;
+            display: block;
+            border-radius: 4px;
+        }
+        /* 文章信息 */
+        .post-detail {
+            width: 600px;
+            height: 96px;
+        }
+        /* 文章标题 */
+        .post-detail .post-title{
+            width: 100%;
+            height: 30%;
+            padding: 3px 15px;
+        }
+        .post-title a {
+            text-decoration: none;
+            color: #212121;
+        }
+        .post-title a:hover {
+            color: #00a1d6;
+        }
+        /* 发布时间 */
+        .post-detail .post-date {
+            width: 100%;
+            height: 40%;
+            padding: 7px 15px;
+            font-weight: 400;
+            color: #505050;
+        }
+        /* 统计数据 */
+        .post-detail .post-count {
+            width: 100%;
+            height: 30%;
+            padding: 3px 15px;
+            color: #99a2aa;
+        }
+        .post-count span {
+            margin-right: 30px;
+            font-size: 14px;
+        }
+        /* 编辑按钮 */
+        .post-btn {
+            width: 400px;
+            height: 96px;
+            display: flex;
+            justify-content: start;
+        }
+        .post-btn .edit-btn{
+            width: 84px;
+            height: 32px;
+            border: 1px solid #e7e7e7;
+            font-size: 14px;
+            color: #505050;
+            text-align: center;
+            padding: 5px 0;
+            cursor: pointer;
+            position: relative;
+            top: 25px;
+            left: 167px;
+        }
+        .post-btn .edit-btn:hover{
+            border-color: #00a1d6;
+            color: #00a1d6;
+        }
+        .post-btn .delete-btn{
+            width: 84px;
+            height: 32px;
+            border: 1px solid #e7e7e7;
+            font-size: 14px;
+            color: #505050;
+            text-align: center;
+            padding: 5px 0;
+            cursor: pointer;
+            position: relative;
+            top: 25px;
+            left: 180px;
+        }
+        .post-btn .delete-btn:hover{
+            border-color: #00a1d6;
+            color: #00a1d6;
+        }
+        /* 分页 */
+        .pagination {
+            width: 100%;
+            height: 90px;
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 30px  ;
+        }
+        .pagination .pag-btn {
+            width: 60px;
+            height: 40px;
+            border-radius: 2px;
+            border: 1px solid #e7e7e7;
+            text-align: center;
+            padding: 6px 0;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .pag-btn a {
+            text-decoration: none;
+        }
+        .pag-btn:hover{
+            background: #00a1d6;
+            color: white;
+        }
+        .pag-btn:hover a {
+            color: white;
+        }
+        .redirect-page {
+            text-align: right;
+            padding: 7px 0;
+            width: 190px;
+            height: 40px;
+            font-size: 12px;
+            color: #505050;
+        }
+        .redirect-page input {
+            width: 52px;
+            height: 26px;
+            padding: 5px 8px;
+            border: 1px solid #e7e7e7;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #505050;
+            transition: border .2s ease-in-out;
+        }
+        .redirect-page input:focus {
+            outline: none;
+            border: 1px solid #00a1d6;
+        }
+
+
+
 
 
 
@@ -183,7 +337,7 @@
     <!-- 主页面左侧导航栏 -->
     <div th:replace="~{/commons/create-center/left-main-nav-bar :: left-main-nav-bar}"></div>
 
-    <!-- 主页面右侧内容栏 -->
+     主页面右侧内容栏
     <div class="right-main">
         <div class="post-management">
             <div class="header">
@@ -216,10 +370,44 @@
                     </div>
                 </div>
             </div>
+<!--            <div class="empty-content">-->
+<!--                <div class="text">-->
+<!--                    <i class="fa fa-2x fa-paper-plane-o mb-3" aria-hidden="true"></i>-->
+<!--                    <p>还没有文章, 快去创作吧!</p>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="content">
-                <div class="text">
-                    <i class="fa fa-2x fa-paper-plane-o mb-3" aria-hidden="true"></i>
-                    <p>还没有文章, 快去创作吧!</p>
+                <!-- 文章信息 -->
+                <div class="post-info" th:each="post : ${posts}">
+                    <img class="post-cover" th:src="${post.getPostCover()}?:'/images/carousel-default.png'" alt="..." />
+                    <div class="post-detail">
+                        <div class="post-title">
+                            <a th:href="'/post/read/' + ${post.getPostId()}" th:text="${post.getPostTitle()}"></a>
+                        </div>
+                        <div class="post-date" th:text="${#dates.format(post.getPostCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></div>
+                        <div class="post-count">
+                            <i class="fa fa-eye mr-2" aria-hidden="true"></i><span th:text="${post.getPostVisits()}"></span>
+                            <i class="fa fa-commenting-o mr-2" aria-hidden="true"></i><span th:text="${post.getPostComments()}"></span>
+                            <i class="fa fa-thumbs-o-up mr-2" aria-hidden="true"></i><span th:text="${post.getPostLikes()}"></span>
+                            <i class="fa fa-star-o mr-2" aria-hidden="true"></i><span>0</span>
+                            <i class="fa fa-share-square-o mr-2" aria-hidden="true"></i><span>0</span>
+                        </div>
+                    </div>
+                    <div class="post-btn">
+                        <div class="edit-btn"><i class="fa fa-pencil-square-o mr-2"></i>编辑</div>
+                        <div class="delete-btn"><i class="fa fa-trash-o mr-2"></i>删除</div>
+                    </div>
+                </div>
+                <!-- 分页 -->
+                <div class="pagination">
+                    <div class="pag-btn"><a th:href="@{/platform/post}">首页</a></div>
+                    <div th:if="${paginationInfo.get('prevPage') != null}" class="pag-btn"><a th:href="'/platform/post/' + ${paginationInfo.get('prevPage')}">上一页</a></div>
+                    <div th:if="${paginationInfo.get('nextPage') != null}" class="pag-btn"><a th:href="'/platform/post/' + ${paginationInfo.get('nextPage')}">下一页</a></div>
+                    <div class="pag-btn"><a th:href="'/platform/post/' + ${paginationInfo.get('lastPage')}">尾页</a></div>
+                    <div class="redirect-page">
+                        共<span th:text="${paginationInfo.get('totalPagesCount')}"></span>页 / <span th:text="${paginationInfo.get('totalPostsCount')}"></span>个, 跳转至
+                        <input id="forward" type="text"> 页
+                    </div>
                 </div>
             </div>
         </div>
@@ -230,5 +418,17 @@
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
     <!-- bootstrap.bundle.js -->
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script>
+        $(function() {
+            // 跳转页面事件绑定
+           $('#forward').bind('keypress', function(event) {
+               if (event.keyCode === 13) {
+                   if($('#forward').val() >= 1 && $('#forward').val() <= [[${paginationInfo.get('lastPage')}]]) {
+                       window.location.href = "/platform/post/" + $('#forward').val();
+                   }
+               }
+           });
+        });
+    </script>
 </body>
 </html>

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author moodright
@@ -54,6 +56,24 @@ public class PostMapperTests {
         for (Post post : posts) {
             System.out.println(post);
         }
+    }
+
+    @Test
+    public void queryPostsByPaginationTest() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("startIndex", 0);
+        map.put("pageSize", 3);
+        map.put("authorId", 1001);
+        List<Post> posts = postService.queryPostsByPagination(map);
+        for (Post post : posts) {
+            System.out.println(post.getPostId());
+        }
+    }
+
+    @Test
+    public void queryPostsCountByAuthorIdTest() {
+        int i = postService.queryPostsCountByAuthorId(1001);
+        System.out.println(i);
     }
 
 }

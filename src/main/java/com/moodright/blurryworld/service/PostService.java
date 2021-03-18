@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author moodright
@@ -64,5 +65,30 @@ public class PostService implements PostMapper {
     @Override
     public List<Post> queryAllPostsByUserId(Integer authorId) {
         return postMapper.queryAllPostsByUserId(authorId);
+    }
+
+    /**
+     * 分页查询文章
+     *
+     * @param paginationInfo 分页信息
+     *                       startIndex : 起始下标
+     *                       pageSize : 分页数量
+     *                       authorId : 作者编号
+     * @return 文章对象列表
+     */
+    @Override
+    public List<Post> queryPostsByPagination(Map<String, Integer> paginationInfo) {
+        return postMapper.queryPostsByPagination(paginationInfo);
+    }
+
+    /**
+     * 根据作者编号查询文章数量
+     *
+     * @param authorId 作者编号
+     * @return 文章数量
+     */
+    @Override
+    public int queryPostsCountByAuthorId(Integer authorId) {
+        return postMapper.queryPostsCountByAuthorId(authorId);
     }
 }

@@ -23,9 +23,9 @@
     <!-- 创建文章 -->
     <insert id="addPost" parameterType="Post">
         insert into `post`
-        (`author_id`,`post_title`,`post_type`,`post_description`,`post_content`,`post_create_time`,`post_update_time`,`post_release_time`)
+        (`author_id`,`post_title`,`post_type`,`post_description`,`post_content`,`post_create_time`,`post_update_time`,`post_release_time`,`post_cover`)
         values
-        (#{authorId}, #{postTitle}, #{postType}, #{postDescription}, #{postContent}, #{postCreateTime}, #{postUpdateTime}, #{postReleaseTime})
+        (#{authorId}, #{postTitle}, #{postType}, #{postDescription}, #{postContent}, #{postCreateTime}, #{postUpdateTime}, #{postReleaseTime}, #{postCover})
     </insert>
 
     <!-- 根据文章编号更新文章 -->
@@ -78,6 +78,18 @@
     <!-- 根据作者编号查询该作者的全部文章 -->
     <select id="queryAllPostsByUserId" parameterType="Integer" resultMap="postResultMap">
         select * from `post`
+        where `author_id` = #{authorId}
+    </select>
+
+    <!-- 分页查询文章 -->
+    <select id="queryPostsByPagination" parameterType="map" resultMap="postResultMap">
+        select * from `post`
+        where `author_id` = #{authorId}
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <select id="queryPostsCountByAuthorId" parameterType="Integer" resultType="_int">
+        select count(*) from `post`
         where `author_id` = #{authorId}
     </select>
 

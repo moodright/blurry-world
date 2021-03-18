@@ -1,5 +1,6 @@
 package com.moodright.blurryworld.controller.user;
 
+import com.moodright.blurryworld.config.CoverUploadConfig;
 import com.moodright.blurryworld.pojo.Draft;
 import com.moodright.blurryworld.pojo.Post;
 import com.moodright.blurryworld.pojo.User;
@@ -13,6 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -28,6 +34,7 @@ public class PostManagementController {
     PostService postService;
     UserService userService;
     DraftService draftService;
+    CoverUploadConfig coverUploadConfig;
 
     @Autowired
     public void setPostService(PostService postService) {
@@ -40,6 +47,10 @@ public class PostManagementController {
     @Autowired
     public void setDraftService(DraftService draftService) {
         this.draftService = draftService;
+    }
+    @Autowired
+    public void setCoverUploadConfig(CoverUploadConfig coverUploadConfig) {
+        this.coverUploadConfig = coverUploadConfig;
     }
 
     /**
@@ -103,7 +114,7 @@ public class PostManagementController {
                             @RequestParam("tags")String tags,
                             @RequestParam("description")String description,
                             @RequestParam("cover")MultipartFile cover,
-                            HttpSession session) {
+                            HttpSession session) throws IOException {
         // 封装文章数据
         User user = (User)session.getAttribute("user");
         Post post = new Post();
@@ -136,8 +147,15 @@ public class PostManagementController {
 //        }
 
         // 封装文章封面图片
-//        System.out.println("cover=>" + cover);
-
+        if(!cover.isEmpty()) {
+            String saveFileName = user.getUserId() + "" + new Date().getTime() + ".png";
+            Path path = Paths.get(coverUploadConfig.getStorage(), saveFileName);
+            Files.write(path, cover.getBytes());
+            cover.transferTo(Paths.get(coverUploadConfig.getStorage(), saveFileName).toFile());
+            // 封面url
+            String coverUrl = coverUploadConfig.getHost() + coverUploadConfig.getUrlPrefix() + saveFileName;
+            post.setPostCover(coverUrl);
+        }
 
         // 添加文章
         postService.addPost(post);

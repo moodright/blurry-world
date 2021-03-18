@@ -20,6 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private UploadConfig uploadConfig;
     private AvatarUploadConfig avatarUploadConfig;
+    private CoverUploadConfig coverUploadConfig;
 
     @Autowired
     public void setUploadConfig(UploadConfig uploadConfig) {
@@ -28,6 +29,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     public void setAvatarUploadConfig(AvatarUploadConfig avatarUploadConfig) {
         this.avatarUploadConfig = avatarUploadConfig;
+    }
+    @Autowired
+    public void setCoverUploadConfig(CoverUploadConfig coverUploadConfig) {
+        this.coverUploadConfig = coverUploadConfig;
     }
 
     /**
@@ -48,6 +53,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler(uploadConfig.getUrlPrefix() + "**").addResourceLocations("file:" + uploadConfig.getStorage());
         // 本地头像物理位置过滤
         registry.addResourceHandler(avatarUploadConfig.getUrlPrefix() + "**").addResourceLocations("file:" + avatarUploadConfig.getStorage());
+        // 本地文章封面物理位置过滤
+        registry.addResourceHandler(coverUploadConfig.getUrlPrefix() + "**").addResourceLocations("file:" + coverUploadConfig.getStorage());
     }
 
     /**

@@ -55,6 +55,10 @@
                 background: #FAFAFA;
                 color: #00a1d6;
             }
+            .active {
+                background: #FAFAFA;
+                color: #00a1d6;
+            }
             .left-main-nav-bar .left-main-separator {
                 width: 80%;
                 height: 1px;
@@ -63,22 +67,22 @@
             }
         </style>
         <div class="create-post">
-            <a href="#"><i class="fa fa-paper-plane-o mr-2"></i>发布文章</a>
+            <a th:href="@{/post}"><i class="fa fa-paper-plane-o mr-2"></i>发布文章</a>
         </div>
-        <a class="left-nav-link">
+        <a th:class="${#request.getRequestURI()} == '/platform'?'left-nav-link active':'left-nav-link'" th:href="@{/platform}">
             <i class="fa fa-home mr-3"></i>首页</a>
         </a>
+        <a th:class="${#request.getRequestURI()} == '/platform/post'?'left-nav-link active':'left-nav-link'" th:href="@{/platform/post}">
+            <i class="fa fa-paper-plane-o mr-3"></i>稿件管理</a>
+        </a>
         <a class="left-nav-link">
-            <i class="fa fa-paper-plane-o mr-3"></i>内容管理</a>
+            <i class="fa fa-commenting-o mr-3"></i>互动管理</a>
         </a>
         <a class="left-nav-link">
             <i class="fa fa-bar-chart mr-3"></i>数据中心</a>
         </a>
         <a class="left-nav-link">
             <i class="fa fa-user-plus mr-3"></i>粉丝管理</a>
-        </a>
-        <a class="left-nav-link">
-            <i class="fa fa-commenting-o mr-3"></i>互动管理</a>
         </a>
         <div class="left-main-separator"></div>
     </div>

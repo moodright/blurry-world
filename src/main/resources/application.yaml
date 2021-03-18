@@ -34,6 +34,11 @@ upload:
     path:
       storage: E:\\blurryworld\\file\\avatar\\
       host: http://localhost:${server.port}
+  # 文章封面上传路径
+  cover:
+    path:
+      storage: E:\\blurryworld\\file\cover\\
+      host: http://localhost:${server.port}
 
 # MyBatis
 mybatis:

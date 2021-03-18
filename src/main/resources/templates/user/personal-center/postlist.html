@@ -332,7 +332,7 @@
                     </div>
                     <div class="content-main">
                         <a th:href="'/post/read/' + ${post.getPostId()}" class="card">
-                            <img class="card-post-img" th:src="@{/images/cloud.png}" />
+                            <img class="card-post-img" th:src="${post.getPostCover()}?:'/images/cloud.png'" />
                             <div class="card-post-header" th:text="${post.getPostTitle()}"></div>
                             <div class="card-post-describe" th:text="${post.getPostDescription()}"></div>
                         </a>

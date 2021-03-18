@@ -174,20 +174,20 @@
         <div class="right-nav">
             <!-- 头像选项卡 -->
             <div class="head-icon">
-                <a class="head-icon-logo" href="#"><img th:src="@{/images/BillieEilishDonuts.png}" /></a>
+                <a class="head-icon-logo" href="#"><img th:src="${session.user.getAvatar()}" /></a>
                 <div class="option-card">
                     <div class="option">
-                        <a href="#"><i class="fa fa-user-o mr-3"></i>个人中心</a>
+                        <a th:href="@{'/space/' + ${session.user.getUserId()}}"><i class="fa fa-user-o mr-3"></i>个人中心</a>
                     </div>
                     <div class="option">
-                        <a href="#"><i class="fa fa-pencil-square-o mr-3"></i>稿件管理</a>
+                        <a th:href="@{/platform/post}"><i class="fa fa-pencil-square-o mr-3"></i>稿件管理</a>
                     </div>
                     <div class="option">
                         <a href="#"><i class="fa fa-commenting-o mr-3"></i>互动管理</a>
                     </div>
                     <div class="option-separator"></div>
                     <div class="option" style="margin-top:15px;">
-                        <a href="#"><i class="fa fa-sign-out mr-3"></i>退出登录</a>
+                        <a th:href="@{/exit}"><i class="fa fa-sign-out mr-3"></i>退出登录</a>
                     </div>
                 </div>
                 <div class="head-info">
