@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>编辑文章页面</title>
+    <title>编辑文章信息</title>
     <!-- favicon -->
     <link rel="icon" th:href="@{/images/favicon.ico}"/>
     <!-- bootstrap.css -->
@@ -21,7 +21,8 @@
             width: 100%;
             height: 80px;
             padding: 20px 150px;
-            margin: 10px 0;
+            margin-top: 60px;
+            margin-bottom: 5px;
         }
         .post-title input {
             width: 100%;
@@ -207,48 +208,26 @@
             width: 310px;
             height: 200px;
         }
-
-        /* 自定义弹出框 */
-        #alert-success {
-            width: 380px;
-            height: 50px;
-            text-align: center;
-            padding-top: 10px;
-            font-size: 16px;
-            position: fixed;
-            top: 20%;
-            left: 38%;
-            z-index: 99;
-            background: #f0f9eb;
-            color: #67c23a;
-            border-radius: 4px;
-            border: 1px solid #ebeef5;
-        }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
+    <!-- 创作中心导航栏 -->
+    <div th:replace="~{/commons/create-center/nav-bar :: create-center-nav-bar}"></div>
 
     <!-- 文章编辑界面 -->
-    <form method="post" action="/post/write" enctype="multipart/form-data">
+    <form method="post" th:action="${'/post/update/' + post.getPostId()}" enctype="multipart/form-data">
         <!-- 文章标题 -->
         <div class="post-title">
-            <input type="text" name="post-title" id="post-title" placeholder="请输入文章标题" th:value="${draft.getDraftTitle()}" required>
+            <input type="text" name="post-title" id="post-title" placeholder="请输入文章标题" th:value="${post.getPostTitle()}" required>
         </div>
         <!-- editormd -->
         <div id="editormd">
             <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
-            <textarea style="display: none" name="editormd-markdown-doc" id="post-content" th:text="${draft.getDraftContent()}"></textarea>
+            <textarea style="display: none" name="editormd-markdown-doc" id="post-content" th:text="${post.getPostContent()}"></textarea>
         </div>
         <!-- 确认按钮 -->
         <div class="confirm-btn">
-            <input class="btn btn-primary" role="button" value="发布" data-toggle="modal" data-target="#postArticle" readonly>
-            <input class="btn btn-danger" role="button" onclick="saveDraft()" value="保存" readonly>
-            <!-- 保存成功提示框 -->
-            <div id="alert-success" style="display: none"><i class="fa fa-check mr-2"></i>保存成功！</div>
-            <!-- 保存失败提示框 -->
-            <div id="alert-failed" style="display: none"></div>
+            <input class="btn btn-primary" role="button" value="发布" data-toggle="modal" readonly data-target="#postArticle">
         </div>
         <!-- 文章发布模态框 -->
         <div class="modal fade" id="postArticle" tabindex="-1">
@@ -264,18 +243,18 @@
                         <div class="post-type">
                             <label for="post-type">文章类别：</label>
                             <select id="post-type" name="postType">
-                                <option value="0" selected>默认</option>
-                                <option value="1">动漫</option>
-                                <option value="2">游戏</option>
-                                <option value="3">影视</option>
-                                <option value="4">生活</option>
-                                <option value="5">兴趣</option>
-                                <option value="6">科技</option>
+                                <option value="0" th:selected="${post.getPostType() == 0}">默认</option>
+                                <option value="1" th:selected="${post.getPostType() == 1}">动漫</option>
+                                <option value="2" th:selected="${post.getPostType() == 2}">游戏</option>
+                                <option value="3" th:selected="${post.getPostType() == 3}">影视</option>
+                                <option value="4" th:selected="${post.getPostType() == 4}">生活</option>
+                                <option value="5" th:selected="${post.getPostType() == 5}">兴趣</option>
+                                <option value="6" th:selected="${post.getPostType() == 6}">科技</option>
                             </select>
                         </div>
                         <div class="post-release-time">
                             <label for="post-release-time">发表时间：</label>
-                            <input type="datetime-local" id="post-release-time" name="postReleaseTime">
+                            <input type="datetime-local" id="post-release-time" name="postReleaseTime" th:value="${#dates.format(post.getPostReleaseTime(), 'yyyy-MM-dd') + 'T' + #dates.format(post.getPostReleaseTime(), 'hh:mm:ss') }">
                         </div>
                         <div class="tags">
                             <!-- 隐藏域传标签值 -->
@@ -283,17 +262,17 @@
                             <span class="tags-title">标签：</span>
                             <input class="tag" name="post-tags" id="post-tags" placeholder="输入需要添加的标签并按回车" onkeydown="return avoidEnter($(this).val())">
                             <div class="tag-list" id="tag-list">
-<!--                                <div>SpringBoot<a onclick="deleteTag($(this))"><i class="fa fa-times"></i></a></div>-->
+                                <!--                                <div>SpringBoot<a onclick="deleteTag($(this))"><i class="fa fa-times"></i></a></div>-->
                             </div>
                         </div>
                         <div class="footer">
                             <div class="post-description">
                                 <span>摘要：</span>
-                                <textarea id="post-description" placeholder="如不填写，会从文章中自动截取" name="description"></textarea>
+                                <textarea id="post-description" placeholder="如不填写，会从文章中自动截取" name="description" th:text="${post.getPostDescription()}"></textarea>
                             </div>
                             <div class="post-cover">
                                 <label for="cover">
-                                    <img th:src="@{/images/defaultPostCover.png}" id="cover-img" />
+                                    <img th:src="${post.getPostCover()}?:'/images/defaultPostCover.png'" id="cover-img" />
                                 </label>
                                 <input id="cover" type="file" name="cover" style="display: none">
                             </div>
@@ -316,30 +295,30 @@
     <script th:src="@{/lib/editormd/editormd.js}"></script>
     <script type="text/javascript">
         $(function() {
-           contextEditor = editormd("editormd", {
-               // 设置文本编辑区域宽高比
-               width: "80%",
-               height: 640,
-               // 动态设置markdown编辑文本区域的内容
-               //markdown: "#请编辑您的文本",
-               placeholder: "请编辑您的文本...",
-               // 自动加载模组路径
-               path: "/lib/editormd/lib/",
-               // 编辑框渲染框同步滚动
-               syncScrolling: true,
-               // 开启表情支持
-               emoji: true,
-               // 工具栏模式选择, 参考 `editormd.toolbarModes` 属性（该属性在src/editormd.js文件中）
-               toolbarIcons: "blurryWorld",
-               // 侧边栏行数字体大小
-               fontSize: "15px",
-               // 开启图片上传
-               imageUpload: true,
-               imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-               imageUploadURL: '/picture/upload',
-               // 代码折叠
-               codeFold: true
-           });
+            contextEditor = editormd("editormd", {
+                // 设置文本编辑区域宽高比
+                width: "80%",
+                height: 600,
+                // 动态设置markdown编辑文本区域的内容
+                //markdown: "#请编辑您的文本",
+                placeholder: "请编辑您的文本...",
+                // 自动加载模组路径
+                path: "/lib/editormd/lib/",
+                // 编辑框渲染框同步滚动
+                syncScrolling: true,
+                // 开启表情支持
+                emoji: true,
+                // 工具栏模式选择, 参考 `editormd.toolbarModes` 属性（该属性在src/editormd.js文件中）
+                toolbarIcons: "blurryWorld",
+                // 侧边栏行数字体大小
+                fontSize: "15px",
+                // 开启图片上传
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: '/picture/upload',
+                // 代码折叠
+                codeFold: true
+            });
         });
         /**
          * 拒绝input标签回车时提交表单
@@ -404,37 +383,6 @@
                 $('#cover-img').attr('src', reader.result);
             };
         })
-
-        /**
-         * 自定义弹出框
-         */
-        function alertSuccess() {
-            // 淡入
-            $("#alert-success").fadeIn();
-            // 1.5s后淡出
-            var t = setTimeout(function() {
-                $("#alert-success").fadeOut();
-            }, 1500);
-
-        }
-
-        /**
-         * 保存草稿
-         */
-        function saveDraft() {
-            $.ajax({
-                type: "POST",
-                url: "post/save",
-                data: "post-title=" + $('#post-title').val() + "&post-content=" + $('#post-content').val(),
-                success: function(msg) {
-                    if(msg === '1') {
-                        alertSuccess();
-                    }else {
-                        alert("保存失败！");
-                    }
-                }
-            });
-        }
     </script>
 </body>
 </html>

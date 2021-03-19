@@ -52,10 +52,11 @@ public class PostMapperTests {
 
     @Test
     public void queryAllPostsByUserIdTest() {
-        List<Post> posts = postService.queryAllPostsByUserId(1001);
+        List<Post> posts = postService.queryAllPostsByUserId(1071);
         for (Post post : posts) {
             System.out.println(post);
         }
+        System.out.println(posts.isEmpty());
     }
 
     @Test

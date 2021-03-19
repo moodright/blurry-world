@@ -33,7 +33,7 @@
         update `post`
         <set>
             <if test="postTitle != null">
-                `post_title` = #{posttitle},
+                `post_title` = #{postTitle},
             </if>
             <if test="postType != null">
                 `post_type` = #{postType},
@@ -84,13 +84,13 @@
     <!-- 分页查询文章 -->
     <select id="queryPostsByPagination" parameterType="map" resultMap="postResultMap">
         select * from `post`
-        where `author_id` = #{authorId}
+        where `author_id` = #{authorId} and `post_status` = 0
         limit #{startIndex}, #{pageSize}
     </select>
 
     <select id="queryPostsCountByAuthorId" parameterType="Integer" resultType="_int">
         select count(*) from `post`
-        where `author_id` = #{authorId}
+        where `author_id` = #{authorId} and `post_status` = 0
     </select>
 
 </mapper>

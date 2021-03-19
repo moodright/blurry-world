@@ -322,12 +322,79 @@
             outline: none;
             border: 1px solid #00a1d6;
         }
+        /* 自定义删除提示框 */
+        .delete-modal {
+            width: 300px;
+            height: 250px;
+            background: white;
+            border-radius: 4px;
+            position: fixed;
+            left: 40%;
+            top: 25%;
+            text-align: center;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.7s;
+        }
+        .delete-modal .close-icon {
+            width: 100%;
+            height: 30px;
+        }
+        .close-icon a {
+            float: right;
+            margin-top: 5px;
+            margin-right: 10px;
+            color: #99a2aa;
+        }
+        .close-icon a:hover {
+            color: #00a1d6;
+        }
+        .delete-modal-content {
+            width: 100%;
+            height: 110px;
+            margin-top: 20px;
+            padding-top: 15px;
+        }
+        .delete-modal-content .title {
+            color: #666;
+            font-size: 20px;
+        }
+        .delete-modal-content .subtitle {
+            color: #99a2aa;
+            font-size: 16px;
+            padding-top: 5px;
+        }
 
-
-
-
-
-
+        .delete-modal-btn {
+            width: 100%;
+            height: 60px;
+        }
+        .delete-modal-btn .confirm-btn {
+            width: 268px;
+            height: 42px;
+            border-radius: 100px;
+            border: 1px solid #37c8f7;
+            box-shadow: 0 2px 8px #ccc;
+            background: white;
+            color: #666666;
+            cursor: pointer;
+            margin: 0 auto;
+            padding-top: 5px;
+        }
+        .delete-modal-btn .confirm-btn:hover {
+            background: #F1F3F7;
+        }
+        /* 自定义遮罩层*/
+        .mask {
+            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            background: grey;
+            position: fixed;
+            left: 0;
+            top: 0;
+            opacity:0.6;
+        }
     </style>
 </head>
 <body>
@@ -370,13 +437,13 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="empty-content">-->
-<!--                <div class="text">-->
-<!--                    <i class="fa fa-2x fa-paper-plane-o mb-3" aria-hidden="true"></i>-->
-<!--                    <p>还没有文章, 快去创作吧!</p>-->
-<!--                </div>-->
-<!--            </div>-->
-            <div class="content">
+            <div th:if="${posts} == null" class="empty-content">
+                <div class="text">
+                    <i class="fa fa-2x fa-paper-plane-o mb-3" aria-hidden="true"></i>
+                    <p>还没有文章, 快去创作吧!</p>
+                </div>
+            </div>
+            <div th:if="${posts} != null" class="content">
                 <!-- 文章信息 -->
                 <div class="post-info" th:each="post : ${posts}">
                     <img class="post-cover" th:src="${post.getPostCover()}?:'/images/carousel-default.png'" alt="..." />
@@ -384,7 +451,7 @@
                         <div class="post-title">
                             <a th:href="'/post/read/' + ${post.getPostId()}" th:text="${post.getPostTitle()}"></a>
                         </div>
-                        <div class="post-date" th:text="${#dates.format(post.getPostCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></div>
+                        <div class="post-date" th:text="${#dates.format(post.getPostUpdateTime(), 'yyyy-MM-dd HH:mm:ss')}"></div>
                         <div class="post-count">
                             <i class="fa fa-eye mr-2" aria-hidden="true"></i><span th:text="${post.getPostVisits()}"></span>
                             <i class="fa fa-commenting-o mr-2" aria-hidden="true"></i><span th:text="${post.getPostComments()}"></span>
@@ -394,8 +461,23 @@
                         </div>
                     </div>
                     <div class="post-btn">
-                        <div class="edit-btn"><i class="fa fa-pencil-square-o mr-2"></i>编辑</div>
-                        <div class="delete-btn"><i class="fa fa-trash-o mr-2"></i>删除</div>
+                        <div class="edit-btn" id="updatePost" th:onclick="updatePost([[${post.getPostId()}]])"><i class="fa fa-pencil-square-o mr-2"></i>编辑</div>
+                        <div class="delete-btn" th:onclick="showDeleteModal([[${post.getPostId()}]])"><i class="fa fa-trash-o mr-2"></i>删除</div>
+                    </div>
+                </div>
+                <!-- 确定删除模态框 -->
+                <div id="deleteModal" class="delete-modal" style="visibility: hidden">
+                    <div class="close-icon">
+                        <a href="#" onclick="hideDeleteModal()"><i class="fa fa-close"></i></a>
+                    </div>
+                    <div class="delete-modal-content">
+                        <div class="title">删除此文章</div>
+                        <div class="subtitle">文章删除后将无法恢复</div>
+                    </div>
+                    <div class="delete-modal-btn">
+                        <div class="confirm-btn" onclick="deletePost()">
+                            删除
+                        </div>
                     </div>
                 </div>
                 <!-- 分页 -->
@@ -413,6 +495,8 @@
         </div>
     </div>
 
+    <div id="deleteMask" class="mask" style="display: none" onclick="hideDeleteModal()"></div>
+
 
     <!-- jquery-3.5.1.js -->
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
@@ -429,6 +513,42 @@
                }
            });
         });
+        // 更新文章页面跳转
+        function updatePost(postId) {
+            console.log(postId);
+            window.location.href = "/post/update/" + postId;
+        }
+        // 展示删除模态框
+        function showDeleteModal(postId) {
+            console.log(postId);
+            $('#deleteModal').css("visibility", "visible").css("opacity", "1");
+            $('#deleteMask').css("display", "block");
+            $('body').css("overflow", "hidden");
+            // 传递需要删除的文章编号
+            $('#deleteModal').attr("postId", postId);
+        }
+        // 隐藏删除模态框
+        function hideDeleteModal() {
+            $('#deleteModal').css("visibility", "hidden").css("opacity", "0");
+            $('#deleteMask').css("display", "none");
+            $('body').css("overflow", "auto");
+            $('#deleteModal').attr("postId", null);
+        }
+        // 删除文章
+        function deletePost() {
+            $.ajax({
+                url: '/post/delete/' + $('#deleteModal').attr("postId"),
+                method: "POST",
+                success: function(msg) {
+                    if(msg === "success") {
+                        window.location.href = "/platform/post";
+                    }else {
+                        alert("删除失败！");
+                    }
+                }
+            });
+        }
+
     </script>
 </body>
 </html>

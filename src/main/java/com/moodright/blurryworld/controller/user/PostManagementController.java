@@ -179,4 +179,86 @@ public class PostManagementController {
         return "/user/post-management/display-post";
     }
 
+    /**
+     * 文章更新页面
+     * @param postId 文章编号
+     * @return 文章更新模板
+     */
+    @GetMapping("update/{postId}")
+    public String updatePost(@PathVariable("postId") Integer postId,
+                             HttpSession session,
+                             Model model) {
+        User user = (User)session.getAttribute("user");
+        Post post = postService.queryPostByPostId(postId);
+        // 访问不存在和文章和他人的文章异常情况
+        if(post == null || !post.getAuthorId().equals(user.getUserId())) {
+            return "/error/404";
+        }
+        model.addAttribute("post", post);
+        return "/user/post-management/update-post";
+    }
+
+    /**
+     * 更新文章
+     * @param postId 文章编号
+     * @param title 文章标题
+     * @param content 文章内容
+     * @param releaseTime 文章发布时间
+     * @param type 文章类型
+     * @param description 文章描述
+     * @param cover 文章封面
+     */
+    @PostMapping("update/{postId}")
+    public String updatePost(@PathVariable("postId") Integer postId,
+                             @RequestParam("post-title")String title,
+                             @RequestParam("editormd-markdown-doc")String content,
+                             @RequestParam("postReleaseTime")String releaseTime,
+                             @RequestParam("postType")Integer type,
+//                             @RequestParam("tags")String tags,
+                             @RequestParam("description")String description,
+                             @RequestParam("cover")MultipartFile cover,
+                             HttpSession session) throws IOException {
+        User user = (User)session.getAttribute("user");
+        // 封装文章数据
+        Post post = new Post();
+        post.setPostId(postId);
+        post.setPostType(type);
+        post.setPostTitle(title);
+        post.setPostUpdateTime(new Date());
+        post.setPostDescription(description);
+        post.setPostContent(content);
+        post.setPostReleaseTime(DateUtil.releaseTimeStringToDate(releaseTime));
+        if(!cover.isEmpty()) {
+            String saveFileName = user.getUserId() + "-" + new Date().getTime() + ".png";
+            Path path = Paths.get(coverUploadConfig.getStorage(), saveFileName);
+            Files.write(path, cover.getBytes());
+            cover.transferTo(Paths.get(coverUploadConfig.getStorage(), saveFileName).toFile());
+            String coverUrl = coverUploadConfig.getHost() + coverUploadConfig.getUrlPrefix() + saveFileName;
+            post.setPostCover(coverUrl);
+        }
+        postService.updatePostByPostId(post);
+        return "redirect:/platform/post";
+    }
+
+    /**
+     * 删除文章
+     * @param postId 文章编号
+     */
+    @PostMapping("delete/{postId}")
+    @ResponseBody
+    public String deletePost(@PathVariable("postId")Integer postId,
+                             HttpSession session) {
+        User user = (User)session.getAttribute("user");
+        Post post = postService.queryPostByPostId(postId);
+        // 判断文章不存在或此文章不属于此作者时删除失败
+        if (post == null || !post.getAuthorId().equals(user.getUserId())) {
+            return "false";
+        }
+        post = new Post();
+        post.setPostId(postId);
+        post.setPostStatus(true);
+        postService.updatePostByPostId(post);
+        return "success";
+    }
+
 }

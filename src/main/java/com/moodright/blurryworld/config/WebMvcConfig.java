@@ -65,6 +65,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 登录拦截器
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").
                 excludePathPatterns("/login","/register/**","/interceptor",
-                                    "/css/**","/js/**","/images/**");
+                                    "/css/**","/js/**","/images/**","/lib/**");
     }
 }
