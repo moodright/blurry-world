@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodright.blurryworld.mapper.CommentMapper">
+    <resultMap id="commentResultMap" type="Comment">
+        <id property="commentId" column="comment_id" />
+        <result property="commentPostId" column="comment_post_id" />
+        <result property="commentAuthorId" column="comment_author_id" />
+        <result property="commentParentId" column="comment_parent_id" />
+        <result property="commentCreateTime" column="comment_create_time" />
+        <result property="commentStatus" column="comment_status" />
+        <result property="commentContent" column="comment_content" />
+        <result property="commentLikes" column="comment_likes" />
+    </resultMap>
+
+    <!-- 添加评论 -->
+    <insert id="addComment" parameterType="Comment">
+        insert into `comment`
+        (`comment_post_id`,
+         `comment_author_id`,
+         <if test="commentParentId != null">
+             `comment_parent_id`,
+         </if>
+         `comment_create_time`,
+         `comment_content`
+        )
+        values
+        (
+         #{commentPostId},
+         #{commentAuthorId},
+         <if test="commentParentId != null">
+             #{commentParentId},
+         </if>
+         #{commentCreateTime},
+         #{commentContent}
+        )
+    </insert>
+
+    <!-- 根据文章编号分页查询评论 -->
+    <select id="queryCommentsByPostId" parameterType="map" resultMap="commentResultMap">
+        select * from `comment`
+        where `comment_post_id` = #{postId} and `comment_status` = 0
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <!-- 根据评论编号伪删除评论 -->
+    <update id="deleteCommentsByCommentId" parameterType="Integer">
+        update `comment` set
+        `comment_status` = 1
+        where `comment_id` = #{commentId} or `comment_parent_id` = #{commentId}
+    </update>
+
+
+
+</mapper>
