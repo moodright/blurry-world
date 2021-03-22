@@ -32,6 +32,14 @@ public interface CommentMapper {
     List<Comment> queryCommentsByPostId(Map<String,Integer> map);
 
     /**
+     * 根据评论编号分页查询该评论下的子评论
+     * @param map key: startIndex: 查询起始索引,
+     *                 pageSize: 分页数量,
+     *                 commentId: 评论编号
+     */
+    List<Comment> queryChildCommentsByCommentId(Map<String, Integer> map);
+
+    /**
      * 根据评论编号伪删除评论
      * @param commentId 评论编号
      * @return 受影响的行数

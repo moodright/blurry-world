@@ -46,6 +46,18 @@ public class CommentService implements CommentMapper {
     }
 
     /**
+     * 根据评论编号分页查询该评论下的子评论
+     *
+     * @param map key: startIndex: 查询起始索引,
+     *            pageSize: 分页数量,
+     *            commentId: 评论编号
+     */
+    @Override
+    public List<Comment> queryChildCommentsByCommentId(Map<String, Integer> map) {
+        return commentMapper.queryChildCommentsByCommentId(map);
+    }
+
+    /**
      * 根据评论编号伪删除评论
      *
      * @param commentId 评论编号

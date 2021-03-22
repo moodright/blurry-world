@@ -46,7 +46,19 @@ public class CommentMapperTests {
     }
 
     @Test
-    public void deleteCommentsByCommentId() {
+    public void deleteCommentsByCommentIdTest() {
         commentMapper.deleteCommentsByCommentId(1);
+    }
+
+    @Test
+    public void queryChildCommentByComentIdTest() {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("commentId", 6);
+        map.put("startIndex", 0);
+        map.put("pageSize", 10);
+        List<Comment> comments = commentMapper.queryChildCommentsByCommentId(map);
+        for(Comment comment : comments) {
+            System.out.println(comment);
+        }
     }
 }

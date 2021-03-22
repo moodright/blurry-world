@@ -37,8 +37,6 @@ public class CommentController {
      * 发表评论
      * @param postId 文章编号
      * @param commentContent 评论内容
-     * @param session 当前会话
-     * @return
      */
     @PostMapping("send")
     @ResponseBody
@@ -52,13 +50,59 @@ public class CommentController {
         comment.setCommentPostId(postId);
         comment.setCommentContent(commentContent);
         comment.setCommentCreateTime(new Date());
-        commentService.addComment(comment);
-        return "success";
+        int i = commentService.addComment(comment);
+        if(i > 0) {
+            return "success";
+        }else {
+            return "failed";
+        }
     }
 
+
+    /**
+     * 回复评论
+     * @param postId 文章编号
+     * @param commentParentId 父评论编号
+     * @param commentContent 评论内容
+     * @param commentAuthorId 回复的评论作者编号
+     */
+    @PostMapping("reply")
+    @ResponseBody
+    public void replyComment(@RequestParam("postId")Integer postId,
+                               @RequestParam("commentId")Integer commentParentId,
+                               @RequestParam("commentContent")String commentContent,
+                               @RequestParam("commentAuthorId")Integer commentAuthorId,
+                               HttpSession session) {
+        System.out.println("commentAuthorId=>" + commentAuthorId);
+        // 封装回复评论数据
+//        User user = (User)session.getAttribute("user");
+//        Comment comment = new Comment();
+//        comment.setCommentAuthorId(user.getUserId());
+//        comment.setCommentPostId(postId);
+//        comment.setCommentParentId(commentParentId);
+//        comment.setCommentCreateTime(new Date());
+//        comment.setCommentContent(commentContent);
+//        int i = commentService.addComment(comment);
+//        if(i > 0) {
+//            return "success";
+//        }
+//        else {
+//            return "failed";
+//        }
+    }
+
+
+
+    /**
+     * 根据文章编号查询评论
+     * @param postId 文章编号
+     * @return CommentDTO 列表
+     */
     @GetMapping("query")
     @ResponseBody
-    public List<CommentDTO> queryComment(@RequestParam("postId")Integer postId) {
+    public List<CommentDTO> queryComment(@RequestParam("postId")Integer postId,
+                                         HttpSession session) {
+        // 分页查询参数
         Map<String,Integer> map = new HashMap<>();
         map.put("postId", postId);
         map.put("startIndex", 0);
@@ -67,8 +111,8 @@ public class CommentController {
         List<Comment> comments = commentService.queryCommentsByPostId(map);
         List<CommentDTO> commentDTOList = new ArrayList<>();
         for(Comment comment : comments) {
-            // 封装CommentDTO
             CommentDTO commentDTO = new CommentDTO();
+            // 封装评论对象
             commentDTO.setCommentId(comment.getCommentId());
             commentDTO.setCommentAuthorId(comment.getCommentAuthorId());
             commentDTO.setCommentContent(comment.getCommentContent());
@@ -76,8 +120,20 @@ public class CommentController {
             commentDTO.setCommentLikes(comment.getCommentLikes());
             commentDTO.setCommentDislikes(comment.getCommentDislikes());
             User user = userService.queryUserById(comment.getCommentAuthorId());
-            commentDTO.setUsername(user.getUsername());
-            commentDTO.setAvatar(user.getAvatar());
+            commentDTO.setCommentAuthorUsername(user.getUsername());
+            commentDTO.setCommentAuthorAvatar(user.getAvatar());
+            // 封装回复对象
+            User replyer = (User)session.getAttribute("user");
+            commentDTO.setReplyerAvatar(replyer.getAvatar());
+            // 封装该条评论下的子评论对象
+            map.put("commentId", comment.getCommentId());
+            List<Comment> childComments = commentService.queryChildCommentsByCommentId(map);
+            for(Comment childComment : childComments) {
+                User childCommentAuthor = userService.queryUserById(childComment.getCommentAuthorId());
+                childComment.setCommentAuthorUsername(childCommentAuthor.getUsername());
+                childComment.setCommentAuthorAvatar(childCommentAuthor.getAvatar());
+            }
+            commentDTO.setChildComments(childComments);
             // 将封装好的CommentDTO添加进列表中
             commentDTOList.add(commentDTO);
         }

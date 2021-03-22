@@ -12,6 +12,7 @@
         <result property="commentStatus" column="comment_status" />
         <result property="commentContent" column="comment_content" />
         <result property="commentLikes" column="comment_likes" />
+        <result property="commentDislikes" column="comment_dislikes" />
     </resultMap>
 
     <!-- 添加评论 -->
@@ -40,7 +41,14 @@
     <!-- 根据文章编号分页查询评论 -->
     <select id="queryCommentsByPostId" parameterType="map" resultMap="commentResultMap">
         select * from `comment`
-        where `comment_post_id` = #{postId} and `comment_status` = 0
+        where `comment_post_id` = #{postId} and `comment_status` = 0 and ISNULL(`comment_parent_id`)
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <!-- 根据评论编号分页查询子评论 -->
+    <select id="queryChildCommentsByCommentId" parameterType="map" resultMap="commentResultMap">
+        select * from `comment`
+        where `comment_parent_id` = #{commentId} and `comment_status` = 0
         limit #{startIndex}, #{pageSize}
     </select>
 

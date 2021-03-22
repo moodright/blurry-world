@@ -76,5 +76,4 @@ public class PostMapperTests {
         int i = postService.queryPostsCountByAuthorId(1001);
         System.out.println(i);
     }
-
 }

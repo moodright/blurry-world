@@ -50,4 +50,14 @@ public class Comment {
      *  评论点踩数
      */
     private int commentDislikes;
+
+    // -----------------------------
+    /**
+     * 用户名
+     */
+    private String commentAuthorUsername;
+    /**
+     * 用户头像
+     */
+    private String commentAuthorAvatar;
 }

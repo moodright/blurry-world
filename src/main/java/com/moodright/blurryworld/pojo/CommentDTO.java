@@ -3,6 +3,8 @@ package com.moodright.blurryworld.pojo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author moodright
  * @date 2021/3/21
@@ -10,13 +12,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CommentDTO extends Comment {
+public class CommentDTO extends Comment{
     /**
-     * 用户名
+     * 回复者头像
      */
-    private String username;
+    private String replyerAvatar;
     /**
-     * 用户头像
+     * 该条评论下的子评论
      */
-    private String avatar;
+    private List<Comment> childComments;
 }
