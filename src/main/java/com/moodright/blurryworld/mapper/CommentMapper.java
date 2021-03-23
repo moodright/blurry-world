@@ -1,5 +1,6 @@
 package com.moodright.blurryworld.mapper;
 
+import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -24,6 +25,13 @@ public interface CommentMapper {
     int addComment(Comment comment);
 
     /**
+     * 添加子评论
+     * @param childComment  子评论实体类
+     * @return 受影响的行数
+     */
+    int addChildComment(ChildComment childComment);
+
+    /**
      * 根据文章编号分页查询评论
      * @param map key：startIndex: 查询起始索引,
      *                 pageSize: 分页数量,
@@ -37,7 +45,7 @@ public interface CommentMapper {
      *                 pageSize: 分页数量,
      *                 commentId: 评论编号
      */
-    List<Comment> queryChildCommentsByCommentId(Map<String, Integer> map);
+    List<ChildComment> queryChildCommentsByCommentId(Map<String, Integer> map);
 
     /**
      * 根据评论编号伪删除评论

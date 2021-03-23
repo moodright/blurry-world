@@ -52,6 +52,8 @@ public class Comment {
     private int commentDislikes;
 
     // -----------------------------
+    // 为了前端回显数据新增的冗余字段
+    // 没有进行持久化
     /**
      * 用户名
      */

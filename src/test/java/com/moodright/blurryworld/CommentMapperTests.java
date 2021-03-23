@@ -1,6 +1,7 @@
 package com.moodright.blurryworld;
 
 import com.moodright.blurryworld.mapper.CommentMapper;
+import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class CommentMapperTests {
         map.put("commentId", 6);
         map.put("startIndex", 0);
         map.put("pageSize", 10);
-        List<Comment> comments = commentMapper.queryChildCommentsByCommentId(map);
+        List<ChildComment> comments = commentMapper.queryChildCommentsByCommentId(map);
         for(Comment comment : comments) {
             System.out.println(comment);
         }

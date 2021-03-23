@@ -1,6 +1,7 @@
 package com.moodright.blurryworld.service;
 
 import com.moodright.blurryworld.mapper.CommentMapper;
+import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,18 @@ public class CommentService implements CommentMapper {
         return commentMapper.addComment(comment);
     }
 
+
+    /**
+     * 添加子评论
+     *
+     * @param childComment 子评论实体类
+     * @return 受影响的行数
+     */
+    @Override
+    public int addChildComment(ChildComment childComment) {
+        return commentMapper.addChildComment(childComment);
+    }
+
     /**
      * 根据文章编号分页查询评论
      *
@@ -53,7 +66,7 @@ public class CommentService implements CommentMapper {
      *            commentId: 评论编号
      */
     @Override
-    public List<Comment> queryChildCommentsByCommentId(Map<String, Integer> map) {
+    public List<ChildComment> queryChildCommentsByCommentId(Map<String, Integer> map) {
         return commentMapper.queryChildCommentsByCommentId(map);
     }
 

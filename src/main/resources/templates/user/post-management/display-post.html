@@ -754,9 +754,9 @@
             }else {
                 $('#' + id).css("display", "block");
                 $('#reply' + id).attr("placeholder", "回复" + commentAuthorUsername);
-                // 将回复的评论作者编号添加进自定义属性中
-                // 用于回复评论取值
-                $('#reply' + id).attr("commentAuthorId", commentAuthorId);
+                // 将回复的评论作者编号和用户名添加进自定义属性中, 用于回复评论取值
+                $('#reply' + id).attr("parentCommentAuthorId", commentAuthorId);
+                $('#reply' + id).attr("parentCommentAuthorUsername", commentAuthorUsername);
                 // 回复栏自动聚焦
                 $('#reply' + id).focus();
             }
@@ -796,7 +796,12 @@
                 $.ajax({
                    url: '/comment/reply',
                    method: "post",
-                   data: "postId=" + $('#postId').val() + "&commentId=" + commentId + "&commentContent=" + $('#reply' + commentId).val() + "&commentAuthorId=" + $('#reply' + commentId).attr("commentAuthorId"),
+                   // 四个参数
+                   data: "postId=" + $('#postId').val() +
+                         "&commentId=" + commentId +
+                         "&commentContent=" + $('#reply' + commentId).val() +
+                         "&parentCommentAuthorId=" + $('#reply' + commentId).attr("parentCommentAuthorId") +
+                         "&parentCommentAuthorUsername=" + $('#reply' + commentId).attr("parentCommentAuthorUsername"),
                    success: function(msg) {
                        if(msg === "success") {
                            $('#alert-success').html('<i class="fa fa-check mr-2"></i>回复评论成功！');
@@ -885,10 +890,10 @@
                                                         '<div class="reply-user-info">' +
                                                         '<div class="reply-user-nickname">' + '<a href="/space/' + data[i].childComments[j].commentAuthorId + '">' + data[i].childComments[j].commentAuthorUsername + '</a></div>\n' +
                                                         '<div class="reply-user-comment-msg">\n' +
-                                                            data[i].childComments[j].commentContent +
+                                                            '回复 ' + '<a href="/space/' + data[i].childComments[j].parentCommentAuthorId +'">' + data[i].childComments[j].parentCommentAuthorUsername +'</a>' + ' :' + data[i].childComments[j].commentContent +
                                                         '</div>\n' +
                                                         '<div class="reply-user-comment-footer">\n' +
-                                                            '<span class="reply-comment-date">' + data[i].childComments[j].commentCreateTime.slice(0, 10) + ' ' + data[i].childComments[j].commentCreateTime.slice(11, 16) + '</span>\n' +
+                                                            '<span class="reply-comment-date">' + data[i].childComments[j].commentCreateTime.slice(0, 16) + '</span>\n' +
                                                             '<span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].childComments[j].commentLikes + '</a></span>\n' +
                                                             '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].childComments[j].commentDislikes + '</a></span>\n' +
                                                             '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].childComments[j].commentAuthorId + '\',\'' + data[i].childComments[j].commentAuthorUsername + '\')">回复</button>\n' +

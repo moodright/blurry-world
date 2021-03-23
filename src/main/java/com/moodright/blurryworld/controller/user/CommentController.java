@@ -1,5 +1,6 @@
 package com.moodright.blurryworld.controller.user;
 
+import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
 import com.moodright.blurryworld.pojo.CommentDTO;
 import com.moodright.blurryworld.pojo.User;
@@ -64,31 +65,34 @@ public class CommentController {
      * @param postId 文章编号
      * @param commentParentId 父评论编号
      * @param commentContent 评论内容
-     * @param commentAuthorId 回复的评论作者编号
+     * @param parentCommentAuthorId 回复的评论作者编号
      */
     @PostMapping("reply")
     @ResponseBody
-    public void replyComment(@RequestParam("postId")Integer postId,
+    public String replyComment(@RequestParam("postId")Integer postId,
                                @RequestParam("commentId")Integer commentParentId,
                                @RequestParam("commentContent")String commentContent,
-                               @RequestParam("commentAuthorId")Integer commentAuthorId,
+                               @RequestParam("parentCommentAuthorId")Integer parentCommentAuthorId,
+                               @RequestParam("parentCommentAuthorUsername")String parentCommentAuthorUsername,
                                HttpSession session) {
-        System.out.println("commentAuthorId=>" + commentAuthorId);
-        // 封装回复评论数据
-//        User user = (User)session.getAttribute("user");
-//        Comment comment = new Comment();
-//        comment.setCommentAuthorId(user.getUserId());
-//        comment.setCommentPostId(postId);
-//        comment.setCommentParentId(commentParentId);
-//        comment.setCommentCreateTime(new Date());
-//        comment.setCommentContent(commentContent);
-//        int i = commentService.addComment(comment);
-//        if(i > 0) {
-//            return "success";
-//        }
-//        else {
-//            return "failed";
-//        }
+        // 封装子评论数据
+        User user = (User)session.getAttribute("user");
+        ChildComment childComment = new ChildComment();
+        childComment.setCommentAuthorId(user.getUserId());
+        childComment.setCommentPostId(postId);
+        childComment.setCommentParentId(commentParentId);
+        childComment.setCommentCreateTime(new Date());
+        childComment.setCommentContent(commentContent);
+        // 封装回复的作者编号用户名
+        childComment.setParentCommentAuthorId(parentCommentAuthorId);
+        childComment.setParentCommentAuthorUsername(parentCommentAuthorUsername);
+        int i = commentService.addChildComment(childComment);
+        if(i > 0) {
+            return "success";
+        }
+        else {
+            return "failed";
+        }
     }
 
 
@@ -127,10 +131,13 @@ public class CommentController {
             commentDTO.setReplyerAvatar(replyer.getAvatar());
             // 封装该条评论下的子评论对象
             map.put("commentId", comment.getCommentId());
-            List<Comment> childComments = commentService.queryChildCommentsByCommentId(map);
-            for(Comment childComment : childComments) {
+            // 根据父评论编号查询子评论
+            List<ChildComment> childComments = commentService.queryChildCommentsByCommentId(map);
+            for(ChildComment childComment : childComments) {
                 User childCommentAuthor = userService.queryUserById(childComment.getCommentAuthorId());
+                // 封装评论作者用户名
                 childComment.setCommentAuthorUsername(childCommentAuthor.getUsername());
+                // 封装评论作者头像
                 childComment.setCommentAuthorAvatar(childCommentAuthor.getAvatar());
             }
             commentDTO.setChildComments(childComments);

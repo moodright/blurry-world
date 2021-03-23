@@ -14,11 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 public class CommentDTO extends Comment{
     /**
-     * 回复者头像
+     * 回复者头像（存放当前会话用户的头像）
      */
     private String replyerAvatar;
     /**
      * 该条评论下的子评论
      */
-    private List<Comment> childComments;
+    private List<ChildComment> childComments;
 }
