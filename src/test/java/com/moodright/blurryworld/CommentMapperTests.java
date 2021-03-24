@@ -62,4 +62,10 @@ public class CommentMapperTests {
             System.out.println(comment);
         }
     }
+
+    @Test
+    public void queryCommentCountsByPostId() {
+        int i = commentMapper.queryCommentCountsByPostId(2011);
+        System.out.println(i);
+    }
 }

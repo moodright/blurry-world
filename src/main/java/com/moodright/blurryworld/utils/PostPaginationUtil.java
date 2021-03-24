@@ -65,4 +65,33 @@ public class PostPaginationUtil {
             this.paginationInfo.put("startIndex", 0);
         }
     }
+
+    public void updateCommentPaginationInfo(Integer pageNumber, Integer postId, int rootCommentsCount, int commentsCount) {
+        // 更新文章编号
+        this.paginationInfo.put("postId", postId);
+        // 更新评论总数
+        this.paginationInfo.put("totalCommentsCount", commentsCount);
+        // 更新总页数
+        this.paginationInfo.put("totalPagesCount", (int)Math.ceil(rootCommentsCount / (double)this.paginationInfo.get("pageSize")));
+        // 更新最后一页
+        this.paginationInfo.put("lastPage", this.paginationInfo.get("totalPagesCount"));
+        // 更新上一页
+        if(pageNumber == 1) {
+            this.paginationInfo.put("prevPage", null);
+        }else {
+            this.paginationInfo.put("prevPage", pageNumber - 1);
+        }
+        // 更新下一页
+        if(pageNumber < this.paginationInfo.get("totalPagesCount")) {
+            this.paginationInfo.put("nextPage", pageNumber + 1);
+        } else if(pageNumber.equals(this.paginationInfo.get("lastPage"))) {
+            this.paginationInfo.put("nextPage", null);
+        }
+        // 更新查询信息
+        if(pageNumber != 1) {
+            this.paginationInfo.put("startIndex", (pageNumber - 1) * this.paginationInfo.get("pageSize"));
+        }else {
+            this.paginationInfo.put("startIndex", 0);
+        }
+    }
 }

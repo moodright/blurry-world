@@ -27,4 +27,5 @@
 - 发布文章页面回车后自动提交表单（禁止回车，需要手动点击按钮确认！）
 - PersonalCenterController -> @GetMapping("/{id}"): 访问无效的用户id跳转到404页面
 - AccountManagementController -> @PostMapping("avatar/update"): 上传的头像若用相同的文件名保存，上传新的头像后会导致浏览器取用缓存里的同名旧头像
+- CommentDTO 设计待完善，应包含分页信息 
 - ~~异步请求 Date 数据显示异常~~

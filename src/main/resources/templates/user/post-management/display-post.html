@@ -491,6 +491,63 @@
         }
 
 
+        /* comment-pagination */
+        .comment-pagination {
+            width: 100%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .comment-pagination .btn {
+            display: flex;
+            justify-content: start;
+            margin: auto 0;
+        }
+        .btn .pag-btn {
+            width: 60px;
+            height: 40px;
+            border-radius: 2px;
+            border: 1px solid #e7e7e7;
+            text-align: center;
+            padding: 6px 0;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .pag-btn a {
+            text-decoration: none;
+            color: #222222;
+        }
+        .pag-btn:hover{
+            background: #00a1d6;
+        }
+        .pag-btn:hover a {
+            color: white;
+        }
+        .redirect-page {
+            text-align: right;
+            padding: 7px 0;
+            width: 190px;
+            height: 40px;
+            font-size: 12px;
+            color: #505050;
+            margin: auto 0;
+        }
+        .redirect-page input {
+            width: 52px;
+            height: 26px;
+            padding: 5px 8px;
+            border: 1px solid #e7e7e7;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #505050;
+            transition: border .2s ease-in-out;
+        }
+        .redirect-page input:focus {
+            outline: none;
+            border: 1px solid #00a1d6;
+        }
+
+
         /* 页脚 */
         .footer {
             text-align: center;
@@ -659,7 +716,7 @@
             <!-- 评论模块 -->
             <div class="comment" id="comment-block">
                 <!-- 评论数量 -->
-                <p>55<span class="ml-1">评论</span></p>
+                <p><span id="commentsCount"></span><span class="ml-1">评论</span></p>
                 <!-- 评论排序 -->
                 <div class="comment-sort">
                     <div>
@@ -680,6 +737,18 @@
                     <div id="alert-success" style="display: none"></div>
                     <!-- 发表失败提示框 -->
                     <div id="alert-failed" style="display: none"></div>
+                </div>
+                <div id="comment-pagination" class="comment-pagination">
+                    <div class="btn">
+                        <div class="pag-btn"><a id="firstCommentPage" href="#">首页</a></div>
+                        <div class="pag-btn"><a id="prevCommentPage" href="#">上一页</a></div>
+                        <div class="pag-btn"><a id="nextCommentPage" href="#">下一页</a></div>
+                        <div class="pag-btn"><a id="lastCommentPage" href="#">尾页</a></div>
+                    </div>
+                    <div class="redirect-page">
+                        共<span id="totalPages">3</span>页，跳转至
+                        <input id="forward" type="text"> 页
+                    </div>
                 </div>
             </div>
             <!-- 页脚 -->
@@ -835,92 +904,131 @@
               // console.log(document.documentElement.scrollTop);
               if(document.documentElement.scrollTop > document.getElementById("doc-content").offsetHeight / 2 && ajaxRequestCheck === true) {
                   ajaxRequestCheck = false;
-                  // 异步请求评论数据
-                  $.ajax({
-                     url: '/comment/query/',
-                     method: "get",
-                     data: 'postId=' + $('#postId').val(),
-                     success: function(data) {
-                         console.log(data);
-                         // 如果数据不为空渲染则渲染到前端页面
-                         if(data.length !== 0) {
-                             for (let i = 0; i < data.length ; i++) {
-                                 var div = document.createElement("div");
-                                 div.setAttribute("class", "comment-list");
-                                 div.setAttribute("id", "comment" + i);
-                                 $('#comment-block').append(div);
-                                 // 没有子评论
-                                 if(data[i].childComments.length === 0) {
-                                     $('#comment' + i).html(
-                                         '<a href="/space/' + data[i].commentAuthorId + '"><img class="user-avatar" src="' + data[i].commentAuthorAvatar + '"/></a>\n' +
-                                         '<div class="user-info">\n' +
-                                            '<div class="user-nickname">' + '<a href="/space/' + data[i].commentAuthorId + '">' + data[i].commentAuthorUsername + '</a></div>\n' +
-                                            '<div class="user-comment-msg">\n' +
-                                                 data[i].commentContent +
-                                            '</div>\n' +
-                                            '<div class="user-comment-footer">\n' +
-                                                '<span class="comment-date">' + data[i].commentCreateTime.slice(0, 10) + ' ' + data[i].commentCreateTime.slice(11, 16) + '</span>\n' +
-                                                '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].commentLikes + '</a></span>\n' +
-                                                '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].commentDislikes + '</a></span>\n' +
-                                                '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].commentAuthorId + '\',\'' + data[i].commentAuthorUsername + '\')">回复</button>\n' +
-                                                '<div class="comment-reply" style="display: none" id="' + data[i].commentId + '">\n' +
-                                                    '<img class="reply-avatar" src="' + data[i].replyerAvatar + '"/>\n' +
-                                                    '<textarea class="reply-comment" placeholder="回复' + data[i].commentAuthorUsername + '"' + 'id="reply' + data[i].commentId + '"></textarea>\n' +
-                                                    '<button href="#" class="reply-button" onclick="replyComment('+ data[i].commentId  + ')" + >发表评论</button>\n' +
-                                                '</div>' +
-                                            '</div>' +
-                                         '</div>');
-                                 }else {
-                                     let commentHTMLCode =
-                                            '<a href="/space/' + data[i].commentAuthorId + '"><img class="user-avatar" src="' + data[i].commentAuthorAvatar + '"/></a>\n' +
-                                            '<div class="user-info">\n' +
-                                                '<div class="user-nickname">' + '<a href="/space/' + data[i].commentAuthorId + '">' + data[i].commentAuthorUsername + '</a></div>\n' +
-                                                '<div class="user-comment-msg">\n' +
-                                                     data[i].commentContent +
-                                                '</div>\n' +
-                                                '<div class="user-comment-footer">\n' +
-                                                    '<span class="comment-date">' + data[i].commentCreateTime.slice(0, 10) + ' ' + data[i].commentCreateTime.slice(11, 16) + '</span>\n' +
-                                                    '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].commentLikes + '</a></span>\n' +
-                                                    '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].commentDislikes + '</a></span>\n' +
-                                                    '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].commentAuthorId + '\',\'' + data[i].commentAuthorUsername + '\')">回复</button>\n';
-                                     for (let j = 0; j < data[i].childComments.length; j++) {
-                                         commentHTMLCode +=
-                                                    '<div class="reply-comment-list">' +
-                                                        '<a href="/space/' + data[i].childComments[j].commentAuthorId + '"><img class="reply-user-avatar" src="' + data[i].childComments[j].commentAuthorAvatar + '"/></a>\n' +
-                                                        '<div class="reply-user-info">' +
-                                                        '<div class="reply-user-nickname">' + '<a href="/space/' + data[i].childComments[j].commentAuthorId + '">' + data[i].childComments[j].commentAuthorUsername + '</a></div>\n' +
-                                                        '<div class="reply-user-comment-msg">\n' +
-                                                            '回复 ' + '<a href="/space/' + data[i].childComments[j].parentCommentAuthorId +'">' + data[i].childComments[j].parentCommentAuthorUsername +'</a>' + ' :' + data[i].childComments[j].commentContent +
-                                                        '</div>\n' +
-                                                        '<div class="reply-user-comment-footer">\n' +
-                                                            '<span class="reply-comment-date">' + data[i].childComments[j].commentCreateTime.slice(0, 16) + '</span>\n' +
-                                                            '<span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].childComments[j].commentLikes + '</a></span>\n' +
-                                                            '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].childComments[j].commentDislikes + '</a></span>\n' +
-                                                            '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].childComments[j].commentAuthorId + '\',\'' + data[i].childComments[j].commentAuthorUsername + '\')">回复</button>\n' +
-                                                        '</div>' +
-                                                    '</div>' +
-                                                '</div>';
-                                     }
-                                     commentHTMLCode +=
-                                                '<div class="comment-reply" style="display: none" id="' + data[i].commentId + '">\n' +
-                                                    '<img class="reply-avatar" src="' + data[i].replyerAvatar + '"/>\n' +
-                                                    '<textarea class="reply-comment" placeholder="回复' + data[i].commentAuthorUsername + '"' + 'id="reply' + data[i].commentId + '"></textarea>\n' +
-                                                    '<button href="#" class="reply-button" onclick="replyComment('+ data[i].commentId  + ')" + >发表评论</button>\n' +
-                                                '</div>' +
-                                            '</div>';
-                                     $('#comment' + i).html(commentHTMLCode);
-                                 }
-                             }
-                         } else {
-                            $('#comment-block').append(
-                                '<div class="empty-comment-list">\n' +
-                                '    还没有评论，快来发表评论吧~\n' +
-                                '</div>');
-                         }
-                     }
-                  });
+                  queryComment(1);
               }
            });
+
+           //查询评论数据
+           function queryComment(pageNumber) {
+               $.ajax({
+                   url: '/comment/query/',
+                   method: "get",
+                   data: 'postId=' + $('#postId').val() + '&pn=' + pageNumber,
+                   success: function (data) {
+                       console.log(data);
+                       // 如果数据不为空渲染则渲染到前端页面
+                       if (data.length !== 0) {
+                           for (let i = 0; i < data.length; i++) {
+                               // 判断该标签是否存在
+                               if(!$('#comment' + i).length > 0) {
+                                   var div = document.createElement("div");
+                                   div.setAttribute("class", "comment-list");
+                                   div.setAttribute("id", "comment" + i);
+                                   // $('#comment-block').append(div);
+                                   $('#comment-pagination').before(div);
+                               }
+                               // 没有子评论
+                               if (data[i].childComments.length === 0) {
+                                   $('#comment' + i).html(
+                                       '<a href="/space/' + data[i].commentAuthorId + '"><img class="user-avatar" src="' + data[i].commentAuthorAvatar + '"/></a>\n' +
+                                       '<div class="user-info">\n' +
+                                       '<div class="user-nickname">' + '<a href="/space/' + data[i].commentAuthorId + '">' + data[i].commentAuthorUsername + '</a></div>\n' +
+                                       '<div class="user-comment-msg">\n' +
+                                       data[i].commentContent +
+                                       '</div>\n' +
+                                       '<div class="user-comment-footer">\n' +
+                                       '<span class="comment-date">' + data[i].commentCreateTime.slice(0, 10) + ' ' + data[i].commentCreateTime.slice(11, 16) + '</span>\n' +
+                                       '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].commentLikes + '</a></span>\n' +
+                                       '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].commentDislikes + '</a></span>\n' +
+                                       '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].commentAuthorId + '\',\'' + data[i].commentAuthorUsername + '\')">回复</button>\n' +
+                                       '<div class="comment-reply" style="display: none" id="' + data[i].commentId + '">\n' +
+                                       '<img class="reply-avatar" src="' + data[i].replyerAvatar + '"/>\n' +
+                                       '<textarea class="reply-comment" placeholder="回复' + data[i].commentAuthorUsername + '"' + 'id="reply' + data[i].commentId + '"></textarea>\n' +
+                                       '<button href="#" class="reply-button" onclick="replyComment(' + data[i].commentId + ')" + >发表评论</button>\n' +
+                                       '</div>' +
+                                       '</div>' +
+                                       '</div>');
+                               } else {
+                                   let commentHTMLCode =
+                                       '<a href="/space/' + data[i].commentAuthorId + '"><img class="user-avatar" src="' + data[i].commentAuthorAvatar + '"/></a>\n' +
+                                       '<div class="user-info">\n' +
+                                       '<div class="user-nickname">' + '<a href="/space/' + data[i].commentAuthorId + '">' + data[i].commentAuthorUsername + '</a></div>\n' +
+                                       '<div class="user-comment-msg">\n' +
+                                       data[i].commentContent +
+                                       '</div>\n' +
+                                       '<div class="user-comment-footer">\n' +
+                                       '<span class="comment-date">' + data[i].commentCreateTime.slice(0, 10) + ' ' + data[i].commentCreateTime.slice(11, 16) + '</span>\n' +
+                                       '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].commentLikes + '</a></span>\n' +
+                                       '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].commentDislikes + '</a></span>\n' +
+                                       '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].commentAuthorId + '\',\'' + data[i].commentAuthorUsername + '\')">回复</button>\n';
+                                   for (let j = 0; j < data[i].childComments.length; j++) {
+                                       commentHTMLCode +=
+                                           '<div class="reply-comment-list">' +
+                                           '<a href="/space/' + data[i].childComments[j].commentAuthorId + '"><img class="reply-user-avatar" src="' + data[i].childComments[j].commentAuthorAvatar + '"/></a>\n' +
+                                           '<div class="reply-user-info">' +
+                                           '<div class="reply-user-nickname">' + '<a href="/space/' + data[i].childComments[j].commentAuthorId + '">' + data[i].childComments[j].commentAuthorUsername + '</a></div>\n' +
+                                           '<div class="reply-user-comment-msg">\n' +
+                                           '回复 ' + '<a href="/space/' + data[i].childComments[j].parentCommentAuthorId + '">' + data[i].childComments[j].parentCommentAuthorUsername + '</a>' + ' :' + data[i].childComments[j].commentContent +
+                                           '</div>\n' +
+                                           '<div class="reply-user-comment-footer">\n' +
+                                           '<span class="reply-comment-date">' + data[i].childComments[j].commentCreateTime.slice(0, 16) + '</span>\n' +
+                                           '<span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].childComments[j].commentLikes + '</a></span>\n' +
+                                           '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].childComments[j].commentDislikes + '</a></span>\n' +
+                                           '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].childComments[j].commentAuthorId + '\',\'' + data[i].childComments[j].commentAuthorUsername + '\')">回复</button>\n' +
+                                           '</div>' +
+                                           '</div>' +
+                                           '</div>';
+                                   }
+                                   commentHTMLCode +=
+                                       '<div class="comment-reply" style="display: none" id="' + data[i].commentId + '">\n' +
+                                       '<img class="reply-avatar" src="' + data[i].replyerAvatar + '"/>\n' +
+                                       '<textarea class="reply-comment" placeholder="回复' + data[i].commentAuthorUsername + '"' + 'id="reply' + data[i].commentId + '"></textarea>\n' +
+                                       '<button href="#" class="reply-button" onclick="replyComment(' + data[i].commentId + ')" + >发表评论</button>\n' +
+                                       '</div>' +
+                                       '</div>';
+                                   $('#comment' + i).html(commentHTMLCode);
+                               }
+                           }
+                           // 清除请求不满足五条时上一页多余的评论
+                           if(data.length < 5) {
+                               for (let i = data.length; i < 5 ; i++) {
+                                   $('#comment' + i).remove();
+                               }
+                           }
+                       } else {
+                           $('#comment-pagination').before(
+                               '<div class="empty-comment-list">\n' +
+                               '    还没有评论，快来发表评论吧~\n' +
+                               '</div>');
+                       }
+                       // 异步请求分页的数据
+                           $.ajax({
+                               url: "/comment/pagination",
+                               method: "get",
+                               success: function (paginationInfo) {
+                                   console.log(paginationInfo);
+                                   $('#commentsCount').text(paginationInfo.totalCommentsCount);
+                                   $('#totalPages').text(paginationInfo.totalPagesCount);
+                                   // 跳转页面事件绑定
+                                   $('#forward').bind('keypress', function (event) {
+                                       if (event.keyCode === 13) {
+                                           if ($('#forward').val() >= 1 && $('#forward').val() <= paginationInfo.totalPagesCount) {
+                                               redirectCommentPage($('#forward').val());
+                                           }
+                                       }
+                                   });
+                               }
+                       });
+                   }
+               });
+           }
+
+           function redirectCommentPage(pageNumber) {
+                queryComment(pageNumber);
+                // 调整滚动条的位置
+                window.scroll(0,  document.getElementById("doc-content").offsetHeight + 400);
+           }
+
         });
     </script>
 

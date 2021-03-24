@@ -71,6 +71,28 @@ public class CommentService implements CommentMapper {
     }
 
     /**
+     * 根据文章编号查询根评论数量
+     *
+     * @param postId 文章编号
+     * @return 该篇文章下的根评论总数
+     */
+    @Override
+    public int queryRootCommentCountsByPostId(Integer postId) {
+        return commentMapper.queryRootCommentCountsByPostId(postId);
+    }
+
+    /**
+     * 根据文章编号查询全部评论数量
+     *
+     * @param postId 文章编号
+     * @return 该篇文章下的评论总数
+     */
+    @Override
+    public int queryCommentCountsByPostId(Integer postId) {
+        return commentMapper.queryCommentCountsByPostId(postId);
+    }
+
+    /**
      * 根据评论编号伪删除评论
      *
      * @param commentId 评论编号

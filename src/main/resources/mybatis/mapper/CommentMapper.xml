@@ -84,13 +84,23 @@
         limit #{startIndex}, #{pageSize}
     </select>
 
+    <!-- 根据文章编号查询根评论总数 -->
+    <select id="queryRootCommentCountsByPostId" parameterType="Integer" resultType="_int">
+        select count(*) from `comment`
+        where `comment_post_id` = #{postId} and `comment_status` = 0 and ISNULL(`comment_parent_id`)
+    </select>
+
+    <!-- 根据文章编号查询全部评论总数 -->
+    <select id="queryCommentCountsByPostId" parameterType="Integer" resultType="_int">
+        select count(*) from `comment`
+        where `comment_post_id` = #{postId} and `comment_status` = 0
+    </select>
+
     <!-- 根据评论编号伪删除评论 -->
     <update id="deleteCommentsByCommentId" parameterType="Integer">
         update `comment` set
         `comment_status` = 1
         where `comment_id` = #{commentId} or `comment_parent_id` = #{commentId}
     </update>
-
-
 
 </mapper>

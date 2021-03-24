@@ -48,6 +48,20 @@ public interface CommentMapper {
     List<ChildComment> queryChildCommentsByCommentId(Map<String, Integer> map);
 
     /**
+     * 根据文章编号查询根评论数量
+     * @param postId 文章编号
+     * @return 该篇文章下的根评论总数
+     */
+    int queryRootCommentCountsByPostId(@Param("postId")Integer postId);
+
+    /**
+     * 根据文章编号查询全部评论数量
+     * @param postId 文章编号
+     * @return 该篇文章下的评论总数
+     */
+    int queryCommentCountsByPostId(@Param("postId")Integer postId);
+
+    /**
      * 根据评论编号伪删除评论
      * @param commentId 评论编号
      * @return 受影响的行数

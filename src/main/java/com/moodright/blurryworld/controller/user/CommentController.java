@@ -6,6 +6,7 @@ import com.moodright.blurryworld.pojo.CommentDTO;
 import com.moodright.blurryworld.pojo.User;
 import com.moodright.blurryworld.service.CommentService;
 import com.moodright.blurryworld.service.UserService;
+import com.moodright.blurryworld.utils.PostPaginationUtil;
 import org.attoparser.IDocumentHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class CommentController {
 
     CommentService commentService;
     UserService userService;
+    PostPaginationUtil postPaginationUtil;
 
     @Autowired
     public void setCommentService(CommentService commentService) {
@@ -32,6 +34,12 @@ public class CommentController {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+    @Autowired
+    public void setPostPaginationUtil(PostPaginationUtil postPaginationUtil) {
+        this.postPaginationUtil = postPaginationUtil;
+        // 分页大小初始化
+        this.postPaginationUtil.initialPageSize(5);
     }
 
     /**
@@ -105,14 +113,11 @@ public class CommentController {
     @GetMapping("query")
     @ResponseBody
     public List<CommentDTO> queryComment(@RequestParam("postId")Integer postId,
+                                         @RequestParam("pn")Integer pageNumber,
                                          HttpSession session) {
-        // 分页查询参数
-        Map<String,Integer> map = new HashMap<>();
-        map.put("postId", postId);
-        map.put("startIndex", 0);
-        map.put("pageSize", 10);
+        postPaginationUtil.updateCommentPaginationInfo(pageNumber, postId, commentService.queryRootCommentCountsByPostId(postId), commentService.queryCommentCountsByPostId(postId));
         // 分页查询该篇文章下的评论
-        List<Comment> comments = commentService.queryCommentsByPostId(map);
+        List<Comment> comments = commentService.queryCommentsByPostId(postPaginationUtil.getPaginationInfo());
         List<CommentDTO> commentDTOList = new ArrayList<>();
         for(Comment comment : comments) {
             CommentDTO commentDTO = new CommentDTO();
@@ -130,7 +135,11 @@ public class CommentController {
             User replyer = (User)session.getAttribute("user");
             commentDTO.setReplyerAvatar(replyer.getAvatar());
             // 封装该条评论下的子评论对象
+            // 分页查询参数
+            Map<String,Integer> map = new HashMap<>();
             map.put("commentId", comment.getCommentId());
+            map.put("startIndex", 0);
+            map.put("pageSize", 10);
             // 根据父评论编号查询子评论
             List<ChildComment> childComments = commentService.queryChildCommentsByCommentId(map);
             for(ChildComment childComment : childComments) {
@@ -147,6 +156,10 @@ public class CommentController {
         return commentDTOList;
     }
 
-
+    @GetMapping("pagination")
+    @ResponseBody
+    public Map<String,Integer> getCommentPaginationInfo() {
+        return postPaginationUtil.getPaginationInfo();
+    }
 
 }
