@@ -54,8 +54,8 @@ public class CommentService implements CommentMapper {
      *            postId: 文章编号
      */
     @Override
-    public List<Comment> queryCommentsByPostId(Map<String, Integer> map) {
-        return commentMapper.queryCommentsByPostId(map);
+    public List<Comment> queryRootCommentsByPostId(Map<String, Integer> map) {
+        return commentMapper.queryRootCommentsByPostId(map);
     }
 
     /**

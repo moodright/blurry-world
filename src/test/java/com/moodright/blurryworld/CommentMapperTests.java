@@ -40,7 +40,7 @@ public class CommentMapperTests {
         map.put("postId", 2000);
         map.put("startIndex", 0);
         map.put("pageSize", 2);
-        List<Comment> comments = commentMapper.queryCommentsByPostId(map);
+        List<Comment> comments = commentMapper.queryRootCommentsByPostId(map);
         for (Comment comment : comments) {
             System.out.println(comment);
         }

@@ -37,7 +37,7 @@ public interface CommentMapper {
      *                 pageSize: 分页数量,
      *                 postId: 文章编号
      */
-    List<Comment> queryCommentsByPostId(Map<String,Integer> map);
+    List<Comment> queryRootCommentsByPostId(Map<String,Integer> map);
 
     /**
      * 根据评论编号分页查询该评论下的子评论

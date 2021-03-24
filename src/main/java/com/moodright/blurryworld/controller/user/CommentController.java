@@ -108,58 +108,47 @@ public class CommentController {
     /**
      * 根据文章编号查询评论
      * @param postId 文章编号
-     * @return CommentDTO 列表
+     * @return CommentDTO
      */
     @GetMapping("query")
     @ResponseBody
-    public List<CommentDTO> queryComment(@RequestParam("postId")Integer postId,
-                                         @RequestParam("pn")Integer pageNumber,
-                                         HttpSession session) {
+    public CommentDTO queryComment(@RequestParam("postId")int postId,
+                                   @RequestParam("pn")int pageNumber,
+                                   HttpSession session) {
+        // 更新分页信息
         postPaginationUtil.updateCommentPaginationInfo(pageNumber, postId, commentService.queryRootCommentCountsByPostId(postId), commentService.queryCommentCountsByPostId(postId));
-        // 分页查询该篇文章下的评论
-        List<Comment> comments = commentService.queryCommentsByPostId(postPaginationUtil.getPaginationInfo());
-        List<CommentDTO> commentDTOList = new ArrayList<>();
-        for(Comment comment : comments) {
-            CommentDTO commentDTO = new CommentDTO();
-            // 封装评论对象
-            commentDTO.setCommentId(comment.getCommentId());
-            commentDTO.setCommentAuthorId(comment.getCommentAuthorId());
-            commentDTO.setCommentContent(comment.getCommentContent());
-            commentDTO.setCommentCreateTime(comment.getCommentCreateTime());
-            commentDTO.setCommentLikes(comment.getCommentLikes());
-            commentDTO.setCommentDislikes(comment.getCommentDislikes());
-            User user = userService.queryUserById(comment.getCommentAuthorId());
-            commentDTO.setCommentAuthorUsername(user.getUsername());
-            commentDTO.setCommentAuthorAvatar(user.getAvatar());
+        // 分页查询该篇文章下的根评论
+        List<Comment> comments = commentService.queryRootCommentsByPostId(postPaginationUtil.getPaginationInfo());
+        CommentDTO commentDTO = new CommentDTO();
+        for (int i = 0; i < comments.size(); i++) {
             // 封装回复对象
             User replyer = (User)session.getAttribute("user");
             commentDTO.setReplyerAvatar(replyer.getAvatar());
-            // 封装该条评论下的子评论对象
-            // 分页查询参数
+            // 封装根评论对象
+            User user = userService.queryUserById(comments.get(i).getCommentAuthorId());
+            comments.get(i).setCommentAuthorAvatar(user.getAvatar());
+            comments.get(i).setCommentAuthorUsername(user.getUsername());
+            commentDTO.getRootComment().put("" + i, comments.get(i));
+            // 子评论分页查询参数（待完善）
             Map<String,Integer> map = new HashMap<>();
-            map.put("commentId", comment.getCommentId());
+            map.put("commentId", comments.get(i).getCommentId());
             map.put("startIndex", 0);
             map.put("pageSize", 10);
             // 根据父评论编号查询子评论
             List<ChildComment> childComments = commentService.queryChildCommentsByCommentId(map);
-            for(ChildComment childComment : childComments) {
-                User childCommentAuthor = userService.queryUserById(childComment.getCommentAuthorId());
+            for (int j = 0; j < childComments.size() ; j++) {
+                User childCommentAuthor = userService.queryUserById(childComments.get(j).getCommentAuthorId());
                 // 封装评论作者用户名
-                childComment.setCommentAuthorUsername(childCommentAuthor.getUsername());
+                childComments.get(j).setCommentAuthorUsername(childCommentAuthor.getUsername());
                 // 封装评论作者头像
-                childComment.setCommentAuthorAvatar(childCommentAuthor.getAvatar());
+                childComments.get(j).setCommentAuthorAvatar(childCommentAuthor.getAvatar());
             }
-            commentDTO.setChildComments(childComments);
-            // 将封装好的CommentDTO添加进列表中
-            commentDTOList.add(commentDTO);
+            // 封装子评论对象
+            commentDTO.getChildComments().put("" + i, childComments);
         }
-        return commentDTOList;
-    }
-
-    @GetMapping("pagination")
-    @ResponseBody
-    public Map<String,Integer> getCommentPaginationInfo() {
-        return postPaginationUtil.getPaginationInfo();
+        // 封装分页信息
+        commentDTO.setPaginationInfo(postPaginationUtil.getPaginationInfo());
+        return commentDTO;
     }
 
 }

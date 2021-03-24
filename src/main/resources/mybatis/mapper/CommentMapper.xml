@@ -71,7 +71,7 @@
     </insert>
 
     <!-- 根据文章编号分页查询评论 -->
-    <select id="queryCommentsByPostId" parameterType="map" resultMap="commentResultMap">
+    <select id="queryRootCommentsByPostId" parameterType="map" resultMap="commentResultMap">
         select * from `comment`
         where `comment_post_id` = #{postId} and `comment_status` = 0 and ISNULL(`comment_parent_id`)
         limit #{startIndex}, #{pageSize}

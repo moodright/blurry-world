@@ -512,21 +512,16 @@
             padding: 6px 0;
             cursor: pointer;
             margin: 0 10px;
-        }
-        .pag-btn a {
-            text-decoration: none;
             color: #222222;
         }
         .pag-btn:hover{
             background: #00a1d6;
-        }
-        .pag-btn:hover a {
             color: white;
         }
         .redirect-page {
             text-align: right;
             padding: 7px 0;
-            width: 190px;
+            width: 250px;
             height: 40px;
             font-size: 12px;
             color: #505050;
@@ -740,13 +735,13 @@
                 </div>
                 <div id="comment-pagination" class="comment-pagination">
                     <div class="btn">
-                        <div class="pag-btn"><a id="firstCommentPage" href="#">首页</a></div>
-                        <div class="pag-btn"><a id="prevCommentPage" href="#">上一页</a></div>
-                        <div class="pag-btn"><a id="nextCommentPage" href="#">下一页</a></div>
-                        <div class="pag-btn"><a id="lastCommentPage" href="#">尾页</a></div>
+                        <div class="pag-btn" id="firstCommentPage">首页</div>
+                        <div class="pag-btn" id="prevCommentPage">上一页</div>
+                        <div class="pag-btn" id="nextCommentPage">下一页</div>
+                        <div class="pag-btn" id="lastCommentPage">尾页</div>
                     </div>
                     <div class="redirect-page">
-                        共<span id="totalPages">3</span>页，跳转至
+                        当前位于第<span id="currentPage"></span>页/共<span id="totalPages"></span>页，跳转至
                         <input id="forward" type="text"> 页
                     </div>
                 </div>
@@ -907,128 +902,166 @@
                   queryComment(1);
               }
            });
+        });
 
-           //查询评论数据
-           function queryComment(pageNumber) {
-               $.ajax({
-                   url: '/comment/query/',
-                   method: "get",
-                   data: 'postId=' + $('#postId').val() + '&pn=' + pageNumber,
-                   success: function (data) {
-                       console.log(data);
-                       // 如果数据不为空渲染则渲染到前端页面
-                       if (data.length !== 0) {
-                           for (let i = 0; i < data.length; i++) {
-                               // 判断该标签是否存在
-                               if(!$('#comment' + i).length > 0) {
-                                   var div = document.createElement("div");
-                                   div.setAttribute("class", "comment-list");
-                                   div.setAttribute("id", "comment" + i);
-                                   // $('#comment-block').append(div);
-                                   $('#comment-pagination').before(div);
-                               }
-                               // 没有子评论
-                               if (data[i].childComments.length === 0) {
-                                   $('#comment' + i).html(
-                                       '<a href="/space/' + data[i].commentAuthorId + '"><img class="user-avatar" src="' + data[i].commentAuthorAvatar + '"/></a>\n' +
-                                       '<div class="user-info">\n' +
-                                       '<div class="user-nickname">' + '<a href="/space/' + data[i].commentAuthorId + '">' + data[i].commentAuthorUsername + '</a></div>\n' +
-                                       '<div class="user-comment-msg">\n' +
-                                       data[i].commentContent +
-                                       '</div>\n' +
-                                       '<div class="user-comment-footer">\n' +
-                                       '<span class="comment-date">' + data[i].commentCreateTime.slice(0, 10) + ' ' + data[i].commentCreateTime.slice(11, 16) + '</span>\n' +
-                                       '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].commentLikes + '</a></span>\n' +
-                                       '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].commentDislikes + '</a></span>\n' +
-                                       '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].commentAuthorId + '\',\'' + data[i].commentAuthorUsername + '\')">回复</button>\n' +
-                                       '<div class="comment-reply" style="display: none" id="' + data[i].commentId + '">\n' +
-                                       '<img class="reply-avatar" src="' + data[i].replyerAvatar + '"/>\n' +
-                                       '<textarea class="reply-comment" placeholder="回复' + data[i].commentAuthorUsername + '"' + 'id="reply' + data[i].commentId + '"></textarea>\n' +
-                                       '<button href="#" class="reply-button" onclick="replyComment(' + data[i].commentId + ')" + >发表评论</button>\n' +
-                                       '</div>' +
-                                       '</div>' +
-                                       '</div>');
-                               } else {
-                                   let commentHTMLCode =
-                                       '<a href="/space/' + data[i].commentAuthorId + '"><img class="user-avatar" src="' + data[i].commentAuthorAvatar + '"/></a>\n' +
-                                       '<div class="user-info">\n' +
-                                       '<div class="user-nickname">' + '<a href="/space/' + data[i].commentAuthorId + '">' + data[i].commentAuthorUsername + '</a></div>\n' +
-                                       '<div class="user-comment-msg">\n' +
-                                       data[i].commentContent +
-                                       '</div>\n' +
-                                       '<div class="user-comment-footer">\n' +
-                                       '<span class="comment-date">' + data[i].commentCreateTime.slice(0, 10) + ' ' + data[i].commentCreateTime.slice(11, 16) + '</span>\n' +
-                                       '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].commentLikes + '</a></span>\n' +
-                                       '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].commentDislikes + '</a></span>\n' +
-                                       '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].commentAuthorId + '\',\'' + data[i].commentAuthorUsername + '\')">回复</button>\n';
-                                   for (let j = 0; j < data[i].childComments.length; j++) {
-                                       commentHTMLCode +=
-                                           '<div class="reply-comment-list">' +
-                                           '<a href="/space/' + data[i].childComments[j].commentAuthorId + '"><img class="reply-user-avatar" src="' + data[i].childComments[j].commentAuthorAvatar + '"/></a>\n' +
-                                           '<div class="reply-user-info">' +
-                                           '<div class="reply-user-nickname">' + '<a href="/space/' + data[i].childComments[j].commentAuthorId + '">' + data[i].childComments[j].commentAuthorUsername + '</a></div>\n' +
-                                           '<div class="reply-user-comment-msg">\n' +
-                                           '回复 ' + '<a href="/space/' + data[i].childComments[j].parentCommentAuthorId + '">' + data[i].childComments[j].parentCommentAuthorUsername + '</a>' + ' :' + data[i].childComments[j].commentContent +
-                                           '</div>\n' +
-                                           '<div class="reply-user-comment-footer">\n' +
-                                           '<span class="reply-comment-date">' + data[i].childComments[j].commentCreateTime.slice(0, 16) + '</span>\n' +
-                                           '<span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data[i].childComments[j].commentLikes + '</a></span>\n' +
-                                           '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data[i].childComments[j].commentDislikes + '</a></span>\n' +
-                                           '<button onclick="toggleReplyBlock(\'' + data[i].commentId + '\',\'' + data[i].childComments[j].commentAuthorId + '\',\'' + data[i].childComments[j].commentAuthorUsername + '\')">回复</button>\n' +
-                                           '</div>' +
-                                           '</div>' +
-                                           '</div>';
-                                   }
-                                   commentHTMLCode +=
-                                       '<div class="comment-reply" style="display: none" id="' + data[i].commentId + '">\n' +
-                                       '<img class="reply-avatar" src="' + data[i].replyerAvatar + '"/>\n' +
-                                       '<textarea class="reply-comment" placeholder="回复' + data[i].commentAuthorUsername + '"' + 'id="reply' + data[i].commentId + '"></textarea>\n' +
-                                       '<button href="#" class="reply-button" onclick="replyComment(' + data[i].commentId + ')" + >发表评论</button>\n' +
-                                       '</div>' +
-                                       '</div>';
-                                   $('#comment' + i).html(commentHTMLCode);
-                               }
-                           }
-                           // 清除请求不满足五条时上一页多余的评论
-                           if(data.length < 5) {
-                               for (let i = data.length; i < 5 ; i++) {
-                                   $('#comment' + i).remove();
-                               }
-                           }
-                       } else {
-                           $('#comment-pagination').before(
-                               '<div class="empty-comment-list">\n' +
-                               '    还没有评论，快来发表评论吧~\n' +
-                               '</div>');
-                       }
-                       // 异步请求分页的数据
-                           $.ajax({
-                               url: "/comment/pagination",
-                               method: "get",
-                               success: function (paginationInfo) {
-                                   console.log(paginationInfo);
-                                   $('#commentsCount').text(paginationInfo.totalCommentsCount);
-                                   $('#totalPages').text(paginationInfo.totalPagesCount);
-                                   // 跳转页面事件绑定
-                                   $('#forward').bind('keypress', function (event) {
-                                       if (event.keyCode === 13) {
-                                           if ($('#forward').val() >= 1 && $('#forward').val() <= paginationInfo.totalPagesCount) {
-                                               redirectCommentPage($('#forward').val());
-                                           }
-                                       }
-                                   });
-                               }
-                       });
-                   }
-               });
-           }
+        //查询评论数据
+        function queryComment(pageNumber) {
+            $.ajax({
+                url: '/comment/query/',
+                method: 'get',
+                data: 'postId=' + $('#postId').val() + '&pn=' + pageNumber,
+                success: function (data) {
+                    console.log(data);
+                    // 如果评论不为空渲染则渲染到前端页面
+                    if (Object.keys(data.rootComment).length !== 0) {
+                        for (let i = 0; i < Object.keys(data.rootComment).length; i++) {
+                            // 判断该标签是否存在
+                            if(!$('#comment' + i).length > 0) {
+                                var div = document.createElement("div");
+                                div.setAttribute("class", "comment-list");
+                                div.setAttribute("id", "comment" + i);
+                                // $('#comment-block').append(div);
+                                $('#comment-pagination').before(div);
+                            }
+                            // 没有子评论
+                            if (data.childComments[i].length === 0) {
+                                let commentHTMLCode =
+                                    '<a href="/space/' + data.rootComment[i].commentAuthorId + '"><img class="user-avatar" src="' + data.rootComment[i].commentAuthorAvatar + '"/></a>\n' +
+                                    '<div class="user-info">\n' +
+                                    '<div class="user-nickname">' + '<a href="/space/' + data.rootComment[i].commentAuthorId + '">' + data.rootComment[i].commentAuthorUsername + '</a></div>\n' +
+                                    '<div class="user-comment-msg">\n' +
+                                    data.rootComment[i].commentContent +
+                                    '</div>\n' +
+                                    '<div class="user-comment-footer">\n' +
+                                    '<span class="comment-date">' + data.rootComment[i].commentCreateTime.slice(0, 16) + '</span>\n' +
+                                    '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data.rootComment[i].commentLikes + '</a></span>\n' +
+                                    '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data.rootComment[i].commentDislikes + '</a></span>\n' +
+                                    '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.rootComment[i].commentAuthorId + '\',\'' + data.rootComment[i].commentAuthorUsername + '\')">回复</button>\n' +
+                                    '<div class="comment-reply" style="display: none" id="' + data.rootComment[i].commentId + '">\n' +
+                                    '<img class="reply-avatar" src="' + data.replyerAvatar + '"/>\n' +
+                                    '<textarea class="reply-comment" placeholder="回复' + data.rootComment[i].commentAuthorUsername + '"' + 'id="reply' + data.rootComment[i].commentId + '"></textarea>\n' +
+                                    '<button href="#" class="reply-button" onclick="replyComment(' + data.rootComment[i].commentId + ')" + >发表评论</button>\n' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                                $('#comment' + i).html(commentHTMLCode);
+                            } else {
+                                let commentHTMLCode =
+                                    '<a href="/space/' + data.rootComment[i].commentAuthorId + '"><img class="user-avatar" src="' + data.rootComment[i].commentAuthorAvatar + '"/></a>\n' +
+                                    '<div class="user-info">\n' +
+                                    '<div class="user-nickname">' + '<a href="/space/' + data.rootComment[i].commentAuthorId + '">' + data.rootComment[i].commentAuthorUsername + '</a></div>\n' +
+                                    '<div class="user-comment-msg">\n' +
+                                    data.rootComment[i].commentContent +
+                                    '</div>\n' +
+                                    '<div class="user-comment-footer">\n' +
+                                    '<span class="comment-date">' + data.rootComment[i].commentCreateTime.slice(0, 10) + ' ' + data.rootComment[i].commentCreateTime.slice(11, 16) + '</span>\n' +
+                                    '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data.rootComment[i].commentLikes + '</a></span>\n' +
+                                    '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data.rootComment[i].commentDislikes + '</a></span>\n' +
+                                    '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.rootComment[i].commentAuthorId + '\',\'' + data.rootComment[i].commentAuthorUsername + '\')">回复</button>\n';
+                                for (let j = 0; j < data.childComments[i].length; j++) {
+                                    commentHTMLCode +=
+                                        '<div class="reply-comment-list">' +
+                                        '<a href="/space/' + data.childComments[i][j].commentAuthorId + '"><img class="reply-user-avatar" src="' + data.childComments[i][j].commentAuthorAvatar + '"/></a>\n' +
+                                        '<div class="reply-user-info">' +
+                                        '<div class="reply-user-nickname">' + '<a href="/space/' + data.childComments[i][j].commentAuthorId + '">' + data.childComments[i][j].commentAuthorUsername + '</a></div>\n' +
+                                        '<div class="reply-user-comment-msg">\n' +
+                                        '回复 ' + '<a href="/space/' + data.childComments[i][j].parentCommentAuthorId + '">' + data.childComments[i][j].parentCommentAuthorUsername + '</a>' + ' :' + data.childComments[i][j].commentContent +
+                                        '</div>\n' +
+                                        '<div class="reply-user-comment-footer">\n' +
+                                        '<span class="reply-comment-date">' + data.childComments[i][j].commentCreateTime.slice(0, 16) + '</span>\n' +
+                                        '<span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data.childComments[i][j].commentLikes + '</a></span>\n' +
+                                        '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data.childComments[i][j].commentDislikes + '</a></span>\n' +
+                                        '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.childComments[i][j].commentAuthorId + '\',\'' + data.childComments[i][j].commentAuthorUsername + '\')">回复</button>\n' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>';
+                                }
+                                commentHTMLCode +=
+                                    '<div class="comment-reply" style="display: none" id="' + data.rootComment[i].commentId + '">\n' +
+                                    '<img class="reply-avatar" src="' + data.replyerAvatar + '"/>\n' +
+                                    '<textarea class="reply-comment" placeholder="回复' + data.rootComment[i].commentAuthorUsername + '"' + 'id="reply' + data.rootComment[i].commentId + '"></textarea>\n' +
+                                    '<button href="#" class="reply-button" onclick="replyComment(' + data.rootComment[i].commentId + ')" + >发表评论</button>\n' +
+                                    '</div>' +
+                                    '</div>';
+                                $('#comment' + i).html(commentHTMLCode);
+                            }
+                        }
+                        // 清除请求的评论不满足五条时上一页多余的评论
+                        if(Object.keys(data.rootComment).length < data.paginationInfo.pageSize) {
+                            for (let i = Object.keys(data.rootComment).length; i < data.paginationInfo.pageSize ; i++) {
+                                $('#comment' + i).remove();
+                            }
+                        }
+                        // 渲染分页信息
+                        applyPaginationInfo(data.paginationInfo);
+                    } else {
+                        $('#comment-pagination').before(
+                            '<div class="empty-comment-list">\n' +
+                            '    还没有评论，快来发表评论吧~\n' +
+                            '</div>');
+                    }
+                }
+            });
+        }
 
-           function redirectCommentPage(pageNumber) {
-                queryComment(pageNumber);
-                // 调整滚动条的位置
-                window.scroll(0,  document.getElementById("doc-content").offsetHeight + 400);
-           }
+        /**
+         * 跳转评论页面
+         * @param pageNumber 跳转页面页码
+         */
+        function redirectCommentPage(pageNumber) {
+            queryComment(Number(pageNumber));
+            // 调整滚动条的位置
+            window.scroll(0, document.getElementById("doc-content").offsetHeight + 400);
+        }
 
+        /**
+         * 渲染分页信息
+         * @param paginationInfo 分页信息
+         */
+        var totalPagesCount;
+        function applyPaginationInfo(paginationInfo) {
+            // 更新当前页码
+            $('#currentPage').text((paginationInfo.startIndex + 5) / paginationInfo.pageSize);
+            // 更新评论总数
+            $('#commentsCount').text(paginationInfo.totalCommentsCount);
+            // 更新总页数
+            $('#totalPages').text(paginationInfo.totalPagesCount);
+            // 暴露全局变量 totalPagesCount 用于校验跳转页面绑定事件
+            totalPagesCount = paginationInfo.totalPagesCount;
+            // 更新点击事件
+            $('#firstCommentPage').unbind('click').click(function() {
+                redirectCommentPage(1);
+            });
+            $('#lastCommentPage').unbind('click').click(function() {
+                redirectCommentPage(paginationInfo.lastPage);
+            });
+            if(paginationInfo.prevPage !== null) {
+                $('#prevCommentPage').css("display", "block");
+                $('#prevCommentPage').unbind('click').click(function() {
+                    redirectCommentPage(paginationInfo.prevPage);
+                });
+            } else {
+                $('#prevCommentPage').css("display", "none");
+            }
+            if(paginationInfo.nextPage !== null) {
+                $('#nextCommentPage').css("display", "block");
+                $('#nextCommentPage').unbind('click').click(function() {
+                    redirectCommentPage(paginationInfo.nextPage);
+                });
+            } else {
+                $('#nextCommentPage').css("display", "none");
+            }
+
+        }
+
+        // 跳转页面事件绑定
+        $('#forward').bind('keypress', function (event) {
+            if (event.keyCode === 13) {
+                // 输入页码校验
+                if ($('#forward').val() >= 1 && $('#forward').val() <= totalPagesCount) {
+                    redirectCommentPage($('#forward').val());
+                }
+            }
         });
     </script>
 
