@@ -114,9 +114,16 @@ public class CommentController {
     @ResponseBody
     public CommentDTO queryComment(@RequestParam("postId")int postId,
                                    @RequestParam("pn")int pageNumber,
+                                   @RequestParam("orderType")String orderType,
                                    HttpSession session) {
         // 更新分页信息
         postPaginationUtil.updateCommentPaginationInfo(pageNumber, postId, commentService.queryRootCommentCountsByPostId(postId), commentService.queryCommentCountsByPostId(postId));
+        // 根据时间排序
+        // BUG：第一次请求了按时间排序后，后续的请求都是按时间排序的
+        //      此处分页map没有将 orderByTime 重置为 null
+        if(orderType.equals("time")) {
+            postPaginationUtil.getPaginationInfo().put("orderByTime", 1);
+        }
         // 分页查询该篇文章下的根评论
         List<Comment> comments = commentService.queryRootCommentsByPostId(postPaginationUtil.getPaginationInfo());
         CommentDTO commentDTO = new CommentDTO();
@@ -124,6 +131,7 @@ public class CommentController {
             // 封装回复对象
             User replyer = (User)session.getAttribute("user");
             commentDTO.setReplyerAvatar(replyer.getAvatar());
+            commentDTO.setReplyerId(replyer.getUserId());
             // 封装根评论对象
             User user = userService.queryUserById(comments.get(i).getCommentAuthorId());
             comments.get(i).setCommentAuthorAvatar(user.getAvatar());
@@ -149,6 +157,29 @@ public class CommentController {
         // 封装分页信息
         commentDTO.setPaginationInfo(postPaginationUtil.getPaginationInfo());
         return commentDTO;
+    }
+
+    /**
+     * 根据评论编号删除评论
+     * @param commentId 评论编号
+     * @return 校验字符串
+     */
+    @PostMapping("delete")
+    @ResponseBody
+    public String deleteCommentById(@RequestParam("commentId")Integer commentId) {
+        Comment comment = commentService.queryCommentByCommentId(commentId);
+        int i;
+        // 判断该评论是根评论还是子评论
+        if(comment.getCommentParentId() != null) {
+            i = commentService.deleteChildCommentByCommentId(commentId);
+        }else {
+            i = commentService.deleteRootCommentByCommentId(commentId);
+        }
+        if(i > 0) {
+            return "success";
+        }else {
+            return "failed";
+        }
     }
 
 }

@@ -48,7 +48,7 @@ public class CommentMapperTests {
 
     @Test
     public void deleteCommentsByCommentIdTest() {
-        commentMapper.deleteCommentsByCommentId(1);
+        commentMapper.deleteRootCommentByCommentId(1);
     }
 
     @Test

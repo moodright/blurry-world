@@ -22,6 +22,11 @@ public class CommentDTO{
     private String replyerAvatar;
 
     /**
+     * 回复者用户编号（存放当前会话用户编号）
+     */
+    private Integer replyerId;
+
+    /**
      * 分页信息
      */
     private Map<String,Integer> paginationInfo;

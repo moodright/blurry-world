@@ -227,6 +227,7 @@
         .comment .comment-sort a {
             text-decoration: none;
             color: black;
+            cursor: pointer;
         }
         /* 发表评论 */
         .comment .comment-send {
@@ -350,6 +351,19 @@
             background: rgb(239, 239, 239);
             color: #409EFF;
         }
+        .comment .comment-list .user-comment-footer .delete-button {
+            border-radius: 4px;
+            color: #99a2aa;
+            font-size: 12px;
+            border: none;
+            background: transparent;
+            margin-left: 5px;
+        }
+        .comment .comment-list .user-comment-footer .delete-button:hover {
+            background: rgb(239, 239, 239);
+            color: #F56C6C;
+        }
+
 
         /* 评论的回复评论列表 */
         .user-comment-footer .reply-comment-list {
@@ -718,7 +732,7 @@
                         <a href="#">按热度排序</a>
                     </div>
                     <div>
-                        <a href="#">按时间排序</a>
+                        <a onclick="orderByTime()">按时间排序</a>
                     </div>
                 </div>
                 <!-- 发表评论 -->
@@ -899,17 +913,17 @@
               // console.log(document.documentElement.scrollTop);
               if(document.documentElement.scrollTop > document.getElementById("doc-content").offsetHeight / 2 && ajaxRequestCheck === true) {
                   ajaxRequestCheck = false;
-                  queryComment(1);
+                  queryComment(1, "default");
               }
            });
         });
 
         //查询评论数据
-        function queryComment(pageNumber) {
+        function queryComment(pageNumber, orderType) {
             $.ajax({
                 url: '/comment/query/',
                 method: 'get',
-                data: 'postId=' + $('#postId').val() + '&pn=' + pageNumber,
+                data: 'postId=' + $('#postId').val() + '&pn=' + pageNumber + "&orderType=" + orderType,
                 success: function (data) {
                     console.log(data);
                     // 如果评论不为空渲染则渲染到前端页面
@@ -933,10 +947,17 @@
                                     data.rootComment[i].commentContent +
                                     '</div>\n' +
                                     '<div class="user-comment-footer">\n' +
-                                    '<span class="comment-date">' + data.rootComment[i].commentCreateTime.slice(0, 16) + '</span>\n' +
+                                    '<span class="comment-date">' + getDateDiff(data.rootComment[i].commentCreateTime.slice(0, 16)) + '</span>\n' +
                                     '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data.rootComment[i].commentLikes + '</a></span>\n' +
                                     '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data.rootComment[i].commentDislikes + '</a></span>\n' +
-                                    '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.rootComment[i].commentAuthorId + '\',\'' + data.rootComment[i].commentAuthorUsername + '\')">回复</button>\n' +
+                                    '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.rootComment[i].commentAuthorId + '\',\'' + data.rootComment[i].commentAuthorUsername + '\')">回复</button>\n';
+
+                                // 判断是否为当前会话用户发布的评论
+                                if(data.rootComment[i].commentAuthorId === data.replyerId) {
+                                    commentHTMLCode += '<button id="delete-button" class="delete-button" onclick="deleteComment(' + data.rootComment[i].commentId +')">删除</button>';
+                                }
+
+                                commentHTMLCode +=
                                     '<div class="comment-reply" style="display: none" id="' + data.rootComment[i].commentId + '">\n' +
                                     '<img class="reply-avatar" src="' + data.replyerAvatar + '"/>\n' +
                                     '<textarea class="reply-comment" placeholder="回复' + data.rootComment[i].commentAuthorUsername + '"' + 'id="reply' + data.rootComment[i].commentId + '"></textarea>\n' +
@@ -954,10 +975,16 @@
                                     data.rootComment[i].commentContent +
                                     '</div>\n' +
                                     '<div class="user-comment-footer">\n' +
-                                    '<span class="comment-date">' + data.rootComment[i].commentCreateTime.slice(0, 10) + ' ' + data.rootComment[i].commentCreateTime.slice(11, 16) + '</span>\n' +
+                                    '<span class="comment-date">' + getDateDiff(data.rootComment[i].commentCreateTime.slice(0, 16)) + '</span>\n' +
                                     '<span class="comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data.rootComment[i].commentLikes + '</a></span>\n' +
                                     '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data.rootComment[i].commentDislikes + '</a></span>\n' +
                                     '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.rootComment[i].commentAuthorId + '\',\'' + data.rootComment[i].commentAuthorUsername + '\')">回复</button>\n';
+
+                                // 判断是否为当前会话用户发布的评论
+                                if(data.rootComment[i].commentAuthorId === data.replyerId) {
+                                    commentHTMLCode += '<button id="delete-button" class="delete-button" onclick="deleteComment(' + data.rootComment[i].commentId +')">删除</button>';
+                                }
+
                                 for (let j = 0; j < data.childComments[i].length; j++) {
                                     commentHTMLCode +=
                                         '<div class="reply-comment-list">' +
@@ -968,10 +995,17 @@
                                         '回复 ' + '<a href="/space/' + data.childComments[i][j].parentCommentAuthorId + '">' + data.childComments[i][j].parentCommentAuthorUsername + '</a>' + ' :' + data.childComments[i][j].commentContent +
                                         '</div>\n' +
                                         '<div class="reply-user-comment-footer">\n' +
-                                        '<span class="reply-comment-date">' + data.childComments[i][j].commentCreateTime.slice(0, 16) + '</span>\n' +
+                                        '<span class="reply-comment-date">' + getDateDiff(data.childComments[i][j].commentCreateTime.slice(0, 16)) + '</span>\n' +
                                         '<span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data.childComments[i][j].commentLikes + '</a></span>\n' +
                                         '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data.childComments[i][j].commentDislikes + '</a></span>\n' +
-                                        '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.childComments[i][j].commentAuthorId + '\',\'' + data.childComments[i][j].commentAuthorUsername + '\')">回复</button>\n' +
+                                        '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.childComments[i][j].commentAuthorId + '\',\'' + data.childComments[i][j].commentAuthorUsername + '\')">回复</button>\n';
+
+                                    // 判断是否为当前会话用户发布的评论
+                                    if(data.childComments[i][j].commentAuthorId === data.replyerId) {
+                                        commentHTMLCode += '<button id="delete-button" class="delete-button" onclick="deleteComment(' + data.childComments[i][j].commentId + ')">删除</button>';
+                                    }
+
+                                    commentHTMLCode +=
                                         '</div>' +
                                         '</div>' +
                                         '</div>';
@@ -999,6 +1033,7 @@
                             '<div class="empty-comment-list">\n' +
                             '    还没有评论，快来发表评论吧~\n' +
                             '</div>');
+                        $('#comment-pagination').css("display", "none");
                     }
                 }
             });
@@ -1007,9 +1042,14 @@
         /**
          * 跳转评论页面
          * @param pageNumber 跳转页面页码
+         * @param orderType 排序类型
          */
-        function redirectCommentPage(pageNumber) {
-            queryComment(Number(pageNumber));
+        function redirectCommentPage(pageNumber, orderType) {
+            if(orderType !== undefined) {
+                queryComment(Number(pageNumber), orderType);
+            }else{
+                queryComment(Number(pageNumber), "default");
+            }
             // 调整滚动条的位置
             window.scroll(0, document.getElementById("doc-content").offsetHeight + 400);
         }
@@ -1051,7 +1091,6 @@
             } else {
                 $('#nextCommentPage').css("display", "none");
             }
-
         }
 
         // 跳转页面事件绑定
@@ -1063,6 +1102,68 @@
                 }
             }
         });
+
+        //删除评论
+        function deleteComment(commentId) {
+            console.log(commentId);
+            $.ajax({
+               url: '/comment/delete',
+               method: 'post',
+               data: 'commentId=' + commentId,
+               success: function(msg) {
+                   if(msg === 'success') {
+                       $('#alert-success').html('<i class="fa fa-check mr-2"></i>删除评论成功！');
+                       $("#alert-success").fadeIn();
+                       var t = setTimeout(function() {
+                           window.location.href = "/post/read/" + $('#postId').val();
+                       }, 1000);
+                   }else {
+                       $('#alert-failed').html('<i class="fa fa-check mr-2"></i>删除评论失败！');
+                       $("#alert-failed").fadeIn();
+                       var t = setTimeout(function() {
+                           $("#alert-failed").fadeOut();
+                       }, 1000);
+                   }
+               }
+            });
+        }
+
+        /**
+         * 评论发布时间转换（刚刚，几分钟前，几小时前...)
+         */
+        // ms为单位设置分、小时
+        var minute = 1000 * 60;
+        var hour = minute * 60;
+        function getDateDiff(setdateTimeStamp){
+            var dateTimeStamp=new Date(setdateTimeStamp);
+            // 当前日期的时间戳
+            var now = new Date().getTime();
+            // 转换的日期和当前日期时间戳差值
+            var diffValue = now - dateTimeStamp;
+            // 求小时差
+            var hourDiff =diffValue/hour;
+            // 求分钟差
+            var minDiff =diffValue/minute;
+            // 大于24小时差不进行转换
+            if(hourDiff >= 24) {
+                return setdateTimeStamp;
+            } else if(hourDiff>=1 && hourDiff<24){
+                result=parseInt(hourDiff) +"小时前";
+            }
+            else if(minDiff>=1 && minDiff<60){
+                result=parseInt(minDiff) +"分钟前";
+            }else
+                result="刚刚";
+            return result;
+        }
+
+        // 评论按时间排序
+        function orderByTime() {
+            queryComment(1, "time");
+            // 调整滚动条的位置
+            window.scroll(0, document.getElementById("doc-content").offsetHeight + 400);
+        }
+
     </script>
 
 </body>

@@ -99,7 +99,29 @@ public class CommentService implements CommentMapper {
      * @return 受影响的行数
      */
     @Override
-    public int deleteCommentsByCommentId(Integer commentId) {
-        return commentMapper.deleteCommentsByCommentId(commentId);
+    public int deleteRootCommentByCommentId(Integer commentId) {
+        return commentMapper.deleteRootCommentByCommentId(commentId);
+    }
+
+    /**
+     * 根据评论编号伪删除子评论
+     *
+     * @param commentId 评论编号
+     * @return 受影响的行数
+     */
+    @Override
+    public int deleteChildCommentByCommentId(Integer commentId) {
+        return commentMapper.deleteChildCommentByCommentId(commentId);
+    }
+
+    /**
+     * 根据评论编号查询评论
+     *
+     * @param commentId 评论编号
+     * @return 评论对象
+     */
+    @Override
+    public Comment queryCommentByCommentId(Integer commentId) {
+        return commentMapper.queryCommentByCommentId(commentId);
     }
 }

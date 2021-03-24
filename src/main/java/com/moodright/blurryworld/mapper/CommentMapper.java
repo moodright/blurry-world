@@ -62,11 +62,25 @@ public interface CommentMapper {
     int queryCommentCountsByPostId(@Param("postId")Integer postId);
 
     /**
-     * 根据评论编号伪删除评论
+     * 根据评论编号伪删除根评论
      * @param commentId 评论编号
      * @return 受影响的行数
      */
-    int deleteCommentsByCommentId(@Param("commentId")Integer commentId);
+    int deleteRootCommentByCommentId(@Param("commentId")Integer commentId);
+
+    /**
+     * 根据评论编号伪删除子评论
+     * @param commentId 评论编号
+     * @return 受影响的行数
+     */
+    int deleteChildCommentByCommentId(@Param("commentId")Integer commentId);
+
+    /**
+     * 根据评论编号查询评论
+     * @param commentId 评论编号
+     * @return 评论对象
+     */
+    Comment queryCommentByCommentId(@Param("commentId")Integer commentId);
 
 
 }

@@ -74,6 +74,9 @@
     <select id="queryRootCommentsByPostId" parameterType="map" resultMap="commentResultMap">
         select * from `comment`
         where `comment_post_id` = #{postId} and `comment_status` = 0 and ISNULL(`comment_parent_id`)
+        <if test="orderByTime != null">
+            order by `comment_create_time` desc
+        </if>
         limit #{startIndex}, #{pageSize}
     </select>
 
@@ -96,11 +99,24 @@
         where `comment_post_id` = #{postId} and `comment_status` = 0
     </select>
 
-    <!-- 根据评论编号伪删除评论 -->
-    <update id="deleteCommentsByCommentId" parameterType="Integer">
+    <!-- 根据评论编号伪删除根评论 -->
+    <update id="deleteRootCommentByCommentId" parameterType="Integer">
         update `comment` set
         `comment_status` = 1
         where `comment_id` = #{commentId} or `comment_parent_id` = #{commentId}
     </update>
+
+    <!-- 根据评论编号伪删除子评论 -->
+    <update id="deleteChildCommentByCommentId" parameterType="Integer">
+        update `comment` set
+        `comment_status` = 1
+        where `comment_id` = #{commentId}
+    </update>
+
+    <!-- 根据评论编号查询评论 -->
+    <select id="queryCommentByCommentId" parameterType="Integer" resultMap="commentResultMap">
+        select * from `comment`
+        where `comment_id` = #{commentId}
+    </select>
 
 </mapper>
