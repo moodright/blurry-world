@@ -217,13 +217,13 @@
             text-align: center;
             padding-top: 7px;
         }
-        .comment .comment-sort div:hover {
-            background: #d2e9fb;
-            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
-        }
-        .comment .comment-sort div:hover a {
-            color: #409EFF;
-        }
+        /*.comment .comment-sort div:hover {*/
+        /*    background: #d2e9fb;*/
+        /*    box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);*/
+        /*}*/
+        /*.comment .comment-sort div:hover a {*/
+        /*    color: #409EFF;*/
+        /*}*/
         .comment .comment-sort a {
             text-decoration: none;
             color: black;
@@ -731,8 +731,8 @@
                     <div>
                         <a href="#">按热度排序</a>
                     </div>
-                    <div>
-                        <a onclick="orderByTime()">按时间排序</a>
+                    <div id="orderByTime">
+                        <a id="orderByTimeLink" onclick="orderByTime()">按时间排序</a>
                     </div>
                 </div>
                 <!-- 发表评论 -->
@@ -899,12 +899,15 @@
             }
         }
 
+
         /**
          * 异步请求加载评论
          */
         $(function() {
            // 异步请求判断字段：只请求一次
            var ajaxRequestCheck = true;
+           // 排序默认字段初始化
+           window.sessionStorage.setItem("orderType", "default");
            // 监听window对象的滚轮事件
            $(window).scroll(function() {
               // 获取当前文章内容标签的高度
@@ -913,17 +916,17 @@
               // console.log(document.documentElement.scrollTop);
               if(document.documentElement.scrollTop > document.getElementById("doc-content").offsetHeight / 2 && ajaxRequestCheck === true) {
                   ajaxRequestCheck = false;
-                  queryComment(1, "default");
+                  queryComment(1);
               }
            });
         });
 
         //查询评论数据
-        function queryComment(pageNumber, orderType) {
+        function queryComment(pageNumber) {
             $.ajax({
                 url: '/comment/query/',
                 method: 'get',
-                data: 'postId=' + $('#postId').val() + '&pn=' + pageNumber + "&orderType=" + orderType,
+                data: 'postId=' + $('#postId').val() + '&pn=' + pageNumber + "&orderType=" + window.sessionStorage.getItem("orderType") ,
                 success: function (data) {
                     console.log(data);
                     // 如果评论不为空渲染则渲染到前端页面
@@ -1044,12 +1047,8 @@
          * @param pageNumber 跳转页面页码
          * @param orderType 排序类型
          */
-        function redirectCommentPage(pageNumber, orderType) {
-            if(orderType !== undefined) {
-                queryComment(Number(pageNumber), orderType);
-            }else{
-                queryComment(Number(pageNumber), "default");
-            }
+        function redirectCommentPage(pageNumber) {
+            queryComment(Number(pageNumber));
             // 调整滚动条的位置
             window.scroll(0, document.getElementById("doc-content").offsetHeight + 400);
         }
@@ -1159,7 +1158,20 @@
 
         // 评论按时间排序
         function orderByTime() {
-            queryComment(1, "time");
+            // 点击第二次为取消按时间排序
+            if(window.sessionStorage.getItem("orderType") === 'time') {
+                window.sessionStorage.setItem("orderType", "default");
+                // 调整排序框样式
+                $('#orderByTime').css('background', 'transparent');
+                $('#orderByTimeLink').css('color', 'black');
+            }else {
+                window.sessionStorage.setItem("orderType", "time");
+                // 调整排序框样式
+                $('#orderByTime').css('background', '#d2e9fb');
+                $('#orderByTimeLink').css('color', '#409EFF');
+            }
+            // 重新查询评论
+            queryComment(1);
             // 调整滚动条的位置
             window.scroll(0, document.getElementById("doc-content").offsetHeight + 400);
         }

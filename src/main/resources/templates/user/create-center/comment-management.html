@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>互动管理</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Fontawesome Icon -->
+    <script src="https://kit.fontawesome.com/30b60647a8.js" crossorigin="anonymous"></script>
+    <style>
+        /* 根元素规定宽高比, 页面失去响应式的灵活性 */
+        html, body {
+            height: 725px;
+            width: 1519px;
+            background: #fafafa;
+        }
+        /* 右侧内容栏 */
+        .right-main {
+            width: auto;
+            height: auto;
+            /* 固定位置 */
+            margin-left: 200px;
+            margin-top: 60px;
+            padding: 20px 70px;
+        }
+        /* 文章管理 */
+        .right-main .comment-management {
+            width: 100%;
+            height: auto;
+            background: white;
+            border-radius: 3px;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+        }
+        /* 头部 */
+        .comment-management .header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 25px;
+            border-bottom: 1px solid #e7e7e7;
+        }
+        .header .title {
+            color: #00a1d6;
+            font-weight: bolder;
+        }
+        .header .post-search-bar {
+            border: 1px solid #e7e7e7;
+            font-size: 12px;
+            color: #505050;
+            border-radius: 4px;
+            padding: 3px;
+        }
+        .post-search-bar .input-search {
+            outline: none;
+            border: none;
+        }
+        .post-search-bar .input-search:focus {
+            outline: none;
+        }
+        /* 中部 */
+        .comment-management .middle {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .middle .middle-header {
+            font-size: 20px;
+            color: #212121;
+            position: relative;
+            right: 838px;
+            top: 8px;
+        }
+        .middle-header span {
+            color: #999;
+            margin-left: 8px;
+            font-size: 14px;
+        }
+        /* 文章类型 */
+        .middle .type-selection {
+            width: 100px;
+            height: 30px;
+            border: 1px solid #e7e7e7;
+            border-radius: 4px;
+            color: #505050;
+            text-align: center;
+            padding-top: 2px;
+            margin-top: 10px;
+            position: relative;
+            right: 50px;
+            cursor: pointer;
+        }
+        .middle .type-options {
+            z-index: 99;
+            width: 100px;
+            height: auto;
+            background: white;
+            padding: 10px 0;
+            border-radius: 4px;
+            box-shadow:0 2px 12px 0 #e7e7e7;
+            position: absolute;
+            top: 28px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .3s, visibility .3s;
+        }
+        .middle .type-selection:hover .type-options{
+            opacity: 1;
+            visibility: visible;
+        }
+        .middle .type-options .type-option {
+            display: block;
+            width: 100%;
+            height: 30px;
+            font-size: 15px;
+            text-align: center;
+            padding: 5px 0;
+            text-decoration: none;
+            color: #6C6E72;
+        }
+        .middle .type-options .type-option:hover {
+            background: #FAFAFA;
+        }
+        /* 排序 */
+        .middle .order-selection {
+            width: 100px;
+            height: 30px;
+            border: 1px solid #e7e7e7;
+            border-radius: 4px;
+            color: #505050;
+            text-align: center;
+            padding-top: 2px;
+            margin-top: 10px;
+            position: relative;
+            right: 25px;
+            cursor: pointer;
+
+        }
+        .middle .order-options {
+            z-index: 99;
+            width: 100px;
+            height: auto;
+            background: white;
+            padding: 10px 0;
+            border-radius: 4px;
+            box-shadow:0 2px 12px 0 #e7e7e7;
+            position: absolute;
+            top: 28px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .3s, visibility .3s;
+        }
+        .middle .order-selection:hover .order-options{
+            opacity: 1;
+            visibility: visible;
+        }
+        .middle .order-options .order-option {
+            display: block;
+            width: 100%;
+            height: 30px;
+            font-size: 15px;
+            text-align: center;
+            padding: 5px 0;
+            text-decoration: none;
+            color: #6C6E72;
+        }
+        .middle .order-options .order-option:hover {
+            background: #FAFAFA;
+        }
+        /* 空内容 */
+        .comment-management .empty-content {
+            width: 100%;
+            height: 490px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .empty-content .text {
+            position: relative;
+            top: 120px;
+            font-size: 25px;
+            font-weight: 400;
+            color: #C0C4CC;
+        }
+        /* 内容 */
+        .comment-management .content {
+            width: 100%;
+            height: 800px;
+            margin-top: 10px;
+            padding: 0 25px;
+        }
+        .content .comment {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #e7e7e7;
+            display: flex;
+            justify-content: start;
+        }
+        .comment .left {
+            height: 100%;
+            width: 10%;
+        }
+        .left img {
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 60px;
+            margin-top: 10px;
+        }
+        .comment .middle {
+            display: block;
+            height: auto;
+            width: 75%;
+        }
+        .middle .cheader {
+            width: 100%;
+            height: 35px;
+            display: flex;
+            justify-content: start;
+            padding: 5px 0;
+        }
+        .cheader a {
+            margin: 0 5px;
+            color: #757575;
+            text-decoration: none;
+        }
+        .cheader span {
+            font-size: 14px;
+            padding: 3px 0;
+            color: #0f0f0f;
+        }
+        .cheader .show-specific-comment {
+            margin-left: 20px;
+            font-size: 14px;
+            color: #00a1d6;
+            cursor: pointer;
+            padding: 3px 0;
+        }
+        .middle .specific-comment {
+            width: 100%;
+            height: auto;
+            border: 1px solid #e5e9ef;
+            border-radius: 4px;
+            padding: 20px 20px 0 55px;
+        }
+        .specific-comment img {
+            width: 24px;
+            height: 24px;
+            border-radius: 24px;
+            position: relative;
+            right: 30px;
+        }
+        .specific-comment .specific-comment-content {
+            width: 100%;
+            height: auto;
+            position: relative;
+            bottom: 25px;
+        }
+        .specific-comment-content .username {
+            width: 100%;
+            height: 30%;
+            color: #222;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        .specific-comment-content .ccontent {
+            width: 100%;
+            height: auto;
+            margin: 5px 0;
+            font-size: 14px;
+            color: #6d757a;
+        }
+        .specific-comment-content .date {
+             width: 100%;
+             height: 30%;
+             font-size: 12px;
+            color: #99a2aa;
+         }
+        .middle .comment-content {
+            width: 100%;
+            height: 40px;
+            font-size: 14px;
+            color: #212121;
+            line-height: 40px;
+        }
+        .middle .comment-footer {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: start;
+            font-size: 14px;
+            color: #999;
+            padding-bottom: 15px;
+        }
+        .comment-footer .comment-footer-date {
+            margin-right: 20px;
+        }
+        .comment-footer .comment-footer-reply {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        .comment-footer .comment-footer-reply:hover {
+            color: #00a1d6;
+        }
+        .comment-footer .comment-footer-delete {
+             cursor: pointer;
+         }
+        .comment-footer .comment-footer-delete:hover {
+            color: #00a1d6;
+        }
+        .middle .comment-reply {
+            width: 100%;
+            height: 150px;
+        }
+        .comment-reply .reply-content {
+            width: 100%;
+            height: 95px;
+            resize: none;
+            border-radius: 2px;
+            border: 1px solid #e7e7e7;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            color: #212121;
+            font-size: 14px;
+        }
+        .comment-reply .reply-content:focus {
+            outline: none;
+            border-color: #00a1d6;
+        }
+        .comment-reply .reply-button {
+            float: right;
+            width: 88px;
+            height: 30px;
+            background: #00a1d6;
+            border: 1px solid #00a1d6;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .comment-reply .reply-button:hover {
+            background: #00b5e5;
+        }
+        .comment .right {
+            width: 15%;
+            padding-left: 70px;
+        }
+        .right img {
+            width: 100px;
+            height: 60px;
+            border-radius: 4px;
+            display: block;
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+        .right .ptitle {
+            font-size: 12px;
+            color: #505050;
+            text-decoration: none;
+        }
+        .right .ptitle:hover {
+            color: #00a1d6;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 创作中心导航栏 -->
+    <div th:replace="~{/commons/create-center/nav-bar :: create-center-nav-bar}"></div>
+
+    <!-- 主页面左侧导航栏 -->
+    <div th:replace="~{/commons/create-center/left-main-nav-bar :: left-main-nav-bar}"></div>
+
+    <!-- 主页面右侧内容栏 -->
+    <div class="right-main">
+        <div class="comment-management">
+            <div class="header">
+                <div class="title">
+                    互动管理
+                </div>
+                <div class="post-search-bar">
+                    <input type="text" class="input-search" placeholder="搜索文章评论">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="middle">
+                <div class="middle-header">
+                    全部评论<span>(555)</span>
+                </div>
+                <div class="type-selection">
+                    全部时间
+                    <div class="type-options">
+                        <a href="#" class="type-option">全部时间</a>
+                        <a href="#" class="type-option">最近一天</a>
+                        <a href="#" class="type-option">最近7天</a>
+                        <a href="#" class="type-option">最近1年</a>
+                    </div>
+                </div>
+                <div class="order-selection">
+                    排序
+                    <div class="order-options">
+                        <a href="#" class="order-option">最近发布</a>
+                        <a href="#" class="order-option">点赞最多</a>
+                        <a href="#" class="order-option">回复最多</a>
+                    </div>
+                </div>
+            </div>
+<!--            <div class="empty-content">-->
+<!--                <div class="text">-->
+<!--                    <i class="fa fa-2x fa-paper-plane-o mb-3" aria-hidden="true"></i>-->
+<!--                    <p>还没有评论哦~</p>-->
+<!--                </div>-->
+<!--            </div>-->
+                <div class="content">
+                    <div class="comment">
+                        <div class="left">
+                            <img src="/images/BillieEilishDonuts.png" >
+                        </div>
+                        <div class="middle">
+                            <div class="cheader">
+                                <a href="#">-moodright-</a>
+                                <span>回复</span>
+                                <a href="#">-moodright-</a>
+                                <a class="show-specific-comment">查看评论</a>
+                            </div>
+                            <div class="specific-comment">
+                                <img src="/images/BillieEilishDonuts.png" />
+                                <div class="specific-comment-content">
+                                    <div class="username">-moodright-</div>
+                                    <div class="ccontent">回复 @-moodright- :啊啊！</div>
+                                    <div class="date">2021-03-23 11:30:23</div>
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                这里是根评论内容
+                            </div>
+                            <div class="comment-footer">
+                                <div class="comment-footer-date">2021-03-23 11:30:23</div>
+                                <div class="comment-footer-reply">回复</div>
+                                <div class="comment-footer-delete">删除</div>
+                            </div>
+                            <div class="comment-reply">
+                                <textarea class="reply-content" placeholder="回复 -moodright-："></textarea>
+                                <div class="reply-button">发表回复</div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <a href="#"><img src="/images/background.png" /></a>
+                            <a class="ptitle" href="#">MySQL Study 01...</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

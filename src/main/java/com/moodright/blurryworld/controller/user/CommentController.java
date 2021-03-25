@@ -118,11 +118,11 @@ public class CommentController {
                                    HttpSession session) {
         // 更新分页信息
         postPaginationUtil.updateCommentPaginationInfo(pageNumber, postId, commentService.queryRootCommentCountsByPostId(postId), commentService.queryCommentCountsByPostId(postId));
-        // 根据时间排序
-        // BUG：第一次请求了按时间排序后，后续的请求都是按时间排序的
-        //      此处分页map没有将 orderByTime 重置为 null
+        // 校验排序字段
         if(orderType.equals("time")) {
             postPaginationUtil.getPaginationInfo().put("orderByTime", 1);
+        } else {
+            postPaginationUtil.getPaginationInfo().put("orderByTime", null);
         }
         // 分页查询该篇文章下的根评论
         List<Comment> comments = commentService.queryRootCommentsByPostId(postPaginationUtil.getPaginationInfo());

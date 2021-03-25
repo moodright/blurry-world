@@ -56,7 +56,12 @@ public class CreateCenterController {
             model.addAttribute("posts", posts);
         }
         model.addAttribute("paginationInfo", postPaginationUtil.getPaginationInfo());
-        return "/user/post-management/post-management";
+        return "/user/create-center/post-management";
+    }
+
+    @GetMapping(path= "comment")
+    public String commentMangementIndex() {
+        return "/user/create-center/comment-management";
     }
 
 

@@ -75,7 +75,7 @@
         <a th:class="${#request.getRequestURI()} == '/platform/post'?'left-nav-link active':'left-nav-link'" th:href="@{/platform/post}">
             <i class="fa fa-paper-plane-o mr-3"></i>稿件管理</a>
         </a>
-        <a class="left-nav-link">
+        <a th:class="${#request.getRequestURI()} == '/platform/comment'?'left-nav-link active':'left-nav-link'" th:href="@{/platform/comment}">
             <i class="fa fa-commenting-o mr-3"></i>互动管理</a>
         </a>
         <a class="left-nav-link">
