@@ -1032,6 +1032,9 @@
                         // 渲染分页信息
                         applyPaginationInfo(data.paginationInfo);
                     } else {
+                        if($('.empty-comment-list').css('display') === 'block') {
+                            return;
+                        }
                         $('#comment-pagination').before(
                             '<div class="empty-comment-list">\n' +
                             '    还没有评论，快来发表评论吧~\n' +

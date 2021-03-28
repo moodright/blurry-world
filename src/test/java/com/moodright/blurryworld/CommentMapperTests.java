@@ -3,6 +3,7 @@ package com.moodright.blurryworld;
 import com.moodright.blurryworld.mapper.CommentMapper;
 import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
+import com.moodright.blurryworld.pojo.createcenter.CreateCenterComment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -67,5 +68,18 @@ public class CommentMapperTests {
     public void queryCommentCountsByPostId() {
         int i = commentMapper.queryCommentCountsByPostId(2011);
         System.out.println(i);
+    }
+
+
+    @Test
+    public void queryCreateCenterCommentsByUserIdTest() {
+        Map<String,Integer> map = new HashMap<>();
+        map.put("userId", 1001);
+        map.put("startIndex", 0);
+        map.put("pageSize", 5);
+        List<CreateCenterComment> createCenterComments = commentMapper.queryCreateCenterCommentsByUserId(map);
+        for(CreateCenterComment createCenterComment : createCenterComments) {
+            System.out.println(createCenterComment);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.moodright.blurryworld.mapper;
 
 import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
+import com.moodright.blurryworld.pojo.createcenter.CreateCenterComment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -81,6 +82,14 @@ public interface CommentMapper {
      * @return 评论对象
      */
     Comment queryCommentByCommentId(@Param("commentId")Integer commentId);
+
+
+    /**
+     * 根据用户编号查询创作中心评论信息
+     * @param map key:userId, startIndex, pageSize
+     * @return 关联了文章信息和用户信息的评论列表
+     */
+    List<CreateCenterComment> queryCreateCenterCommentsByUserId(Map<String, Integer> map);
 
 
 }

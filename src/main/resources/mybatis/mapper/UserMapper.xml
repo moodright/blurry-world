@@ -6,6 +6,8 @@
 
     <resultMap id="userResultMap" type="User">
         <id property="userId" column="user_id" />
+        <result property="username" column="username" />
+        <result property="avatar" column="avatar" />
         <result property="accountCreateTime" column="account_create_time" />
         <result property="accountLastLoginTime" column="account_last_login_time" />
         <result property="accountStatus" column="account_status" />

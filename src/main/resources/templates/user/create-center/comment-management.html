@@ -187,9 +187,9 @@
         /* 内容 */
         .comment-management .content {
             width: 100%;
-            height: 800px;
+            height: auto;
             margin-top: 10px;
-            padding: 0 25px;
+            padding: 10px 25px;
         }
         .content .comment {
             width: 100%;
@@ -414,48 +414,51 @@
 <!--                    <p>还没有评论哦~</p>-->
 <!--                </div>-->
 <!--            </div>-->
-                <div class="content">
-                    <div class="comment">
-                        <div class="left">
-                            <img src="/images/BillieEilishDonuts.png" >
+            <div class="content">
+                <div class="comment" th:each="createCenterComment : ${createCenterComments}">
+                    <div class="left">
+                        <img  th:src="${createCenterComment.user.getAvatar()?:'/images/DefaultAvatar.png'}">
+                    </div>
+                    <div class="middle">
+                        <div class="cheader">
+                            <a href="#">-moodright-</a>
+                            <span>回复</span>
+                            <a href="#">-moodright-</a>
+                            <a class="show-specific-comment">查看评论</a>
                         </div>
-                        <div class="middle">
-                            <div class="cheader">
-                                <a href="#">-moodright-</a>
-                                <span>回复</span>
-                                <a href="#">-moodright-</a>
-                                <a class="show-specific-comment">查看评论</a>
-                            </div>
-                            <div class="specific-comment">
-                                <img src="/images/BillieEilishDonuts.png" />
-                                <div class="specific-comment-content">
-                                    <div class="username">-moodright-</div>
-                                    <div class="ccontent">回复 @-moodright- :啊啊！</div>
-                                    <div class="date">2021-03-23 11:30:23</div>
-                                </div>
-                            </div>
-                            <div class="comment-content">
-                                这里是根评论内容
-                            </div>
-                            <div class="comment-footer">
-                                <div class="comment-footer-date">2021-03-23 11:30:23</div>
-                                <div class="comment-footer-reply">回复</div>
-                                <div class="comment-footer-delete">删除</div>
-                            </div>
-                            <div class="comment-reply">
-                                <textarea class="reply-content" placeholder="回复 -moodright-："></textarea>
-                                <div class="reply-button">发表回复</div>
+                        <div class="specific-comment">
+                            <img src="/images/BillieEilishDonuts.png" />
+                            <div class="specific-comment-content">
+                                <div class="username">-moodright-</div>
+                                <div class="ccontent">回复 @-moodright- :啊啊！</div>
+                                <div class="date">2021-03-23 11:30:23</div>
                             </div>
                         </div>
-                        <div class="right">
-                            <a href="#"><img src="/images/background.png" /></a>
-                            <a class="ptitle" href="#">MySQL Study 01...</a>
+                        <div class="comment-content" th:text="${createCenterComment.comment.getCommentContent()}">
+                        </div>
+                        <div class="comment-footer">
+                            <div class="comment-footer-date">2021-03-23 11:30:23</div>
+                            <div class="comment-footer-reply">回复</div>
+                            <div class="comment-footer-delete">删除</div>
+                        </div>
+                        <div class="comment-reply">
+                            <textarea class="reply-content" placeholder="回复 -moodright-："></textarea>
+                            <div class="reply-button">发表回复</div>
                         </div>
                     </div>
-
-
-
+                    <div class="right">
+                        <a th:href="'/post/read/' + ${createCenterComment.post.getPostId()}"><img th:src="${createCenterComment.post.getPostCover()}" /></a>
+                        <a class="ptitle" th:href="'/post/read/' + ${createCenterComment.post.getPostId()}" th:text="${createCenterComment.post.getPostTitle()}"></a>
+                    </div>
                 </div>
+            </div>
+
+<!--            <div th:each="rootComments : ${rootCommentMap.entrySet()}">-->
+<!--                <div th:text="${rootComments.getKey()}"></div>-->
+<!--                <div th:each="rootComment : ${rootComments.getValue()}">-->
+<!--                    <div th:text="${rootComment}"></div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 
@@ -467,5 +470,10 @@
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
     <!-- bootstrap.bundle.js -->
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script>
+        $(function() {
+
+        });
+    </script>
 </body>
 </html>

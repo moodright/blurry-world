@@ -3,6 +3,7 @@ package com.moodright.blurryworld.service;
 import com.moodright.blurryworld.mapper.CommentMapper;
 import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
+import com.moodright.blurryworld.pojo.createcenter.CreateCenterComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -123,5 +124,16 @@ public class CommentService implements CommentMapper {
     @Override
     public Comment queryCommentByCommentId(Integer commentId) {
         return commentMapper.queryCommentByCommentId(commentId);
+    }
+
+    /**
+     * 根据用户编号查询创作中心评论信息
+     *
+     * @param map key:userId, startIndex, pageSize
+     * @return
+     */
+    @Override
+    public List<CreateCenterComment> queryCreateCenterCommentsByUserId(Map<String,Integer> map) {
+        return commentMapper.queryCreateCenterCommentsByUserId(map);
     }
 }

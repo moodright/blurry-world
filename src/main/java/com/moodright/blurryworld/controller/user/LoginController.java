@@ -56,7 +56,7 @@ public class LoginController {
             return "user/login";
         } else {
             session.setAttribute("user", user);
-            return "redirect:/main";
+            return "redirect:/space/" + user.getUserId();
         }
     }
 
