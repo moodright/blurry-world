@@ -76,10 +76,18 @@ public class CommentMapperTests {
         Map<String,Integer> map = new HashMap<>();
         map.put("userId", 1001);
         map.put("startIndex", 0);
-        map.put("pageSize", 5);
+        map.put("pageSize", 90);
         List<CreateCenterComment> createCenterComments = commentMapper.queryCreateCenterCommentsByUserId(map);
         for(CreateCenterComment createCenterComment : createCenterComments) {
+            System.out.println(createCenterComment.getComment().getCommentContent());
+            System.out.println(createCenterComment.getComment().getCommentId());
             System.out.println(createCenterComment);
         }
+    }
+
+    @Test
+    public void queryCreateCenterCommentCountByUserIdTest() {
+        int i = commentMapper.queryCreateCenterCommentCountByUserId(1001);
+        System.out.println(i);
     }
 }

@@ -32,7 +32,7 @@
 
     <resultMap id="createCenterCommentResultMap" type="CreateCenterComment">
         <!-- 评论信息 -->
-        <association property="comment" javaType="Comment" resultMap="commentResultMap" />
+        <association property="comment" javaType="ChildComment" resultMap="childCommentResultMap" />
         <!-- 评论关联的文章信息 -->
         <association property="post" column="comment_post_id" javaType="Post" resultMap="com.moodright.blurryworld.mapper.PostMapper.postResultMap" />
         <!-- 评论关联的用户信息 -->
@@ -45,13 +45,15 @@
                 comment_id,
                 comment_content,
                 comment_create_time,
-                comment_likes,
-                comment_dislikes,
+                comment_parent_id,
+                parent_comment_author_id,
+                parent_comment_author_username,
                 post_id,
                 post_title,
                 post_cover,
                 user_id,
                 username,
+                nickname,
                 avatar
             from `comment`
             left join `post` on post_id = comment_post_id
@@ -63,6 +65,20 @@
                 where author_id = #{userId}
             )
             limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="queryCreateCenterCommentCountByUserId" parameterType="Integer" resultType="_int">
+            select
+                count(*)
+            from `comment`
+            left join `post` on post_id = comment_post_id
+            left join `user` on user_id = comment_author_id
+            where comment_post_id in (
+                select
+                    post_id
+                from `post`
+                where author_id = #{userId}
+            )
     </select>
 
 

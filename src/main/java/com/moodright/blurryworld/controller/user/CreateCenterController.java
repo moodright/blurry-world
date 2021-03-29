@@ -54,11 +54,21 @@ public class CreateCenterController {
     }
 
     @GetMapping(path = {"post", "post/{pn}"})
-    public String postManagementIndex(@PathVariable(name = "pn", required = false)Integer pageNumber, HttpSession session, Model model) {
+    public String postManagementIndex(@PathVariable(name = "pn", required = false)Integer pageNumber,
+                                      HttpSession session,
+                                      Model model) {
+        // 空值初始化
+        if(pageNumber == null) {
+            pageNumber = 1;
+        }
         // 会话中获取当前用户信息
         User user = (User)session.getAttribute("user");
         // 更新分页信息
         postPaginationUtil.updatePaginationInfo(pageNumber, user.getUserId(), postService.queryPostsCountByAuthorId(user.getUserId()));
+        // 错误页面跳转
+        if(pageNumber > postPaginationUtil.getPaginationInfo().get("totalPagesCount") || pageNumber <= 0) {
+            return "/error/404";
+        }
         // 分页查询
         List<Post> posts = postService.queryPostsByPagination(postPaginationUtil.getPaginationInfo());
         // 将分页信息和文章信息添加到会话中
@@ -69,20 +79,25 @@ public class CreateCenterController {
         return "/user/create-center/post-management";
     }
 
-    @GetMapping(path= "comment")
-    public String commentManagementIndex(HttpSession session, Model model) {
+    @GetMapping(path= {"comment", "comment/{pn}"})
+    public String commentManagementIndex(HttpSession session,
+                                         @PathVariable(value = "pn", required = false)Integer pageNumber,
+                                         Model model) {
+        // 空值初始化
+        if(pageNumber == null) {
+            pageNumber = 1;
+        }
         User user = (User)session.getAttribute("user");
-        // 封装分页查询数据
-        Map<String, Integer> map = new HashMap<>();
-        map.put("userId", user.getUserId());
-        map.put("startIndex", 0);
-        map.put("pageSize", 5);
+        // 更新分页信息
+        postPaginationUtil.updateCreateCenterCommentPaginationInfo(pageNumber, user.getUserId(), commentService.queryCreateCenterCommentCountByUserId(user.getUserId()));
+        // 错误页面跳转
+        if(pageNumber > postPaginationUtil.getPaginationInfo().get("totalPagesCount") || pageNumber <= 0) {
+            return "/error/404";
+        }
         // 封装评论信息
-        List<CreateCenterComment> createCenterComments = commentService.queryCreateCenterCommentsByUserId(map);
+        List<CreateCenterComment> createCenterComments = commentService.queryCreateCenterCommentsByUserId(postPaginationUtil.getPaginationInfo());
         model.addAttribute("createCenterComments", createCenterComments);
+        model.addAttribute("paginationInfo", postPaginationUtil.getPaginationInfo());
         return "/user/create-center/comment-management";
     }
-
-
-
 }

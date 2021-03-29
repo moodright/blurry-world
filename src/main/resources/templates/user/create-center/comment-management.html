@@ -188,10 +188,10 @@
         .comment-management .content {
             width: 100%;
             height: auto;
-            margin-top: 10px;
             padding: 10px 25px;
         }
         .content .comment {
+            margin: 10px 0;
             width: 100%;
             height: auto;
             border-bottom: 1px solid #e7e7e7;
@@ -287,6 +287,7 @@
             line-height: 40px;
         }
         .middle .comment-footer {
+            margin-bottom: 10px;
             width: 100%;
             height: 30px;
             display: flex;
@@ -312,6 +313,7 @@
             color: #00a1d6;
         }
         .middle .comment-reply {
+            display: none;
             width: 100%;
             height: 150px;
         }
@@ -347,14 +349,15 @@
         .comment .right {
             width: 15%;
             padding-left: 70px;
+            margin-bottom: 10px;
         }
         .right img {
             width: 100px;
             height: 60px;
             border-radius: 4px;
             display: block;
-            margin-top: 35px;
-            margin-bottom: 15px;
+            margin-top: 20px;
+            margin-bottom: 5px;
         }
         .right .ptitle {
             font-size: 12px;
@@ -363,6 +366,58 @@
         }
         .right .ptitle:hover {
             color: #00a1d6;
+        }
+
+        /* 分页 */
+        .pagination {
+            width: 100%;
+            height: 90px;
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 30px  ;
+        }
+        .pagination .pag-btn {
+            width: 60px;
+            height: 40px;
+            border-radius: 2px;
+            border: 1px solid #e7e7e7;
+            text-align: center;
+            padding: 6px 0;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .pag-btn a {
+            text-decoration: none;
+            color: #505050;
+        }
+        .pag-btn:hover{
+            background: #00a1d6;
+            color: white!important;
+        }
+        .pag-btn:hover a {
+            color: white;
+        }
+        .redirect-page {
+            text-align: right;
+            padding: 7px 0;
+            width: 190px;
+            height: 40px;
+            font-size: 12px;
+            color: #505050;
+        }
+        .redirect-page input {
+            width: 52px;
+            height: 26px;
+            padding: 5px 8px;
+            border: 1px solid #e7e7e7;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #505050;
+            transition: border .2s ease-in-out;
+        }
+        .redirect-page input:focus {
+            outline: none;
+            border: 1px solid #00a1d6;
         }
 
     </style>
@@ -388,7 +443,7 @@
             </div>
             <div class="middle">
                 <div class="middle-header">
-                    全部评论<span>(555)</span>
+                    全部评论<span th:text="'(' + ${paginationInfo.get('totalCommentsCount') + ')'}"></span>
                 </div>
                 <div class="type-selection">
                     全部时间
@@ -420,45 +475,53 @@
                         <img  th:src="${createCenterComment.user.getAvatar()?:'/images/DefaultAvatar.png'}">
                     </div>
                     <div class="middle">
-                        <div class="cheader">
-                            <a href="#">-moodright-</a>
+                        <div th:if="${createCenterComment.comment.getCommentParentId() == null}" class="cheader">
+                            <a th:href="${'/space/' + createCenterComment.user.getUserId()}" th:text="${createCenterComment.user.getNickname()}"></a>
+                        </div>
+                        <div th:if="${createCenterComment.comment.getCommentParentId() != null}" class="cheader">
+                            <a th:href="${'/space/' + createCenterComment.user.getUserId()}" th:text="${createCenterComment.user.getNickname()}"></a>
                             <span>回复</span>
-                            <a href="#">-moodright-</a>
+                            <a th:href="${'/space/' + createCenterComment.comment.getParentCommentAuthorId()}" th:text="${createCenterComment.comment.getParentCommentAuthorUsername()}"></a>
                             <a class="show-specific-comment">查看评论</a>
                         </div>
-                        <div class="specific-comment">
-                            <img src="/images/BillieEilishDonuts.png" />
-                            <div class="specific-comment-content">
-                                <div class="username">-moodright-</div>
-                                <div class="ccontent">回复 @-moodright- :啊啊！</div>
-                                <div class="date">2021-03-23 11:30:23</div>
-                            </div>
-                        </div>
+<!--                        <div class="specific-comment">-->
+<!--                            <img src="/images/BillieEilishDonuts.png" />-->
+<!--                            <div class="specific-comment-content">-->
+<!--                                <div class="username">-moodright-</div>-->
+<!--                                <div class="ccontent">回复 @-moodright- :啊啊！</div>-->
+<!--                                <div class="date">2021-03-23 11:30:23</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="comment-content" th:text="${createCenterComment.comment.getCommentContent()}">
                         </div>
                         <div class="comment-footer">
-                            <div class="comment-footer-date">2021-03-23 11:30:23</div>
-                            <div class="comment-footer-reply">回复</div>
+                            <div class="comment-footer-date" th:text="${#dates.format(createCenterComment.comment.getCommentCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></div>
+                            <div class="comment-footer-reply" th:onclick="|javascript:toggleReplyBlock(${createCenterComment.comment.getCommentId()})|">回复</div>
                             <div class="comment-footer-delete">删除</div>
                         </div>
-                        <div class="comment-reply">
-                            <textarea class="reply-content" placeholder="回复 -moodright-："></textarea>
+                        <div th:id="${'reply-block-' + createCenterComment.comment.getCommentId()}" class="comment-reply">
+                            <textarea class="reply-content" th:placeholder="${'回复 @' + createCenterComment.user.getNickname() + ': '}"></textarea>
                             <div class="reply-button">发表回复</div>
                         </div>
                     </div>
                     <div class="right">
                         <a th:href="'/post/read/' + ${createCenterComment.post.getPostId()}"><img th:src="${createCenterComment.post.getPostCover()}" /></a>
-                        <a class="ptitle" th:href="'/post/read/' + ${createCenterComment.post.getPostId()}" th:text="${createCenterComment.post.getPostTitle()}"></a>
+                        <a th:id="${'p-title-' + createCenterComment.comment.getCommentId()}" class="ptitle" th:href="'/post/read/' + ${createCenterComment.post.getPostId()}" th:text="${createCenterComment.post.getPostTitle().substring(0, createCenterComment.post.getPostTitle().length() / 2) + '...'}" th:onmouseover="|javascript:changeTitle(${createCenterComment.comment.getCommentId()})|"></a>
+                        <a style="display: none" th:id="${'p-title-replace-' + createCenterComment.comment.getCommentId()}" class="ptitle" th:href="'/post/read/' + ${createCenterComment.post.getPostId()}" th:onmouseout="|javascript:changeTitle(${createCenterComment.comment.getCommentId()})|">该文章全部评论</a>
+                    </div>
+                </div>
+                <!-- 分页 -->
+                <div class="pagination">
+                    <div class="pag-btn"><a th:href="@{/platform/comment}">首页</a></div>
+                    <div class="pag-btn" th:if="${paginationInfo.get('prevPage') != null}"><a th:href="'/platform/comment/' + ${paginationInfo.get('prevPage')}">上一页</a></div>
+                    <div class="pag-btn" th:if="${paginationInfo.get('nextPage') != null}"><a th:href="'/platform/comment/' + ${paginationInfo.get('nextPage')}">下一页</a></div>
+                    <div class="pag-btn"><a th:href="'/platform/comment/' + ${paginationInfo.get('lastPage')}">尾页</a></div>
+                    <div class="redirect-page">
+                        共<span th:text="${paginationInfo.get('totalPagesCount')}"></span>页 / <span th:text="${paginationInfo.get('totalCommentsCount')}"></span>个, 跳转至
+                        <input id="forward" type="text"> 页
                     </div>
                 </div>
             </div>
-
-<!--            <div th:each="rootComments : ${rootCommentMap.entrySet()}">-->
-<!--                <div th:text="${rootComments.getKey()}"></div>-->
-<!--                <div th:each="rootComment : ${rootComments.getValue()}">-->
-<!--                    <div th:text="${rootComment}"></div>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
     </div>
 
@@ -471,8 +534,35 @@
     <!-- bootstrap.bundle.js -->
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
     <script>
-        $(function() {
+        /**
+         * 显示回复框
+         * @param id 回复的评论编号
+         */
+        function toggleReplyBlock(id) {
+            if($('#reply-block-' + id).css("display") === 'none') {
+                $('#reply-block-' + id).css("display", "block");
+            }else {
+                $('#reply-block-' + id).css("display", "none");
+            }
+        }
 
+        function changeTitle(id) {
+            if($('#p-title-' + id).css("display") === 'none') {
+                $('#p-title-' + id).css("display", "inline");
+                $('#p-title-replace-' + id).css("display", "none");
+            }else {
+                $('#p-title-' + id).css("display", "none");
+                $('#p-title-replace-' + id).css("display", "inline");
+            }
+        }
+
+        // 跳转页面事件绑定
+        $('#forward').bind('keypress', function(event) {
+            if (event.keyCode === 13) {
+                if($('#forward').val() >= 1 && $('#forward').val() <= [[${paginationInfo.get('lastPage')}]]) {
+                    window.location.href = "/platform/comment/" + $('#forward').val();
+                }
+            }
         });
     </script>
 </body>

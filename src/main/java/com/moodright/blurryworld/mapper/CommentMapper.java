@@ -85,11 +85,18 @@ public interface CommentMapper {
 
 
     /**
-     * 根据用户编号查询创作中心评论信息
+     * 根据用户编号分页查询创作中心评论信息
      * @param map key:userId, startIndex, pageSize
      * @return 关联了文章信息和用户信息的评论列表
      */
     List<CreateCenterComment> queryCreateCenterCommentsByUserId(Map<String, Integer> map);
+
+    /**
+     * 根据用户编号查询创作中心评论信息总数
+     * @param userId 用户编号
+     * @return 评论数
+     */
+    int queryCreateCenterCommentCountByUserId(@Param("userId")Integer userId);
 
 
 }

@@ -136,4 +136,15 @@ public class CommentService implements CommentMapper {
     public List<CreateCenterComment> queryCreateCenterCommentsByUserId(Map<String,Integer> map) {
         return commentMapper.queryCreateCenterCommentsByUserId(map);
     }
+
+    /**
+     * 根据用户编号查询创作中心评论信息总数
+     *
+     * @param userId 用户编号
+     * @return 评论数
+     */
+    @Override
+    public int queryCreateCenterCommentCountByUserId(Integer userId) {
+        return commentMapper.queryCreateCenterCommentCountByUserId(userId);
+    }
 }

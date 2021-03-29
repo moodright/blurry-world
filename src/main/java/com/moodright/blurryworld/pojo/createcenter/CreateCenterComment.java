@@ -1,5 +1,6 @@
 package com.moodright.blurryworld.pojo.createcenter;
 
+import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
 import com.moodright.blurryworld.pojo.Post;
 import com.moodright.blurryworld.pojo.User;
@@ -16,7 +17,7 @@ public class CreateCenterComment {
     /**
      * 评论信息
      */
-    private Comment comment;
+    private ChildComment comment;
     /**
      * 评论关联的文章信息
      */
