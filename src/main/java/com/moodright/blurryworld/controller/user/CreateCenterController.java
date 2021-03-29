@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -66,7 +68,7 @@ public class CreateCenterController {
         // 更新分页信息
         postPaginationUtil.updatePaginationInfo(pageNumber, user.getUserId(), postService.queryPostsCountByAuthorId(user.getUserId()));
         // 错误页面跳转
-        if(pageNumber > postPaginationUtil.getPaginationInfo().get("totalPagesCount") || pageNumber <= 0) {
+        if(pageNumber > postPaginationUtil.getPaginationInfo().get("totalPagesCount") && postPaginationUtil.getPaginationInfo().get("totalPagesCount") != 0  || pageNumber <= 0) {
             return "/error/404";
         }
         // 分页查询
@@ -91,7 +93,7 @@ public class CreateCenterController {
         // 更新分页信息
         postPaginationUtil.updateCreateCenterCommentPaginationInfo(pageNumber, user.getUserId(), commentService.queryCreateCenterCommentCountByUserId(user.getUserId()));
         // 错误页面跳转
-        if(pageNumber > postPaginationUtil.getPaginationInfo().get("totalPagesCount") || pageNumber <= 0) {
+        if(pageNumber > postPaginationUtil.getPaginationInfo().get("totalPagesCount") && postPaginationUtil.getPaginationInfo().get("totalPagesCount") != 0 || pageNumber <= 0) {
             return "/error/404";
         }
         // 封装评论信息
@@ -99,5 +101,16 @@ public class CreateCenterController {
         model.addAttribute("createCenterComments", createCenterComments);
         model.addAttribute("paginationInfo", postPaginationUtil.getPaginationInfo());
         return "/user/create-center/comment-management";
+    }
+
+    /**
+     * 根据评论编号查询评论
+     * @param commentId 评论编号
+     */
+    @GetMapping(path = "/comment/query/{id}")
+    @ResponseBody
+    public CreateCenterComment queryCommentById(@PathVariable("id")Integer commentId) {
+        CreateCenterComment createCenterComment = commentService.queryCreateCenterCommentByCommentId(commentId);
+        return createCenterComment;
     }
 }

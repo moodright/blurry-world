@@ -71,15 +71,18 @@ public class CommentController {
     /**
      * 回复评论
      * @param postId 文章编号
-     * @param commentParentId 父评论编号
+     * @param rootCommentId 根评论编号
      * @param commentContent 评论内容
+     * @param parentCommentId 回复的评论编号
      * @param parentCommentAuthorId 回复的评论作者编号
+     * @param parentCommentAuthorUsername 回复的评论作者用户名
      */
     @PostMapping("reply")
     @ResponseBody
     public String replyComment(@RequestParam("postId")Integer postId,
-                               @RequestParam("commentId")Integer commentParentId,
+                               @RequestParam("commentId")Integer rootCommentId,
                                @RequestParam("commentContent")String commentContent,
+                               @RequestParam("parentCommentId")Integer parentCommentId,
                                @RequestParam("parentCommentAuthorId")Integer parentCommentAuthorId,
                                @RequestParam("parentCommentAuthorUsername")String parentCommentAuthorUsername,
                                HttpSession session) {
@@ -88,9 +91,10 @@ public class CommentController {
         ChildComment childComment = new ChildComment();
         childComment.setCommentAuthorId(user.getUserId());
         childComment.setCommentPostId(postId);
-        childComment.setCommentParentId(commentParentId);
+        childComment.setCommentParentId(rootCommentId);
         childComment.setCommentCreateTime(new Date());
         childComment.setCommentContent(commentContent);
+        childComment.setParentCommentId(parentCommentId);
         // 封装回复的作者编号用户名
         childComment.setParentCommentAuthorId(parentCommentAuthorId);
         childComment.setParentCommentAuthorUsername(parentCommentAuthorUsername);
@@ -150,6 +154,8 @@ public class CommentController {
                 childComments.get(j).setCommentAuthorUsername(childCommentAuthor.getUsername());
                 // 封装评论作者头像
                 childComments.get(j).setCommentAuthorAvatar(childCommentAuthor.getAvatar());
+                // 封装回复的评论编号
+                childComments.get(j).setParentCommentId(childComments.get(j).getCommentId());
             }
             // 封装子评论对象
             commentDTO.getChildComments().put("" + i, childComments);

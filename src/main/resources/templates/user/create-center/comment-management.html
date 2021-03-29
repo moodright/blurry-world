@@ -463,12 +463,12 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="empty-content">-->
-<!--                <div class="text">-->
-<!--                    <i class="fa fa-2x fa-paper-plane-o mb-3" aria-hidden="true"></i>-->
-<!--                    <p>还没有评论哦~</p>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div th:if="${createCenterComments.isEmpty() == true}" class="empty-content">
+                <div class="text">
+                    <i class="fa fa-2x fa-paper-plane-o mb-3" aria-hidden="true"></i>
+                    <p>还没有评论哦~</p>
+                </div>
+            </div>
             <div class="content">
                 <div class="comment" th:each="createCenterComment : ${createCenterComments}">
                     <div class="left">
@@ -482,16 +482,16 @@
                             <a th:href="${'/space/' + createCenterComment.user.getUserId()}" th:text="${createCenterComment.user.getNickname()}"></a>
                             <span>回复</span>
                             <a th:href="${'/space/' + createCenterComment.comment.getParentCommentAuthorId()}" th:text="${createCenterComment.comment.getParentCommentAuthorUsername()}"></a>
-                            <a class="show-specific-comment">查看评论</a>
+                            <a class="show-specific-comment" th:onclick="|javascript:toggleSpecificCommentBlock(${createCenterComment.comment.getCommentId()}, ${createCenterComment.comment.getParentCommentId()})|">查看评论</a>
                         </div>
-<!--                        <div class="specific-comment">-->
-<!--                            <img src="/images/BillieEilishDonuts.png" />-->
-<!--                            <div class="specific-comment-content">-->
-<!--                                <div class="username">-moodright-</div>-->
-<!--                                <div class="ccontent">回复 @-moodright- :啊啊！</div>-->
-<!--                                <div class="date">2021-03-23 11:30:23</div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <div style="display: none" th:id="'specific-comment-' + ${createCenterComment.comment.getCommentId()}" class="specific-comment">
+                            <img th:id="'specific-comment-img-' + ${createCenterComment.comment.getCommentId()}" />
+                            <div class="specific-comment-content">
+                                <div th:id="'specific-comment-username-' + ${createCenterComment.comment.getCommentId()}" class="username"></div>
+                                <div th:id="'specific-comment-content-' + ${createCenterComment.comment.getCommentId()}" class="ccontent"></div>
+                                <div th:id="'specific-comment-date-' + ${createCenterComment.comment.getCommentId()}" class="date"></div>
+                            </div>
+                        </div>
                         <div class="comment-content" th:text="${createCenterComment.comment.getCommentContent()}">
                         </div>
                         <div class="comment-footer">
@@ -511,7 +511,7 @@
                     </div>
                 </div>
                 <!-- 分页 -->
-                <div class="pagination">
+                <div class="pagination" th:if="${createCenterComments.isEmpty() == false}">
                     <div class="pag-btn"><a th:href="@{/platform/comment}">首页</a></div>
                     <div class="pag-btn" th:if="${paginationInfo.get('prevPage') != null}"><a th:href="'/platform/comment/' + ${paginationInfo.get('prevPage')}">上一页</a></div>
                     <div class="pag-btn" th:if="${paginationInfo.get('nextPage') != null}"><a th:href="'/platform/comment/' + ${paginationInfo.get('nextPage')}">下一页</a></div>
@@ -546,6 +546,10 @@
             }
         }
 
+        /**
+         * 鼠标悬浮文章标题切换样式
+         * @param id 评论编号
+         */
         function changeTitle(id) {
             if($('#p-title-' + id).css("display") === 'none') {
                 $('#p-title-' + id).css("display", "inline");
@@ -556,7 +560,7 @@
             }
         }
 
-        // 跳转页面事件绑定
+        // 分页跳转页面事件绑定
         $('#forward').bind('keypress', function(event) {
             if (event.keyCode === 13) {
                 if($('#forward').val() >= 1 && $('#forward').val() <= [[${paginationInfo.get('lastPage')}]]) {
@@ -564,6 +568,42 @@
                 }
             }
         });
+
+
+        /**
+         * 查询具体回复的评论
+         * @param parentCommentId 回复的评论编号作为查询参数
+         * @param commentId 此评论块编号作为评论块标识符
+         */
+        function queryComment(parentCommentId, commentId) {
+            $.ajax({
+               url: '/platform/comment/query/' + parentCommentId,
+               method: 'get',
+               success: function(comment) {
+                    $('#specific-comment-img-' + commentId).attr("src", comment.user.avatar);
+                    $('#specific-comment-username-' + commentId).text(comment.user.username);
+                    $('#specific-comment-content-' + commentId).text(comment.comment.commentContent);
+                    $('#specific-comment-date-' + commentId).text(comment.comment.commentCreateTime);
+               }
+            })
+        }
+
+        /**
+         * 显示评论
+         * @param commentId 此评论块编号作为评论块标识符
+         * @param parentCommentId 回复的评论编号作为查询参数
+         */
+        function toggleSpecificCommentBlock(commentId, parentCommentId) {
+            if($('#specific-comment-' + commentId).css("display") === "none") {
+                if($('#specific-comment-username-' + commentId).text() === "") {
+                    // 首次请求判断
+                    queryComment(parentCommentId, commentId);
+                }
+                $('#specific-comment-' + commentId).css("display", "block");
+            }else {
+                $('#specific-comment-' + commentId).css("display", "none");
+            }
+        }
     </script>
 </body>
 </html>

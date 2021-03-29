@@ -25,9 +25,10 @@
         <result property="commentContent" column="comment_content" />
         <result property="commentLikes" column="comment_likes" />
         <result property="commentDislikes" column="comment_dislikes" />
-        <!-- 字评论类多了相比父评论类两个字段 -->
+        <!-- 字评论类多了相比父评论类三个字段 -->
         <result property="parentCommentAuthorId" column="parent_comment_author_id" />
         <result property="parentCommentAuthorUsername" column="parent_comment_author_username" />
+        <result property="parentCommentId" column="parent_comment_id" />
     </resultMap>
 
     <resultMap id="createCenterCommentResultMap" type="CreateCenterComment">
@@ -46,6 +47,7 @@
                 comment_content,
                 comment_create_time,
                 comment_parent_id,
+                parent_comment_id,
                 parent_comment_author_id,
                 parent_comment_author_username,
                 post_id,
@@ -81,6 +83,19 @@
             )
     </select>
 
+    <select id="queryCreateCenterCommentByCommentId" parameterType="Integer" resultMap="createCenterCommentResultMap">
+        select
+            comment_content,
+            comment_create_time,
+            user_id,
+            username,
+            nickname,
+            avatar
+        from `comment`
+        left join `user` on user_id = comment_author_id
+        where comment_id = #{commentId}
+    </select>
+
 
     <!-- 添加评论 -->
     <insert id="addComment" parameterType="Comment">
@@ -108,7 +123,8 @@
          `comment_content`,
          `comment_parent_id`,
          `parent_comment_author_id`,
-         `parent_comment_author_username`
+         `parent_comment_author_username`,
+         `parent_comment_id`
         )
         values
         (
@@ -118,7 +134,8 @@
          #{commentContent},
          #{commentParentId},
          #{parentCommentAuthorId},
-         #{parentCommentAuthorUsername}
+         #{parentCommentAuthorUsername},
+         #{parentCommentId}
         )
     </insert>
 

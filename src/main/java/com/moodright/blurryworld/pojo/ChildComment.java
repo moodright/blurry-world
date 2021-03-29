@@ -18,4 +18,8 @@ public class ChildComment extends Comment{
      * 回复的评论作者用户名
      */
     private String parentCommentAuthorUsername;
+    /**
+     * 回复的评论编号
+     */
+    private Integer parentCommentId;
 }

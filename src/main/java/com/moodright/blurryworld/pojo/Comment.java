@@ -25,7 +25,7 @@ public class Comment {
      */
     private Integer commentAuthorId;
     /**
-     *  父级评论编号
+     *  根评论编号
      */
     private Integer commentParentId;
     /**

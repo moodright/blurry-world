@@ -90,4 +90,10 @@ public class CommentMapperTests {
         int i = commentMapper.queryCreateCenterCommentCountByUserId(1001);
         System.out.println(i);
     }
+
+    @Test
+    public void queryCreateCenterCommentByCommentIdTest() {
+        CreateCenterComment createCenterComment = commentMapper.queryCreateCenterCommentByCommentId(119);
+        System.out.println(createCenterComment);
+    }
 }

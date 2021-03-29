@@ -98,5 +98,12 @@ public interface CommentMapper {
      */
     int queryCreateCenterCommentCountByUserId(@Param("userId")Integer userId);
 
+    /**
+     * 根据评论编号查询评论
+     * @param commentId 评论编号
+     * @return 评论对象
+     */
+    CreateCenterComment queryCreateCenterCommentByCommentId(@Param("commentId")Integer commentId);
+
 
 }
