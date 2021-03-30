@@ -1,7 +1,6 @@
 package com.moodright.blurryworld.controller.user;
 
 import com.moodright.blurryworld.pojo.ChildComment;
-import com.moodright.blurryworld.pojo.Comment;
 import com.moodright.blurryworld.pojo.Post;
 import com.moodright.blurryworld.pojo.User;
 import com.moodright.blurryworld.pojo.createcenter.CreateCenterComment;
@@ -9,14 +8,9 @@ import com.moodright.blurryworld.service.CommentService;
 import com.moodright.blurryworld.service.PostService;
 import com.moodright.blurryworld.utils.PostPaginationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -110,7 +104,67 @@ public class CreateCenterController {
     @GetMapping(path = "/comment/query/{id}")
     @ResponseBody
     public CreateCenterComment queryCommentById(@PathVariable("id")Integer commentId) {
-        CreateCenterComment createCenterComment = commentService.queryCreateCenterCommentByCommentId(commentId);
-        return createCenterComment;
+        return commentService.queryCreateCenterCommentByCommentId(commentId);
+    }
+
+    /**
+     * 回复评论
+     *
+     * 和 {@link com.moodright.blurryworld.controller.user.CommentController#replyComment} 获取的参数其实是相同的
+     * 这里没有获取多余的两个用户参数（用户编号和用户名）以及根评论编号
+     * 上述三个参数都可以根据 parentCommentId 进行联表查询和判断根评论编号
+     * 是否为空得出
+     *
+     * @param postId 回复的文章编号
+     * @param parentCommentId 回复的评论编号
+     * @param commentContent 回复的内容
+     * @param session 当前会话, 用来读取当前用户的个人信息
+     * @return 判断回复是否成功的字段
+     */
+    @PostMapping("comment/reply")
+    @ResponseBody
+    public String replyComment(@RequestParam("postId")Integer postId,
+                              @RequestParam("commentId")Integer parentCommentId,
+                              @RequestParam("commentContent")String commentContent,
+                              HttpSession session) {
+        User user = (User)session.getAttribute("user");
+        // 父评论、评论人信息
+        CreateCenterComment createCenterComment = commentService.queryCreateCenterCommentByCommentId(parentCommentId);
+        // 封装子评论数据
+        ChildComment childComment = new ChildComment();
+        childComment.setCommentPostId(postId);
+        childComment.setCommentAuthorId(user.getUserId());
+        childComment.setCommentContent(commentContent);
+        childComment.setCommentCreateTime(new Date());
+        // 回复的评论编号
+        childComment.setParentCommentId(parentCommentId);
+        childComment.setParentCommentAuthorId(createCenterComment.getUser().getUserId());
+        childComment.setParentCommentAuthorUsername(createCenterComment.getUser().getUsername());
+        // 设置根评论编号
+        if(createCenterComment.getComment().getCommentParentId() == null) {
+            // 父评论的根评论编号为空则为根评论
+            childComment.setCommentParentId(createCenterComment.getComment().getCommentId());
+        }else {
+            childComment.setCommentParentId(createCenterComment.getComment().getCommentParentId());
+        }
+        int i = commentService.addChildComment(childComment);
+        if(i > 0) {
+            return "success";
+        }else {
+            return "failed";
+        }
+    }
+
+
+    @PostMapping("comment/delete/{id}")
+    @ResponseBody
+    public String deleteComment(@PathVariable("id")Integer commentId) {
+        System.out.println("commentId=>" + commentId);
+        int i = commentService.deleteRootCommentByCommentId(commentId);
+        if (i > 0) {
+            return "success";
+        }else {
+            return "failed";
+        }
     }
 }

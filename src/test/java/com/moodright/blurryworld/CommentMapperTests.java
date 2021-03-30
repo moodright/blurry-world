@@ -38,9 +38,9 @@ public class CommentMapperTests {
     @Test
     public void queryCommentsByPostIdTest() {
         Map<String,Integer> map = new HashMap<>();
-        map.put("postId", 2000);
+        map.put("postId", 2011);
         map.put("startIndex", 0);
-        map.put("pageSize", 2);
+        map.put("pageSize", 5);
         List<Comment> comments = commentMapper.queryRootCommentsByPostId(map);
         for (Comment comment : comments) {
             System.out.println(comment);
@@ -55,7 +55,7 @@ public class CommentMapperTests {
     @Test
     public void queryChildCommentByComentIdTest() {
         Map<String,Integer> map = new HashMap<>();
-        map.put("commentId", 6);
+        map.put("commentId", 119);
         map.put("startIndex", 0);
         map.put("pageSize", 10);
         List<ChildComment> comments = commentMapper.queryChildCommentsByCommentId(map);
@@ -94,6 +94,8 @@ public class CommentMapperTests {
     @Test
     public void queryCreateCenterCommentByCommentIdTest() {
         CreateCenterComment createCenterComment = commentMapper.queryCreateCenterCommentByCommentId(119);
+        System.out.println(createCenterComment.getComment().getCommentId());
+        System.out.println(createCenterComment.getComment().getCommentParentId());
         System.out.println(createCenterComment);
     }
 }

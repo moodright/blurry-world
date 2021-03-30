@@ -66,6 +66,7 @@
                 from `post`
                 where author_id = #{userId}
             )
+            and `comment_status` = 0
             limit #{startIndex},#{pageSize}
     </select>
 
@@ -81,10 +82,13 @@
                 from `post`
                 where author_id = #{userId}
             )
+            and `comment_status` = 0
     </select>
 
     <select id="queryCreateCenterCommentByCommentId" parameterType="Integer" resultMap="createCenterCommentResultMap">
         select
+            comment_id,
+            comment_parent_id,
             comment_content,
             comment_create_time,
             user_id,
@@ -93,7 +97,7 @@
             avatar
         from `comment`
         left join `user` on user_id = comment_author_id
-        where comment_id = #{commentId}
+        where comment_id = #{commentId} and `comment_status` = 0
     </select>
 
 
