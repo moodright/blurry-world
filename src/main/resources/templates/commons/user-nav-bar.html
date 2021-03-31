@@ -20,7 +20,7 @@
                 background: white;
                 display: flex;
                 justify-content: space-between;
-                box-shadow: 2px 2px 2px #DCDFE6;
+                box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
             }
             /* 左侧链接 */
             .user-nav-link {
@@ -245,12 +245,10 @@
                     </div>
                 </div>
             </div>
-            <a href="#" class="user-nav-center-link">消息中心</a>
+            <a href="/message/reply" class="user-nav-center-link">消息中心</a>
             <a th:href="@{/platform}" class="user-nav-center-link">创作中心</a>
             <a th:href="@{/post}" class="btn btn-lg btn-primary user-nav-center-postbtn" role="button"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>发布文章</a>
         </div>
     </div>
-
-
 </body>
 </html>

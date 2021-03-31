@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>回复我的消息</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- fontawesome.css -->
+    <link rel="stylesheet" href="/css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <style>
+        html, body {
+            height: 100%!important;
+            width: 1550px!important;
+            background: #d2e9fb;
+            overflow: hidden;
+        }
+        .user-nav-bar {
+            position: sticky;
+            top: 0;
+        }
+        /* 主页面 */
+        .main {
+            width: 70%;
+            height: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: start;
+        }
+        /* 左侧导航栏 */
+        .left-nav-bar {
+            width: 15%;
+            height: 100%;
+            background: white;
+        }
+        .left-nav-bar .nav-title{
+            width: 100%;
+            height: 50px;
+            color: #6b757b;
+            text-align: center;
+            line-height: 50px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .left-nav-bar .nav-link-list {
+            width: 100%;
+            height: 200px;
+            color: #6b757b;
+            font-weight: 700;
+        }
+        .nav-link-list li {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            margin-left: 10px;
+        }
+        .nav-link-list li a {
+            font-size: 16px;
+            color: #6b757b;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-link-list li:hover{
+            color: #2fb5ea;
+        }
+        .nav-link-list li a:hover{
+            color: #2fb5ea;
+        }
+        .nav-link-list li:hover a {
+            color: #2fb5ea;
+        }
+        /* 分割线 */
+        .separator {
+            width: 100%;
+            height: 1px;
+            background: #d2e9fb;
+            margin: 20px 0;
+        }
+        .message-setting {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            color: #6b757b;
+            font-weight: 700;
+        }
+        .message-setting:hover {
+            color: #2fb5ea;
+        }
+
+
+        /* 右侧内容页面 */
+        .right-content {
+            width: 85%;
+            height: 100%;
+        }
+        .right-content .content-title {
+            width: 97%;
+            height: 45px;
+            background: white;
+            margin: 10px auto;
+            border-radius: 4px;
+            color: #666;
+            font-size: 15px;
+            line-height: 45px;
+            padding: 0 16px;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+        }
+        .right-content .content-body {
+            width: 97%;
+            height: 79%;
+            background: white;
+            border-radius: 4px;
+            margin: 0 auto;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+            overflow-y: auto;
+            padding: 10px 0 10px 10px;
+        }
+        /* 设置滚动条样式 */
+        /* 滚动栏宽度 */
+        .content-body::-webkit-scrollbar {
+            width: 7px;
+        }
+        /* 滚动栏滑块 */
+        .content-body::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background: #3798e8;
+        }
+        /* 滚动栏轨道 */
+        .content-body::-webkit-scrollbar-track {
+            border-radius: 0;
+            background: #eeeeee;
+        }
+
+        .content-body .message {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: start;
+            margin: 15px 0;
+        }
+        .message .avatar {
+            height: 100%;
+            width: 90px;
+            text-align: center;
+            line-height: 90px;
+        }
+        .message .avatar img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+        }
+        .message .message-content {
+            width: 700px;
+            height: auto;
+            border-bottom: 1px solid #e5e9ef;
+        }
+        .message-content .header {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            color: #222222;
+        }
+        .message-content .header a {
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #222222;
+        }
+        .message-content .header span {
+            color: #505050;
+        }
+        .message-content .header a:hover {
+            color: #3798e8;
+        }
+        .message-content .middle {
+            width: 100%;
+            height: auto;
+            min-height: 50px;
+            line-height: 30px;
+            font-size: 14px;
+            color: #505050;
+        }
+        .message-content .footer {
+            width: 100%;
+            height: 40px;
+            font-size: 14px;
+            color: #505050;
+            display: flex;
+            justify-content: start;
+        }
+        .message-content .footer .date{
+            font-size: 12px;
+            color: #999;
+            width: 140px;
+            height: 100%;
+        }
+        .message-content .footer .like {
+            width: 50px;
+            height: 100%;
+            margin-right: 15px;
+            font-size: 12px;
+            color: #999;
+            cursor: pointer;
+        }
+        .message-content .footer .like:hover {
+            color: #2faee3;
+        }
+        .message-content .footer .delete {
+            width: 80px;
+            height: 100%;
+            font-size: 12px;
+            color: #999;
+            cursor: pointer;
+        }
+        .message-content .footer .delete:hover {
+            color: #2faee3;
+        }
+
+        .message .comment-content {
+            width: calc(100% - 790px);
+            height: 121px;
+            font-size: 14px;
+            color: #999;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 用户导航栏 -->
+    <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
+
+    <!-- 主页面 -->
+    <div class="main">
+        <!-- 左侧导航栏 -->
+        <div class="left-nav-bar">
+            <div class="nav-title">
+                <i class="fa fa-paper-plane-o mr-2"></i>
+                消息中心
+            </div>
+            <ul class="nav-link-list">
+                <li>
+                    <a href="#">回复我的</a>
+                </li>
+                <li>
+                    <a href="#">收到的赞</a>
+                </li>
+                <li>
+                    <a href="#">我的消息</a>
+                </li>
+                <li>
+                    <a href="#">系统通知</a>
+                </li>
+            </ul>
+            <div class="separator"></div>
+            <div class="message-setting">
+                <i class="fa fa-cog mr-2"></i>消息设置</div>
+        </div>
+        <!-- 右侧内容页面 -->
+        <div class="right-content">
+            <div class="content-title">
+                回复我的
+            </div>
+            <div class="content-body">
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。组合通称「ずとまよ」。正式的成员组成和出身几乎没有公开，以ACA（）アカネ为中心活动。
+                            2018年6月，从在YouTube上发布了《秒針を噛む》的音乐影像开始音乐活动后，便创下了令人惊异的视频播放次数记录。一跃成名，同年11月以迷你专辑《正しい偽りからの起床》正式出道。2019年1月将首次举办正式的个人演唱会。7月还将出演“FUJI ROCK FESTIVAL”。10月发行首张完整专辑《潜潜話》。
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="avatar">
+                        <img src="/images/BillieEilishDonuts.png" />
+                    </div>
+                    <div class="message-content">
+                        <div class="header">
+                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                        </div>
+                        <div class="middle">
+                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
+                        </div>
+                        <div class="footer">
+                            <div class="date">
+                                2021年3月22日 20:40
+                            </div>
+                            <div class="like">
+                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
+                            </div>
+                            <div class="delete">
+                                <i class="fa fa-trash-o mr-1"></i>删除该通知
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
