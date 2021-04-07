@@ -102,7 +102,7 @@
 
 
     <!-- 添加评论 -->
-    <insert id="addComment" parameterType="Comment">
+    <insert id="addComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentId">
         insert into `comment`
         (`comment_post_id`,
          `comment_author_id`,
@@ -119,7 +119,7 @@
     </insert>
 
     <!-- 添加子评论 -->
-    <insert id="addChildComment" parameterType="ChildComment">
+    <insert id="addChildComment" parameterType="ChildComment" useGeneratedKeys="true" keyProperty="commentId">
         insert into `comment`
         (`comment_post_id`,
          `comment_author_id`,

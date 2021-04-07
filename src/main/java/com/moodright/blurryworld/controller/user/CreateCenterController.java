@@ -159,7 +159,6 @@ public class CreateCenterController {
     @PostMapping("comment/delete/{id}")
     @ResponseBody
     public String deleteComment(@PathVariable("id")Integer commentId) {
-        System.out.println("commentId=>" + commentId);
         int i = commentService.deleteRootCommentByCommentId(commentId);
         if (i > 0) {
             return "success";

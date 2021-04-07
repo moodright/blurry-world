@@ -93,4 +93,9 @@
         where `author_id` = #{authorId} and `post_status` = 0
     </select>
 
+    <select id="queryAuthorIdByPostId" parameterType="Integer" resultType="Integer">
+        select `author_id` from `post`
+        where `post_id` = #{postId}
+    </select>
+
 </mapper>

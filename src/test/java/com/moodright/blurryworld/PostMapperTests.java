@@ -76,4 +76,10 @@ public class PostMapperTests {
         int i = postService.queryPostsCountByAuthorId(1001);
         System.out.println(i);
     }
+
+    @Test
+    public void queryAuthorIdByPostIdTest() {
+        Integer authorId = postService.queryAuthorIdByPostId(2000);
+        System.out.println(authorId);
+    }
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodright.blurryworld.mapper.MessageMapper">
+    <resultMap id="messageResultMap" type="Message">
+        <id property="messageId" column="message_id" />
+        <result property="messagePostId" column="message_post_id" />
+        <result property="messageOwnerId" column="message_owner_id" />
+        <result property="messageReplyerId" column="message_replyer_id" />
+        <result property="messageReplyerCommentId" column="message_replyer_comment_id" />
+        <result property="messageStatus" column="message_status" />
+    </resultMap>
+
+    <!-- 添加消息 -->
+    <insert id="addMessage" parameterType="Message" useGeneratedKeys="true" keyProperty="messageId">
+        insert into `message`
+        (`message_post_id`,
+         `message_owner_id`,
+         `message_replyer_id`,
+         `message_replyer_comment_id`,
+         `message_status`
+        )
+        values
+        (#{messagePostId},
+         #{messageOwnerId},
+         #{messageReplyerId},
+         #{messageReplyerCommentId},
+         #{messageStatus}
+        )
+    </insert>
+
+    <!-- 根据被通知人编号查询消息 -->
+
+
+    <!-- 删除消息 -->
+
+
+    <!-- 更新消息 -->
+    <update id="updateMessageByMessageId" parameterType="Integer">
+        update `message` set
+        `message_status` = 1
+        where `message_id` = #{messageId}
+    </update>
+
+</mapper>

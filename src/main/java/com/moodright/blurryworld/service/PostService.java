@@ -91,4 +91,15 @@ public class PostService implements PostMapper {
     public int queryPostsCountByAuthorId(Integer authorId) {
         return postMapper.queryPostsCountByAuthorId(authorId);
     }
+
+    /**
+     * 根据文章编号查询作者编号
+     *
+     * @param postId 文章编号
+     * @return 作者编号
+     */
+    @Override
+    public Integer queryAuthorIdByPostId(Integer postId) {
+        return postMapper.queryAuthorIdByPostId(postId);
+    }
 }

@@ -62,4 +62,11 @@ public interface PostMapper {
      * @return 文章数量
      */
     int queryPostsCountByAuthorId(@Param("authorId")Integer authorId);
+
+    /**
+     * 根据文章编号查询作者编号
+     * @param postId 文章编号
+     * @return 作者编号
+     */
+    Integer queryAuthorIdByPostId(@Param("postId")Integer postId);
 }
