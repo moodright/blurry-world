@@ -1,11 +1,13 @@
 package com.moodright.blurryworld;
 
-import com.moodright.blurryworld.mapper.MessageMapper;
 import com.moodright.blurryworld.pojo.Message;
+import com.moodright.blurryworld.pojo.messagecenter.MessageDTO;
 import com.moodright.blurryworld.service.MessageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 /**
  * @author moodright
@@ -27,4 +29,19 @@ public class MessageMapperTests {
         messageService.addMessage(message);
         System.out.println("messageId =>" + message.getMessageId());
     }
+
+    @Test
+    void queryMessageDTOTest() {
+        List<MessageDTO> messages = messageService.queryMessageByMessageOwnerId(1001);
+        for (MessageDTO messageDTO : messages) {
+            System.out.println(messageDTO.getMessageId());
+            System.out.println(messageDTO.getReplyer());
+            System.out.println(messageDTO.getComment().getCommentContent());
+            if(messageDTO.getMyComment() != null) {
+                System.out.println(messageDTO.getMyComment().getCommentContent());
+            }
+            System.out.println(messageDTO.getPost());
+        }
+    }
+
 }

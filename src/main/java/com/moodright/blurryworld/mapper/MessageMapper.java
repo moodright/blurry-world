@@ -1,6 +1,7 @@
 package com.moodright.blurryworld.mapper;
 
 import com.moodright.blurryworld.pojo.Message;
+import com.moodright.blurryworld.pojo.messagecenter.MessageDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,7 @@ public interface MessageMapper {
      * @param messageOwnerId 被通知人编号
      * @return 消息列表
      */
-    List<Message> queryMessageByMessageOwnerId(@Param("messageOwnerId")Integer messageOwnerId);
+    List<MessageDTO> queryMessageByMessageOwnerId(@Param("messageOwnerId")Integer messageOwnerId);
 
     /**
      * 删除消息

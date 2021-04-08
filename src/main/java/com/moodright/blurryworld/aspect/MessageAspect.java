@@ -33,7 +33,7 @@ public class MessageAspect {
     }
 
     /**
-     * 添加消息通知
+     * 添加根评论消息通知
      * 匹配 {@link com.moodright.blurryworld.service.CommentService#addComment(Comment)} 切入点
      * @param comment 传递给切入点方法的封装好的评论实体类
      * @param returnValue 切入点方法执行后的返回值, 判断评论添加是否成功字段
@@ -56,7 +56,8 @@ public class MessageAspect {
     }
 
     /**
-     * 添加消息通知
+     * 添加子评论消息通知
+     * 与根评论消息通知的区别是：根评论通知的为文章的作者，而子评论通知的为评论作者
      * 匹配 {@link com.moodright.blurryworld.service.CommentService#addChildComment(ChildComment)} 切入点
      * @param childComment 传递给切入点方法的封装好的子评论实体类
      * @param returnValue 切入点方法执行后的返回值, 判断评论添加是否成功字段
@@ -69,7 +70,6 @@ public class MessageAspect {
         if(returnValue > 0) {
             Message message = new Message();
             // 封装消息对象
-            message.setMessagePostId(childComment.getCommentPostId());
             message.setMessageReplyerId(childComment.getCommentAuthorId());
             message.setMessageReplyerCommentId(childComment.getCommentId());
             message.setMessageOwnerId(childComment.getParentCommentAuthorId());

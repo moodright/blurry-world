@@ -2,6 +2,7 @@ package com.moodright.blurryworld.service;
 
 import com.moodright.blurryworld.mapper.MessageMapper;
 import com.moodright.blurryworld.pojo.Message;
+import com.moodright.blurryworld.pojo.messagecenter.MessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class MessageService implements MessageMapper {
      * @return 消息列表
      */
     @Override
-    public List<Message> queryMessageByMessageOwnerId(Integer messageOwnerId) {
+    public List<MessageDTO> queryMessageByMessageOwnerId(Integer messageOwnerId) {
         return messageMapper.queryMessageByMessageOwnerId(messageOwnerId);
     }
 

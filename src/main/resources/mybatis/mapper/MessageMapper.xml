@@ -3,15 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.moodright.blurryworld.mapper.MessageMapper">
-    <resultMap id="messageResultMap" type="Message">
-        <id property="messageId" column="message_id" />
-        <result property="messagePostId" column="message_post_id" />
-        <result property="messageOwnerId" column="message_owner_id" />
-        <result property="messageReplyerId" column="message_replyer_id" />
-        <result property="messageReplyerCommentId" column="message_replyer_comment_id" />
-        <result property="messageStatus" column="message_status" />
-    </resultMap>
-
     <!-- 添加消息 -->
     <insert id="addMessage" parameterType="Message" useGeneratedKeys="true" keyProperty="messageId">
         insert into `message`
@@ -31,7 +22,52 @@
     </insert>
 
     <!-- 根据被通知人编号查询消息 -->
+    <select id="queryMessageByMessageOwnerId" parameterType="Integer" resultMap="messageResultMap">
+        select
+            `message_id`,
+            `user_id`,
+            `username`,
+            `nickname`,
+            `avatar`,
+            c1.`comment_post_id` as comment_post_id_1,
+            c1.`comment_content` as comment_content_1,
+            c1.`comment_create_time` as comment_create_time_1,
+            c1.`parent_comment_id` as parent_comment_id_1,
+            `post_id`,
+            `post_title`,
+            `post_cover`,
+            c2.`comment_content` as `comment_content_2`
+        from `message`
+        left join `user` on `message_replyer_id` = `user_id`
+        left join `comment` as c1 on `message_replyer_comment_id` = c1.`comment_id`
+        <if test="`post_id` != null">
+            left join `post` on `message_post_id` = `post_id`
+        </if>
+        <if test="`parent_comment_id_1` != null">
+            left join `comment` as c2 on c1.`parent_comment_id` = c2.`comment_id`
+        </if>
+        where `message_owner_id` = #{messageOwnerId}
+        order by c1.`comment_create_time` desc
+    </select>
 
+    <resultMap id="messageResultMap" type="MessageDTO">
+        <id property="messageId" column="message_id" />
+        <association property="replyer" javaType="User"  resultMap="com.moodright.blurryworld.mapper.UserMapper.userResultMap"/>
+        <association property="post" javaType="Post" resultMap="com.moodright.blurryworld.mapper.PostMapper.postResultMap" />
+        <association property="comment" javaType="ChildComment" resultMap="commentResultMap" />
+        <association property="myComment" javaType="Comment" resultMap="myCommentResultMap" />
+    </resultMap>
+
+    <resultMap id="commentResultMap" type="ChildComment">
+        <result property="commentPostId" column="comment_post_id_1" />
+        <result property="commentContent" column="comment_content_1" />
+        <result property="commentCreateTime" column="comment_create_time_1" />
+        <result property="parentCommentId" column="parent_comment_id_1" />
+    </resultMap>
+
+    <resultMap id="myCommentResultMap" type="Comment">
+        <result property="commentContent" column="comment_content_2" />
+    </resultMap>
 
     <!-- 删除消息 -->
 

@@ -182,6 +182,7 @@
             line-height: 30px;
             font-size: 14px;
             color: #505050;
+            padding-right: 20px;
         }
         .message-content .footer {
             width: 100%;
@@ -222,9 +223,21 @@
         .message .comment-content {
             width: calc(100% - 790px);
             height: 121px;
+        }
+        .comment-content .comment-content-a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
             font-size: 14px;
             color: #999;
             cursor: pointer;
+        }
+        .message .comment-content .post-cover {
+            width: 90%;
+            height: 60%;
+            margin-top: 15px;
+            border-radius: 5px;
         }
 
     </style>
@@ -243,7 +256,7 @@
             </div>
             <ul class="nav-link-list">
                 <li>
-                    <a href="#">回复我的</a>
+                    <a th:href="@{/message/reply}">回复我的</a>
                 </li>
                 <li>
                     <a href="#">收到的赞</a>
@@ -265,21 +278,21 @@
                 回复我的
             </div>
             <div class="content-body">
-                <div class="message">
+                <div class="message" th:each="message : ${messages}">
                     <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
+                        <a th:href="${'/space/' + message.getReplyer().getUserId()}">
+                            <img th:src="${message.getReplyer().getAvatar()?:'/images/DefaultAvatar.png'}" />
+                        </a>
                     </div>
                     <div class="message-content">
                         <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
+                            <a class="mr-2" th:href="${'/space/' + message.getReplyer().getUserId()}" th:text="${message.getReplyer().getNickname()?:message.getReplyer().getUsername()}"></a>
+                            <span th:if="${message.getPost() == null}">回复了我的评论</span>
+                            <span th:if="${message.getPost() != null}">评论了我的文章</span>
                         </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
-                        </div>
+                        <div class="middle" th:text="${message.getComment().getCommentContent()}"></div>
                         <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
+                            <div class="date" th:text="${#dates.format(message.getComment().getCommentCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></div>
                             <div class="like">
                                 <i class="fa fa-thumbs-o-up mr-1"></i>点赞
                             </div>
@@ -289,224 +302,10 @@
                         </div>
                     </div>
                     <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
-                    </div>
-                </div>
-                <div class="message">
-                    <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
-                    </div>
-                    <div class="message-content">
-                        <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
-                        </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。组合通称「ずとまよ」。正式的成员组成和出身几乎没有公开，以ACA（）アカネ为中心活动。
-                            2018年6月，从在YouTube上发布了《秒針を噛む》的音乐影像开始音乐活动后，便创下了令人惊异的视频播放次数记录。一跃成名，同年11月以迷你专辑《正しい偽りからの起床》正式出道。2019年1月将首次举办正式的个人演唱会。7月还将出演“FUJI ROCK FESTIVAL”。10月发行首张完整专辑《潜潜話》。
-                        </div>
-                        <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
-                            <div class="like">
-                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
-                            </div>
-                            <div class="delete">
-                                <i class="fa fa-trash-o mr-1"></i>删除该通知
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
-                    </div>
-                </div>
-                <div class="message">
-                    <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
-                    </div>
-                    <div class="message-content">
-                        <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
-                        </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
-                        </div>
-                        <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
-                            <div class="like">
-                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
-                            </div>
-                            <div class="delete">
-                                <i class="fa fa-trash-o mr-1"></i>删除该通知
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
-                    </div>
-                </div>
-                <div class="message">
-                    <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
-                    </div>
-                    <div class="message-content">
-                        <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
-                        </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
-                        </div>
-                        <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
-                            <div class="like">
-                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
-                            </div>
-                            <div class="delete">
-                                <i class="fa fa-trash-o mr-1"></i>删除该通知
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
-                    </div>
-                </div>
-                <div class="message">
-                    <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
-                    </div>
-                    <div class="message-content">
-                        <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
-                        </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
-                        </div>
-                        <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
-                            <div class="like">
-                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
-                            </div>
-                            <div class="delete">
-                                <i class="fa fa-trash-o mr-1"></i>删除该通知
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
-                    </div>
-                </div>
-                <div class="message">
-                    <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
-                    </div>
-                    <div class="message-content">
-                        <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
-                        </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
-                        </div>
-                        <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
-                            <div class="like">
-                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
-                            </div>
-                            <div class="delete">
-                                <i class="fa fa-trash-o mr-1"></i>删除该通知
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
-                    </div>
-                </div>
-                <div class="message">
-                    <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
-                    </div>
-                    <div class="message-content">
-                        <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
-                        </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
-                        </div>
-                        <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
-                            <div class="like">
-                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
-                            </div>
-                            <div class="delete">
-                                <i class="fa fa-trash-o mr-1"></i>删除该通知
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
-                    </div>
-                </div>
-                <div class="message">
-                    <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
-                    </div>
-                    <div class="message-content">
-                        <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
-                        </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
-                        </div>
-                        <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
-                            <div class="like">
-                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
-                            </div>
-                            <div class="delete">
-                                <i class="fa fa-trash-o mr-1"></i>删除该通知
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
-                    </div>
-                </div>
-                <div class="message">
-                    <div class="avatar">
-                        <img src="/images/BillieEilishDonuts.png" />
-                    </div>
-                    <div class="message-content">
-                        <div class="header">
-                            <a class="mr-2" href="#">moodright</a><span>回复了我的评论</span>
-                        </div>
-                        <div class="middle">
-                            ずっと真夜中でいいのに。（ずっとまよなかでいいのに、英文表記: Zutto Mayonaka de Iinoni.）、日本音乐组
-                        </div>
-                        <div class="footer">
-                            <div class="date">
-                                2021年3月22日 20:40
-                            </div>
-                            <div class="like">
-                                <i class="fa fa-thumbs-o-up mr-1"></i>点赞
-                            </div>
-                            <div class="delete">
-                                <i class="fa fa-trash-o mr-1"></i>删除该通知
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-content">
-                        ずっと真夜中でいいのに。（ずっとまよなかでいいのに
+                        <a th:href="${'/post/read/' + message.getPost().getPostId()}" th:if="${message.getPost() != null}">
+                            <img class="post-cover" th:src="${message.getPost().getPostCover()?:'/images/carousel-default.png'}" th:title="${message.getPost().getPostTitle()}"/>
+                        </a>
+                        <a class="comment-content-a" th:href="${'/post/read/' + message.getComment().getCommentPostId()}" th:if="${message.getPost() == null}" th:text="${message.getMyComment().getCommentContent().length() > 30?message.getMyComment().getCommentContent().substring(0,30) + '...':message.getMyComment().getCommentContent()}"></a>
                     </div>
                 </div>
             </div>
