@@ -34,14 +34,21 @@ public class MessageMapperTests {
     void queryMessageDTOTest() {
         List<MessageDTO> messages = messageService.queryMessageByMessageOwnerId(1001);
         for (MessageDTO messageDTO : messages) {
-            System.out.println(messageDTO.getMessageId());
-            System.out.println(messageDTO.getReplyer());
-            System.out.println(messageDTO.getComment().getCommentContent());
-            if(messageDTO.getMyComment() != null) {
-                System.out.println(messageDTO.getMyComment().getCommentContent());
-            }
-            System.out.println(messageDTO.getPost());
+            System.out.println(messageDTO.isMessageStatus());
+//            System.out.println(messageDTO.getMessageId());
+//            System.out.println(messageDTO.getReplyer());
+//            System.out.println(messageDTO.getComment().getCommentContent());
+//            if(messageDTO.getMyComment() != null) {
+//                System.out.println(messageDTO.getMyComment().getCommentContent());
+//            }
+//            System.out.println(messageDTO.getPost());
         }
+    }
+
+    @Test
+    void queryMessageCountByOwnerIdTest() {
+        int i = messageService.queryMessageCountByOwnerId(1011101);
+        System.out.println(i);
     }
 
 }

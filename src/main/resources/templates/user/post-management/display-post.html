@@ -487,6 +487,7 @@
             color: #67c23a;
             border-radius: 4px;
             border: 1px solid #ebeef5;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
         }
         #alert-failed {
             width: 380px;
@@ -502,6 +503,7 @@
             color: white;
             border-radius: 4px;
             border: 1px solid #ebeef5;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
         }
 
 
@@ -859,13 +861,13 @@
                            $("#alert-success").fadeIn();
                            var t = setTimeout(function() {
                                window.location.href = "/post/read/" + $('#postId').val();
-                           }, 1500);
+                           }, 700);
                        }else {
                            $('#alert-failed').html('<i class="fa fa-check mr-2"></i>发表评论失败！');
                            $("#alert-failed").fadeIn();
                            var t = setTimeout(function() {
                                $("#alert-failed").fadeOut();
-                           }, 1500);
+                           }, 700);
                        }
                    }
                 });
@@ -890,13 +892,13 @@
                            $("#alert-success").fadeIn();
                            var t = setTimeout(function() {
                                window.location.href = "/post/read/" + $('#postId').val();
-                           }, 1500);
+                           }, 700);
                        }else {
                            $('#alert-failed').html('<i class="fa fa-check mr-2"></i>回复评论失败！');
                            $("#alert-failed").fadeIn();
                            var t = setTimeout(function() {
                                $("#alert-failed").fadeOut();
-                           }, 1500);
+                           }, 700);
                        }
                    }
                 });
@@ -1005,7 +1007,7 @@
                                         '<span class="reply-comment-date">' + getDateDiff(data.childComments[i][j].commentCreateTime.slice(0, 16)) + '</span>\n' +
                                         '<span class="reply-comment-like"><a href="#"><i class="fa fa-thumbs-o-up mr-1" aria-hidden="true"></i>' + data.childComments[i][j].commentLikes + '</a></span>\n' +
                                         '<span class="comment-dislike"><a href="#"><i class="fa fa-thumbs-o-down mr-1" aria-hidden="true"></i>' + data.childComments[i][j].commentDislikes + '</a></span>\n' +
-                                        '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.childComments[i][j].parentCommentAuthorId + '\',\'' + data.childComments[i][j].parentCommentAuthorUsername + '\',\'' + data.childComments[i][j].parentCommentId + '\')">回复</button>\n';
+                                        '<button onclick="toggleReplyBlock(\'' + data.rootComment[i].commentId + '\',\'' + data.childComments[i][j].commentAuthorId + '\',\'' + data.childComments[i][j].commentAuthorUsername + '\',\'' + data.childComments[i][j].commentId + '\')">回复</button>\n';
 
                                     // 判断是否为当前会话用户发布的评论
                                     if(data.childComments[i][j].commentAuthorId === data.replyerId) {

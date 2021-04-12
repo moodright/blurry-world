@@ -208,6 +208,20 @@
                 margin-left: 20px;
             }
 
+            /* 自定义消息提醒框 */
+            .message-alert {
+                position: absolute;
+                top: -15px;
+                right: -10px;
+                background: #f56c6c;
+                color: #fff;
+                text-align: center;
+                font-size: 12px;
+                line-height: 20px;
+                height: 20px;
+                width: 25px;
+                border-radius: 10px;
+            }
         </style>
         <div class="user-nav-link">
             <span class="user-nav-logo">BlurryWorld</span>
@@ -245,10 +259,33 @@
                     </div>
                 </div>
             </div>
-            <a href="/message/reply" class="user-nav-center-link">消息中心</a>
+            <a href="/message/reply" class="user-nav-center-link">
+                消息中心
+                <!-- 自定义消息提醒框 -->
+                <div class="message-alert" style="display: none"></div>
+            </a>
             <a th:href="@{/platform}" class="user-nav-center-link">创作中心</a>
             <a th:href="@{/post}" class="btn btn-lg btn-primary user-nav-center-postbtn" role="button"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>发布文章</a>
         </div>
+        <script src="/js/jquery-3.5.1.js"></script>
+        <script>
+            $(function() {
+                // 查询通知消息数量
+                $.ajax({
+                   url: '/message/reply/count',
+                   method: 'get',
+                   success: function(messageCount) {
+                       if(messageCount !== 0) {
+                           if(messageCount < 99) {
+                                $('.message-alert').css("display", "block").text(messageCount);
+                           }else {
+                                $('.message-alert').css("display", "block").text("99+");
+                           }
+                       }
+                   }
+                });
+            })
+        </script>
     </div>
 </body>
 </html>

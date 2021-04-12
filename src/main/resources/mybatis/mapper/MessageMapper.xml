@@ -25,6 +25,7 @@
     <select id="queryMessageByMessageOwnerId" parameterType="Integer" resultMap="messageResultMap">
         select
             `message_id`,
+            `message_status`,
             `user_id`,
             `username`,
             `nickname`,
@@ -52,6 +53,7 @@
 
     <resultMap id="messageResultMap" type="MessageDTO">
         <id property="messageId" column="message_id" />
+        <result property="messageStatus" column="message_status" />
         <association property="replyer" javaType="User"  resultMap="com.moodright.blurryworld.mapper.UserMapper.userResultMap"/>
         <association property="post" javaType="Post" resultMap="com.moodright.blurryworld.mapper.PostMapper.postResultMap" />
         <association property="comment" javaType="ChildComment" resultMap="commentResultMap" />
@@ -69,14 +71,24 @@
         <result property="commentContent" column="comment_content_2" />
     </resultMap>
 
-    <!-- 删除消息 -->
 
+    <!-- 根据被通知人编号查询未读消息数量 -->
+    <select id="queryMessageCountByOwnerId" parameterType="Integer" resultType="_int">
+        select count(*) from `message`
+        where `message_owner_id` = #{messageOwnerId} and `message_status` = 0
+    </select>
+
+    <!-- 删除消息 -->
+    <delete id="deleteMessageByMessageId" parameterType="Integer">
+        delete from `message`
+        where `message_id` = #{messageId}
+    </delete>
 
     <!-- 更新消息 -->
-    <update id="updateMessageByMessageId" parameterType="Integer">
+    <update id="updateMessageByOwnerId" parameterType="Integer">
         update `message` set
         `message_status` = 1
-        where `message_id` = #{messageId}
+        where `message_owner_id` = #{messageOwnerId}
     </update>
 
 </mapper>

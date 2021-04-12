@@ -2,6 +2,7 @@ package com.moodright.blurryworld.pojo.messagecenter;
 
 import com.moodright.blurryworld.pojo.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 消息传输对象

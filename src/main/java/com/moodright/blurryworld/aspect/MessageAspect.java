@@ -3,10 +3,8 @@ package com.moodright.blurryworld.aspect;
 import com.moodright.blurryworld.pojo.ChildComment;
 import com.moodright.blurryworld.pojo.Comment;
 import com.moodright.blurryworld.pojo.Message;
-import com.moodright.blurryworld.pojo.Post;
 import com.moodright.blurryworld.service.MessageService;
 import com.moodright.blurryworld.service.PostService;
-import com.moodright.blurryworld.service.UserService;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +47,13 @@ public class MessageAspect {
             message.setMessagePostId(comment.getCommentPostId());
             message.setMessageReplyerId(comment.getCommentAuthorId());
             message.setMessageReplyerCommentId(comment.getCommentId());
+            // 封装该篇文章的作者编号
             message.setMessageOwnerId(postService.queryAuthorIdByPostId(comment.getCommentPostId()));
-            // 添加消息
-            messageService.addMessage(message);
+            // 消息通知
+            if(!message.getMessageOwnerId().equals(message.getMessageReplyerId())) {
+                // 不添加自己的消息通知
+                messageService.addMessage(message);
+            }
         }
     }
 
@@ -73,8 +75,11 @@ public class MessageAspect {
             message.setMessageReplyerId(childComment.getCommentAuthorId());
             message.setMessageReplyerCommentId(childComment.getCommentId());
             message.setMessageOwnerId(childComment.getParentCommentAuthorId());
-            // 添加消息
-            messageService.addMessage(message);
+            // 消息通知
+            if(!message.getMessageOwnerId().equals(message.getMessageReplyerId())) {
+                // 不添加自己的消息通知判断
+                messageService.addMessage(message);
+            }
         }
     }
 

@@ -32,6 +32,13 @@ public interface MessageMapper {
     List<MessageDTO> queryMessageByMessageOwnerId(@Param("messageOwnerId")Integer messageOwnerId);
 
     /**
+     * 根据被通知人编号查询未读消息数量
+     * @param messageOwnerId 被通知人编号
+     * @return 未读消息数量
+     */
+    int queryMessageCountByOwnerId(@Param("messageOwnerId")Integer messageOwnerId);
+
+    /**
      * 删除消息
      * @param messageId 消息编号
      * @return 受影响的行数
@@ -40,8 +47,8 @@ public interface MessageMapper {
 
     /**
      * 更新消息
-     * @param messageId 消息编号
+     * @param messageOwnerId 消息编号
      * @return 受影响的行数
      */
-    int updateMessageByMessageId(@Param("messageId")Integer messageId);
+    int updateMessageByOwnerId(@Param("messageOwnerId")Integer messageOwnerId);
 }

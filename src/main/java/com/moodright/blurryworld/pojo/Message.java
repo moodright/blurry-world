@@ -1,6 +1,7 @@
 package com.moodright.blurryworld.pojo;
 
 import lombok.Data;
+import lombok.Getter;
 
 /**
  * @author moodright

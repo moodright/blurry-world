@@ -62,7 +62,18 @@ public class MessageService implements MessageMapper {
      * @return 受影响的行数
      */
     @Override
-    public int updateMessageByMessageId(Integer messageId) {
-        return messageMapper.updateMessageByMessageId(messageId);
+    public int updateMessageByOwnerId(Integer messageId) {
+        return messageMapper.updateMessageByOwnerId(messageId);
+    }
+
+    /**
+     * 根据被通知人编号查询未读消息数量
+     *
+     * @param messageOwnerId 被通知人编号
+     * @return 未读消息数量
+     */
+    @Override
+    public int queryMessageCountByOwnerId(Integer messageOwnerId) {
+        return messageMapper.queryMessageCountByOwnerId(messageOwnerId);
     }
 }
