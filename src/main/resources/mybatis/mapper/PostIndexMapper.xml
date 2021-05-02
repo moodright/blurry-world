@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodright.blurryworld.mapper.PostIndexMapper">
+    <resultMap id="postIndexResultMap" type="PostIndex">
+        <id property="indexName" column="index_name" />
+        <result property="indexMap" column="index_map" />
+    </resultMap>
+
+    <insert id="addPostIndex" parameterType="PostIndex">
+        insert into `postindex`
+        (`index_name`, `index_map`)
+        values
+        (#{indexName}, #{indexMap})
+    </insert>
+
+    <select id="queryPostIndexByIndexName" parameterType="String" resultMap="postIndexResultMap">
+        select * from `postindex`
+        where `index_name` = #{indexName}
+    </select>
+
+    <update id="updatePostIndex" parameterType="PostIndex">
+        update `postindex` set
+        `index_map` = #{indexMap}
+        where `index_name` = #{indexName}
+    </update>
+
+</mapper>

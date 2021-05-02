@@ -21,7 +21,8 @@
     </resultMap>
 
     <!-- 创建文章 -->
-    <insert id="addPost" parameterType="Post">
+    <!-- 文章编号主键自增, 设置useGeneratedKeys和keyProperty属性来将自动生成的主键id返回 -->
+    <insert id="addPost" parameterType="Post" useGeneratedKeys="true" keyProperty="postId">
         insert into `post`
         (`author_id`,`post_title`,`post_type`,`post_description`,`post_content`,`post_create_time`,`post_update_time`,`post_release_time`,`post_cover`)
         values
