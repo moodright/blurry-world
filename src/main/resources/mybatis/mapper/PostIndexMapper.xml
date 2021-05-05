@@ -29,11 +29,18 @@
     </select>
 
     <update id="updatePostIndex" parameterType="map">
-        <foreach collection="postIndexMap" index="key" item="value" separator=";">
-            update `postindex` set
-            `index_map` = #{value}
-            where `index_name` = #{key}
-        </foreach>
+        update `postindex`
+        set `index_map` =
+            <trim prefix="case" suffix="end">
+                <foreach collection="postIndexMap" index="key" item="value">
+                    when `index_name` = #{key} then #{value}
+                </foreach>
+            </trim>
+        where `index_name` in
+            <foreach collection="postIndexMap" index="key" item="value"
+                     open="(" separator="," close=")">
+                #{key}
+            </foreach>
     </update>
 
 </mapper>

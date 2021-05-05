@@ -48,9 +48,9 @@ public class PostIndexTest {
     @Test
     public void updatePostIndexTest() {
         Map<String, String> map = new HashMap<>();
-        map.put("11" , "11111xxx");
-        map.put("22", "22222xxx");
-        map.put("33", "3333xxx");
+        map.put("1" , "111");
+        map.put("2", "222");
+        map.put("3", "333");
         postIndexService.updatePostIndex(map);
     }
 }
