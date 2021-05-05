@@ -6,6 +6,9 @@ import com.moodright.blurryworld.pojo.PostIndex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author moodright
  * @date 2021/5/2
@@ -23,33 +26,33 @@ public class PostIndexService implements PostIndexMapper {
     /**
      * 根据索引名查询索引
      *
-     * @param indexName 索引名
-     * @return 索引实体类
+     * @param postIndexMap 索引词图
+     * @return 索引词列表
      */
     @Override
-    public PostIndex queryPostIndexByIndexName(String indexName) {
-        return postIndexMapper.queryPostIndexByIndexName(indexName);
+    public List<PostIndex> queryPostIndexByPostIndexMap(Map<String, Map<Integer, Integer>> postIndexMap) {
+        return postIndexMapper.queryPostIndexByPostIndexMap(postIndexMap);
     }
 
     /**
      * 添加索引
      *
-     * @param postIndex 索引实体类
+     * @param postIndexMap 索引词图
      * @return 受影响的行数
      */
     @Override
-    public int addPostIndex(PostIndex postIndex) {
-        return postIndexMapper.addPostIndex(postIndex);
+    public int addPostIndex(Map<String, String> postIndexMap) {
+        return postIndexMapper.addPostIndex(postIndexMap);
     }
 
     /**
      * 更新索引
      *
-     * @param postIndex 索引实体类
+     * @param postIndexMap 索引词图
      * @return 受影响的行数
      */
     @Override
-    public int updatePostIndex(PostIndex postIndex) {
-        return postIndexMapper.updatePostIndex(postIndex);
+    public int updatePostIndex(Map<String, String> postIndexMap) {
+        return postIndexMapper.updatePostIndex(postIndexMap);
     }
 }

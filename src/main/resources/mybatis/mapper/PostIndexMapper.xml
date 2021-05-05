@@ -12,18 +12,28 @@
         insert into `postindex`
         (`index_name`, `index_map`)
         values
-        (#{indexName}, #{indexMap})
+        <foreach collection="postIndexMap" index="key" item="value"
+                 separator=",">
+            (#{key}, #{value})
+        </foreach>
     </insert>
 
-    <select id="queryPostIndexByIndexName" parameterType="String" resultMap="postIndexResultMap">
+    <select id="queryPostIndexByPostIndexMap" parameterType="map" resultMap="postIndexResultMap">
         select * from `postindex`
-        where `index_name` = #{indexName}
+        where `index_name` in
+        <!-- 传入参数为Map, index属性设置key, item属性设置value -->
+        <foreach collection="postIndexMap" item="item" index="index"
+                 open="(" separator="," close=")">
+            #{index}
+        </foreach>
     </select>
 
-    <update id="updatePostIndex" parameterType="PostIndex">
-        update `postindex` set
-        `index_map` = #{indexMap}
-        where `index_name` = #{indexName}
+    <update id="updatePostIndex" parameterType="map">
+        <foreach collection="postIndexMap" index="key" item="value" separator=";">
+            update `postindex` set
+            `index_map` = #{value}
+            where `index_name` = #{key}
+        </foreach>
     </update>
 
 </mapper>

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,22 +19,22 @@ public interface PostIndexMapper {
 
     /**
      * 根据索引名查询索引
-     * @param indexName 索引名
-     * @return 索引实体类
+     * @param postIndexMap 索引词图
+     * @return 索引词列表
      */
-    PostIndex queryPostIndexByIndexName(@Param("indexName") String indexName);
+    List<PostIndex> queryPostIndexByPostIndexMap(@Param("postIndexMap") Map<String, Map<Integer, Integer>> postIndexMap);
 
     /**
      * 添加索引
-     * @param postIndex 索引实体类
+     * @param postIndexMap 索引词图
      * @return 受影响的行数
      */
-    int addPostIndex(PostIndex postIndex);
+    int addPostIndex(@Param("postIndexMap") Map<String, String> postIndexMap);
 
     /**
      * 更新索引
-     * @param postIndex 索引实体类
+     * @param postIndexMap 索引词图
      * @return 受影响的行数
      */
-    int updatePostIndex(PostIndex postIndex);
+    int updatePostIndex(@Param("postIndexMap") Map<String, String> postIndexMap);
 }
