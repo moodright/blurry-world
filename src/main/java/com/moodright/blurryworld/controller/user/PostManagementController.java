@@ -3,9 +3,11 @@ package com.moodright.blurryworld.controller.user;
 import com.moodright.blurryworld.config.CoverUploadConfig;
 import com.moodright.blurryworld.pojo.Draft;
 import com.moodright.blurryworld.pojo.Post;
+import com.moodright.blurryworld.pojo.Tag;
 import com.moodright.blurryworld.pojo.User;
 import com.moodright.blurryworld.service.DraftService;
 import com.moodright.blurryworld.service.PostService;
+import com.moodright.blurryworld.service.TagService;
 import com.moodright.blurryworld.service.UserService;
 import com.moodright.blurryworld.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 文章管理控制器
@@ -34,6 +34,7 @@ public class PostManagementController {
     PostService postService;
     UserService userService;
     DraftService draftService;
+    TagService tagService;
     CoverUploadConfig coverUploadConfig;
 
     @Autowired
@@ -51,6 +52,10 @@ public class PostManagementController {
     @Autowired
     public void setCoverUploadConfig(CoverUploadConfig coverUploadConfig) {
         this.coverUploadConfig = coverUploadConfig;
+    }
+    @Autowired
+    public void setTagService(TagService tagService) {
+        this.tagService = tagService;
     }
 
     /**
@@ -80,7 +85,7 @@ public class PostManagementController {
      * 保存草稿
      * @param draftTitle 草稿名
      * @param draftContent 草稿内容
-     * @return
+     * @return 保存成功校验字段
      */
     @PostMapping("save")
     @ResponseBody
@@ -140,12 +145,6 @@ public class PostManagementController {
         post.setPostCreateTime(new Date());
         post.setPostUpdateTime(new Date());
 
-        // 封装标签
-//        String[] split = tags.split(";");
-//        for (int i = 0; i < split.length ; i++) {
-//            System.out.println(split[i]);
-//        }
-
         // 封装文章封面图片
         if(!cover.isEmpty()) {
             String saveFileName = user.getUserId() + "" + new Date().getTime() + ".png";
@@ -159,6 +158,16 @@ public class PostManagementController {
 
         // 添加文章
         postService.addPost(post);
+        // 封装标签
+        if (tags.length() != 0) {
+            List<Tag> tagList = new ArrayList<>();
+            String[] split = tags.split(";");
+            for (int i = 0; i < split.length ; i++) {
+                tagList.add(new Tag(post.getPostId(), split[i]));
+            }
+            // 添加标签
+            tagService.addTags(tagList);
+        }
         // 删除此篇文章的草稿
         draftService.deleteDraftByAuthorID(user.getUserId());
         return "redirect:/main";
@@ -174,8 +183,10 @@ public class PostManagementController {
                               Model model) {
         Post post = postService.queryPostByPostId(id);
         User author = userService.queryUserById(post.getAuthorId());
+        List<Tag> tagList = tagService.queryTagsByPostId(id);
         model.addAttribute("post", post);
         model.addAttribute("author", author);
+        model.addAttribute("tagList", tagList);
         return "/user/post-management/display-post";
     }
 
@@ -190,11 +201,13 @@ public class PostManagementController {
                              Model model) {
         User user = (User)session.getAttribute("user");
         Post post = postService.queryPostByPostId(postId);
+        List<Tag> tagList = tagService.queryTagsByPostId(postId);
         // 访问不存在和文章和他人的文章异常情况
         if(post == null || !post.getAuthorId().equals(user.getUserId())) {
             return "/error/404";
         }
         model.addAttribute("post", post);
+        model.addAttribute("tagList", tagList);
         return "/user/post-management/update-post";
     }
 

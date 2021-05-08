@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索</title>
+    <!-- favicon -->
+    <link rel="icon" th:href="@{/images/favicon.ico}"/>
+    <!-- bootstrap.css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- fontawesome.css -->
+    <link rel="stylesheet" href="/css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <style>
+        html, body {
+            height: 100%!important;
+            width: 1550px!important;
+            overflow: hidden;
+        }
+        .user-nav-bar {
+            position: sticky;
+            top: 0;
+        }
+        /* 用户导航栏 */
+        .user-nav-bar{
+            width: 100%;
+            height: 73px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            box-shadow:3px 3px 10px rgba(0, 0, 0, .12);
+        }
+        /* 左侧链接 */
+        .user-nav-link {
+            height: 100%;
+            width: 30%;
+            padding-top: 11px;
+        }
+        .user-nav-link .user-nav-logo {
+            margin: 0 25px;
+            width: 15%;
+            height: 100%;
+            color: #409EFF;
+            font-weight: lighter;
+            font-size: 25px;
+            position: relative;
+            top: 3px;
+        }
+        .user-nav-link .user-nav-main-link {
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 1.15rem;
+            color: #212121;
+            text-decoration: none;
+            cursor: pointer;
+            /* 调整链接位置 */
+            position: relative;
+            top: 2px;
+        }
+        .user-nav-link .user-nav-main-link:hover {
+            color: #409EFF;
+        }
+        /* 右侧用户个人中心 */
+        .user-nav-center {
+            height: 100%;
+            width: 30%;
+        }
+        .user-nav-center .user-nav-center-avatar {
+            margin-left: 15px;
+            margin-top: 10px;
+            margin-right: 15px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50px;
+        }
+        /* 头像 */
+        /* animation */
+        .head-box {
+            margin-right: 55px;
+            display: inline;
+        }
+        .image-box {
+            cursor: pointer;
+            position: absolute;
+            z-index: 999;
+            transform: translate(-50%, 0);
+            transition: transform .3s, width .3s, height .3s;
+        }
+        .head-box:hover .image-box{
+            width: 80px;
+            height: 80px;
+            transform: translate(-50%, 28%);
+        }
+        .message-box {
+            z-index: 998;
+            width: 332px;
+            height: 400px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, .12);
+            /* 调整message box位置*/
+            position: absolute;
+            top: 70px;
+            left: 71%;
+            /* animation */
+            transform: translate(-50%, 0);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .3s, visibility .3s;
+        }
+        .head-box:hover .message-box{
+            opacity: 1;
+            visibility: visible;
+        }
+        /* animation */
+        /* message box DIY */
+        .message-box .user-profile-heading {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .message-box .user-profile-content {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .message-box .user-profile-content .user-profile-content-link {
+            color: #212121;
+            text-decoration: none;
+        }
+        .message-box .user-profile-content .user-profile-content-link:hover {
+            color: #409EFF;
+        }
+        .message-box .user-profile-content p{
+            font-weight: bold;
+        }
+        .message-box .user-profile-footer {
+            width: 100%;
+            height: 40%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: 5px solid #d2e9fb;
+            border-bottom: 5px solid #d2e9fb;
+        }
+        .message-box .user-profile-footer i{
+            color: #606266;
+        }
+        .message-box .user-profile-footer .user-profile-footer-link {
+            display: block;
+            text-decoration: none;
+            color: #212121;
+            cursor: pointer;
+            padding-left: 45px;
+            padding-top: 15px;
+            font-size: 18px;
+            width: 100%;
+            height: 50%;
+        }
+        .message-box .user-profile-footer .user-profile-footer-link:hover {
+            background: #F2F6FC;
+        }
+        .message-box .user-profile-exit {
+            width: 100%;
+            height: 15%;
+            margin-top: 10px;
+        }
+        .message-box .user-profile-exit .user-profile-exit-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: #212121;
+            cursor: pointer;
+            padding-left: 45px;
+            padding-top: 15px;
+            font-size: 18px;
+        }
+        .message-box .user-profile-exit .user-profile-exit-link i{
+            color: #606266;
+        }
+        .message-box .user-profile-exit .user-profile-exit-link:hover {
+            background: #F2F6FC;
+        }
+        /* End of message box DIY */
+        .user-nav-center .user-nav-center-link {
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 1.15rem;
+            color: #212121;
+            text-decoration: none;
+            cursor: pointer;
+            /* 调整位置 */
+            position: relative;
+            top: 8px;
+        }
+        .user-nav-center .user-nav-center-link:hover {
+            color: #409EFF;
+        }
+        .user-nav-center .user-nav-center-postbtn {
+            margin-top: 12px;
+            margin-left: 20px;
+        }
+
+        /* 自定义消息提醒框 */
+        .message-alert {
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            background: #f56c6c;
+            color: #fff;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            height: 20px;
+            width: 25px;
+            border-radius: 10px;
+        }
+        /* 主页面 */
+        .main {
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+        .main .main-header {
+            width: 100%;
+            height: 100px;
+            line-height: 120px;
+            text-align: center;
+            font-size: 45px;
+            font-weight: lighter;
+            color: #00a1d6;
+        }
+        .main .main-center {
+            margin: auto;
+            width: 60%;
+            height: 650px;
+            background-color: white;
+            border-radius: 5px;
+            /*box-shadow:3px 3px 10px rgba(0, 0, 0, .12);*/
+        }
+        .main-center .search-bar {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            padding-top: 30px;
+        }
+        .option-button {
+            width: 100px;
+            height: 40px;
+            background-color: white;
+            border-radius: 4px 0 0 4px;
+            border: 1px solid #ccd0d7;
+            transition: border .1s linear;
+            cursor: pointer;
+            line-height: 40px;
+            font-size: 12px;
+            color: #222;
+            text-align: center;
+        }
+        .option-button:hover {
+            border: 1px solid #aaa;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+            background: linear-gradient(0deg,#f8f8f8,#fff);
+        }
+        .input-bar {
+            width: 500px;
+            height: 40px;
+            background-color: white;
+        }
+        .input-bar-text {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+            color: #222;
+            border-left: 0;
+            border-right: 0;
+            padding: 0 10px;
+        }
+        .confirm-button {
+            width: 100px;
+            height: 40px;
+            background-color: #00a1d6;
+            color: #fff;
+            font-size: 16px;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bolder;
+            border: 1px solid #008cd2;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        .confirm-button:hover {
+            background-color: #00b5e5;
+        }
+        .search-bar-option {
+            margin: auto;
+            width: 75%;
+            height: 380px;
+            background-color: #d2e9fb;
+        }
+        .options {
+            width: 100px;
+            height: 82px;
+            background-color: white;
+            position: relative;
+            top: -32px;
+            left: -1px;
+            border: 1px solid #aaa;
+        }
+        .options .option {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #222;
+            cursor: pointer;
+        }
+        .options .option:hover {
+            background: #e5e9ef;
+        }
+        .keyword-options {
+            width: 500px;
+            height: auto;
+            background: #fff;
+            padding: 10px 0;
+            border: 1px solid #e5e9ef;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+            position: absolute;
+            top: 250px;
+            left: 525px;
+        }
+        .keyword-options .option {
+            width: 500px;
+            height: 32px;
+            padding: 0 10px;
+            line-height: 32px;
+            position: relative;
+            left: -1px;
+            cursor: pointer;
+        }
+        .keyword-options .option:hover {
+            background: #e5e9ef;
+        }
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- 用户导航栏 -->
+    <div class="user-nav-bar">
+        <div class="user-nav-link">
+            <span class="user-nav-logo">BlurryWorld</span>
+            <a href="#" class="user-nav-main-link">首页</a>
+            <a href="#" class="user-nav-main-link">专栏</a>
+            <a href="#" class="user-nav-main-link">分类</a>
+        </div>
+        <div class="user-nav-center">
+            <!-- 头像 -->
+            <div class="head-box">
+                <img class="image-box user-nav-center-avatar" th:src="${session.user.avatar}?:('/images/DefaultAvatar.png')" />
+                <div class="message-box">
+                    <div class="user-profile-heading">
+                        <h6 th:text="${session.user.nickname == null?session.user.username:session.user.nickname}">Moodright</h6>
+                    </div>
+                    <div class="user-profile-content">
+                        <a href="#" class="user-profile-content-link">关注<p>9999</p></a>
+                        <a href="#" class="user-profile-content-link">粉丝<p>9999</p></a>
+                        <a th:href="@{/main}" class="user-profile-content-link">动态<p>9999</p></a>
+                    </div>
+                    <div class="user-profile-footer">
+                        <a th:href="@{'/space/' + ${session.user.getUserId()}}" class="user-profile-footer-link"><i class="fa fa-user pr-2" aria-hidden="true"></i>个人中心</a>
+                        <a th:href="@{/main}" class="user-profile-footer-link"><i class="fa fa-comments pr-2" aria-hidden="true"></i>动态</a>
+                    </div>
+                    <div class="user-profile-exit">
+                        <a class="user-profile-exit-link" th:href="@{/exit}"><i class="fa fa-sign-out pr-2" aria-hidden="true"></i>退出</a>
+                    </div>
+                </div>
+            </div>
+            <a href="/message/reply" class="user-nav-center-link">
+                消息中心
+                <!-- 自定义消息提醒框 -->
+                <div class="message-alert" style="display: none"></div>
+            </a>
+            <a th:href="@{/platform}" class="user-nav-center-link">创作中心</a>
+            <a th:href="@{/post}" class="btn btn-lg btn-primary user-nav-center-postbtn" role="button"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>发布文章</a>
+        </div>
+    </div>
+
+
+    <!-- 主页面 -->
+    <div class="main" onclick="closeOption()">
+        <div class="main-header">
+            Blurry World | 搜索
+        </div>
+        <div class="main-center">
+            <div class="search-bar">
+                <div class="option-button" onclick="selectOption(event)">
+                    <span id="option-value">综合</span>
+                    <i class="fa fa-arrow-down" style="font-size: 12px"></i>
+                </div>
+                <div class="input-bar">
+                    <input class="input-bar-text" type="text" placeholder="搜索你想要的内容...">
+                </div>
+                <div class="confirm-button">
+                    搜 索
+                </div>
+            </div>
+            <div class="search-bar-option">
+                <div class="options" style="display: none">
+                    <div id="user-option" class="option" onclick="swapOptionValue('user')">用户</div>
+                    <div id="post-option" class="option" onclick="swapOptionValue('post')">文章</div>
+                </div>
+                <div class="keyword-options">
+                    <div class="option">关键字1</div>
+                    <div class="option">关键字1</div>
+                    <div class="option">关键字1</div>
+                    <div class="option">关键字1</div>
+                    <div class="option">关键字1</div>
+                    <div class="option">关键字1</div>
+                    <div class="option">关键字1</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- jquery-3.5.1.js -->
+    <script th:src="@{/js/jquery-3.5.1.js}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script>
+        $(function() {
+            // 查询通知消息数量
+            $.ajax({
+                url: '/message/reply/count',
+                method: 'get',
+                success: function(messageCount) {
+                    if(messageCount !== 0) {
+                        if(messageCount < 99) {
+                            $('.message-alert').css("display", "block").text(messageCount);
+                        }else {
+                            $('.message-alert').css("display", "block").text("99+");
+                        }
+                    }
+                }
+            });
+        })
+
+        /**
+         * 开启选项框
+         */
+        function selectOption(event) {
+            // 阻止事件冒泡
+            event.stopPropagation();
+            var optionsDispay = $('.options');
+            if(optionsDispay.css("display") === 'none') {
+                optionsDispay.css("display", "block");
+            }else {
+                optionsDispay.css("display", "none");
+            }
+        }
+
+        /**
+         * 关闭选项框
+         */
+        function closeOption() {
+            var optionsDispay = $('.options');
+            if(optionsDispay.css("display") === 'block') {
+                optionsDispay.css("display", "none");
+            }
+        }
+
+        /**
+         * 交换选项框的值
+         * @param type 选项框类型
+         */
+        function swapOptionValue(type) {
+            var optionsDispay = $('.options');
+            var option = $('#option-value');
+            if(type === 'user') {
+                var userOption = $('#user-option');
+                // 交换两者值
+                var temp = option.text();
+                option.text(userOption.text());
+                userOption.text(temp);
+            }
+            if(type === 'post') {
+                var postOption = $('#post-option');
+                // 交换两者值
+                var temp = option.text();
+                option.text(postOption.text());
+                postOption.text(temp);
+            }
+            optionsDispay.css("display", "none");
+        }
+
+    </script>
+</body>
+</html>

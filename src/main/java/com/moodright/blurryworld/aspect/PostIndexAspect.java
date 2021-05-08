@@ -9,9 +9,6 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.print.DocFlavor;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,37 +51,39 @@ public class PostIndexAspect {
             // 文章内容分词
             Map<String, Map<Integer, Integer>> postIndexMap = chineseSegmentUtil.segment(post.getPostId(), cleaningPostContent);
             // 根据分词后的索引词组查询数据库中已存在的索引词组list
-            List<PostIndex> postIndexList = postIndexService.queryPostIndexByPostIndexMap(postIndexMap);
-            // 将数据库中已存在的索引词组list转换为map
-            Map<String, String> existPostIndexMap = new HashMap<>();
-            for ( PostIndex postIndex : postIndexList) {
-                existPostIndexMap.put(postIndex.getIndexName(), postIndex.getIndexMap());
-            }
-            // 新增索引词组map
-            Map<String, String> notExistPostIndexMap = new HashMap<>();
-            for (Map.Entry<String, Map<Integer, Integer>> entry : postIndexMap.entrySet()) {
-                if (!existPostIndexMap.containsKey(entry.getKey())) {
-                    // 索引词不存在
-                    notExistPostIndexMap.put(entry.getKey(), JSON.toJSONString(entry.getValue()));
-                } else {
-                    // 索引词已存在
-                    // 文章索引词map
-                    Map<Integer, Integer> segmentIndexMap = postIndexMap.get(entry.getKey());
-                    // 数据库表中索引词map
-                    Map<Integer, Integer> indexMap = JSON.parseObject(existPostIndexMap.get(entry.getKey()), HashMap.class);
-                    // 更新数据库表中索引词map
-                    indexMap.put(post.getPostId(), segmentIndexMap.get(post.getPostId()));
-                    existPostIndexMap.put(entry.getKey(), JSON.toJSONString(indexMap));
+            if(!postIndexMap.isEmpty()) {
+                List<PostIndex> postIndexList = postIndexService.queryPostIndexByPostIndexMap(postIndexMap);
+                // 将数据库中已存在的索引词组list转换为map
+                Map<String, String> existPostIndexMap = new HashMap<>();
+                for ( PostIndex postIndex : postIndexList) {
+                    existPostIndexMap.put(postIndex.getIndexName(), postIndex.getIndexMap());
                 }
-            }
-            // 插入新增索引词组map
-            if(!notExistPostIndexMap.isEmpty()) {
-                postIndexService.addPostIndex(notExistPostIndexMap);
-            }
-            // 更新已存在索引词组map
-            if(!existPostIndexMap.isEmpty())
-            {
-                postIndexService.updatePostIndex(existPostIndexMap);
+                // 新增索引词组map
+                Map<String, String> notExistPostIndexMap = new HashMap<>();
+                for (Map.Entry<String, Map<Integer, Integer>> entry : postIndexMap.entrySet()) {
+                    if (!existPostIndexMap.containsKey(entry.getKey())) {
+                        // 索引词不存在
+                        notExistPostIndexMap.put(entry.getKey(), JSON.toJSONString(entry.getValue()));
+                    } else {
+                        // 索引词已存在
+                        // 文章索引词map
+                        Map<Integer, Integer> segmentIndexMap = postIndexMap.get(entry.getKey());
+                        // 数据库表中索引词map
+                        Map<Integer, Integer> indexMap = JSON.parseObject(existPostIndexMap.get(entry.getKey()), HashMap.class);
+                        // 更新数据库表中索引词map
+                        indexMap.put(post.getPostId(), segmentIndexMap.get(post.getPostId()));
+                        existPostIndexMap.put(entry.getKey(), JSON.toJSONString(indexMap));
+                    }
+                }
+                // 插入新增索引词组map
+                if(!notExistPostIndexMap.isEmpty()) {
+                    postIndexService.addPostIndex(notExistPostIndexMap);
+                }
+                // 更新已存在索引词组map
+                if(!existPostIndexMap.isEmpty())
+                {
+                    postIndexService.updatePostIndex(existPostIndexMap);
+                }
             }
         }
     }

@@ -705,11 +705,10 @@
                     <span><i class="fa fa-ban mr-1" aria-hidden="true"></i>禁止转载或摘编</span>
                 </div>
                 <!-- 文章标签 -->
-                <div class="tag-container">
-                    <a href="#">MySQL</a>
-                    <a href="#">MyBatis</a>
-                    <a href="#">Navicat</a>
+                <div class="tag-container" th:if="${!tagList.isEmpty()}">
+                    <a th:each="tag : ${tagList}" href="#" th:text="${tag.tagName}"></a>
                 </div>
+                <div class="tag-container" th:if="${tagList.isEmpty()}"></div>
                 <!-- 点赞收藏、分享 -->
                 <div class="post-action">
                     <div class="like">

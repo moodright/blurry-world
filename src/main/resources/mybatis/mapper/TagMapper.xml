@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moodright.blurryworld.mapper.TagMapper">
+    <resultMap id="tagResultMap" type="Tag">
+        <result property="tagPostId" column="tag_post_id" />
+        <result property="tagName" column="tag_name" />
+    </resultMap>
+
+    <!-- 添加标签 -->
+    <insert id="addTags" parameterType="java.util.List">
+        insert into `tag`
+        (`tag_post_id`, `tag_name`)
+        values
+        <foreach collection="tagList" item="tag" separator=",">
+            (#{tag.tagPostId}, #{tag.tagName})
+        </foreach>
+    </insert>
+
+    <!-- 根据文章编号查询标签 -->
+    <select id="queryTagsByPostId" resultMap="tagResultMap">
+        select * from `tag`
+        where `tag_post_id` = #{postId}
+    </select>
+
+
+</mapper>
