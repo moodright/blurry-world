@@ -99,4 +99,10 @@
         where `post_id` = #{postId}
     </select>
 
+    <select id="suggestPostTitleByInputString" parameterType="String" resultType="String">
+        select distinct `post_title` from `post`
+        where `post_title` like binary CONCAT('%', #{inputString}, '%')
+        limit 0,10
+    </select>
+
 </mapper>

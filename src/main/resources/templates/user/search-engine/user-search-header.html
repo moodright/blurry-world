@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+    <!-- header -->
+    <div class="header" onclick="closeOption()" th:fragment="user-search-header">
+        <style>
+            .header {
+                width: 100%;
+                height: 120px;
+                display: flex;
+                justify-content: center;
+            }
+            .header .search-title {
+                width: 150px;
+                height: 44px;
+                margin-top: 40px;
+                line-height: 44px;
+                text-align: center;
+                color: #00a1d6;
+                font-size: 18px;
+                font-weight: lighter;
+                cursor: pointer;
+                position: relative;
+                right: 10px;
+            }
+            .header .search-input {
+                width: 400px;
+                height: 120px;
+            }
+            .search-input .search-input-bar {
+                width: 100%;
+                height: 44px;
+                display: block;
+                margin-top: 40px;
+                padding: 11px 15px;
+                border-radius: 4px;
+                border: 2px solid #ccd0d7;
+                font-size: 16px;
+                color: #222;
+            }
+            .suggest-keywords {
+                width: 100%;
+                height: auto;
+                background: #fff;
+                padding: 10px 0;
+                border: 1px solid #e5e9ef;
+                border-radius: 4px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+                margin-top: 5px;
+                position: relative;
+                z-index: 50;
+            }
+            .suggest-keywords .keyword {
+                width: 100%;
+                height: 32px;
+                padding: 0 10px;
+                line-height: 32px;
+                cursor: pointer;
+                font-size: 16px;
+                color: #222;
+            }
+            .keyword:hover {
+                background: #e5e9ef;
+            }
+            .header .search-button {
+                width: 80px;
+                height: 44px;
+                background: #00a1d6;
+                margin-top: 40px;
+                position: relative;
+                left: 10px;
+                font-size: 16px;
+                text-align: center;
+                line-height: 44px;
+                border-radius: 4px;
+                color: #fff;
+                cursor: pointer;
+
+            }
+            .header .search-button:hover {
+                background: #00b5e5;
+            }
+
+
+        </style>
+        <!-- 搜索标题 -->
+        <div class="search-title">Blurry World | 搜索</div>
+        <!-- 搜搜输入框 -->
+        <div class="search-input">
+            <input class="search-input-bar" type="text" onclick="selectOption(event)">
+            <div class="suggest-keywords" style="visibility: hidden">
+                <div class="keyword"><span style="color: #f25d8e">数据库</span></div>
+                <div class="keyword"><span style="color: #f25d8e">数据库</span>学习笔记1</div>
+                <div class="keyword"><span style="color: #f25d8e">数据库</span>学习笔记2</div>
+                <div class="keyword"><span style="color: #f25d8e">数据库</span>学习笔记3</div>
+            </div>
+        </div>
+        <!-- 搜索框按钮 -->
+        <div class="search-button">
+            <i class="fa fa-search mr-2"></i>搜索
+        </div>
+        <script>
+            /**
+             * 开启选项框
+             */
+            function selectOption(event) {
+                // 阻止事件冒泡
+                event.stopPropagation();
+                var optionsDispay = $('.suggest-keywords');
+                if(optionsDispay.css("visibility") === 'hidden') {
+                    optionsDispay.css("visibility", "visible");
+                }else {
+                    optionsDispay.css("visibility", "hidden");
+                }
+            }
+
+            /**
+             * 关闭选项框
+             */
+            function closeOption() {
+                var optionsDispay = $('.suggest-keywords');
+                if(optionsDispay.css("visibility") === 'visible') {
+                    optionsDispay.css("visibility", "hidden");
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

@@ -102,4 +102,15 @@ public class PostService implements PostMapper {
     public Integer queryAuthorIdByPostId(Integer postId) {
         return postMapper.queryAuthorIdByPostId(postId);
     }
+
+    /**
+     * 根据输入字符串模糊查询文章名
+     *
+     * @param inputString 输入字符串
+     * @return 推荐文章名List
+     */
+    @Override
+    public List<String> suggestPostTitleByInputString(String inputString) {
+        return postMapper.suggestPostTitleByInputString(inputString);
+    }
 }

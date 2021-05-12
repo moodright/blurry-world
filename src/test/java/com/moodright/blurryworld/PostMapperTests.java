@@ -82,4 +82,12 @@ public class PostMapperTests {
         Integer authorId = postService.queryAuthorIdByPostId(2000);
         System.out.println(authorId);
     }
+
+    @Test
+    public void suggestPostTitleByInputStringTest() {
+        List<String> postTitleList = postService.suggestPostTitleByInputString("秋天");
+        for(String postTitle : postTitleList) {
+            System.out.println(postTitle);
+        }
+    }
 }

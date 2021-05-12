@@ -4,7 +4,6 @@ import com.moodright.blurryworld.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Map;
 
@@ -79,4 +78,11 @@ public interface UserMapper {
      * @return 受影响的行数
      */
     int updateAvatar(User user);
+
+    /**
+     * 根据输入字符串查询推荐用户名
+     * @param inputString 输入字符串
+     * @return 用户名列表
+     */
+    List<String> suggestUsernameByInputString(@Param("inputString")String inputString);
 }

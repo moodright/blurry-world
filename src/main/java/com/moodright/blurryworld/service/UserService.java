@@ -117,4 +117,15 @@ public class UserService implements UserMapper {
     public int updateAvatar(User user) {
         return userMapper.updateAvatar(user);
     }
+
+    /**
+     * 根据输入字符串查询推荐用户名
+     *
+     * @param inputString 输入字符串
+     * @return 用户名列表
+     */
+    @Override
+    public List<String> suggestUsernameByInputString(String inputString) {
+        return userMapper.suggestUsernameByInputString(inputString);
+    }
 }

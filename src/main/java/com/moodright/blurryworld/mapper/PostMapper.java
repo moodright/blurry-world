@@ -69,4 +69,11 @@ public interface PostMapper {
      * @return 作者编号
      */
     Integer queryAuthorIdByPostId(@Param("postId")Integer postId);
+
+    /**
+     * 根据输入字符串模糊查询文章名
+     * @param inputString 输入字符串
+     * @return 推荐文章名List
+     */
+    List<String> suggestPostTitleByInputString(@Param("inputString")String inputString);
 }

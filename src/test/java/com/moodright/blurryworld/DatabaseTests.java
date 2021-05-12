@@ -67,4 +67,13 @@ public class DatabaseTests {
         System.out.println(user);
     }
 
+    @Test
+    public void suggestUsernameTest() {
+        List<String> usernameList = userMapper.suggestUsernameByInputString("moon");
+        for(String username : usernameList) {
+            System.out.println(username);
+        }
+    }
+
+
 }

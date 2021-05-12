@@ -79,5 +79,12 @@
         where `user_id` = #{userId}
     </update>
 
+    <select id="suggestUsernameByInputString" parameterType="String" resultType="String">
+        select distinct `nickname`
+        from user
+        where `nickname` like binary CONCAT('%', #{inputString}, '%')
+        limit 0,10
+    </select>
+
 
 </mapper>

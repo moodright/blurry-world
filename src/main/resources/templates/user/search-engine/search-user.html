@@ -10,18 +10,328 @@
     <!-- fontawesome.css -->
     <link rel="stylesheet" href="/css/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <style>
+        .main {
+            margin: auto;
+            width: 65%;
+            height: 800px;
+        }
+        .main .main-header {
+            width: 100%;
+            height: 30px;
+            color: #99a2aa;
+            font-size: 12px;
+            line-height: 30px;
+            border-top: 1px solid #ccd0d7;
+        }
+        .main .user-list {
+            width: 100%;
+            height: 180px;
+            border-bottom: 1px solid #e5e9ef;
+            padding: 10px;
+            display: flex;
+            justify-content: start;
+        }
+        .user-list .avatar {
+            width: 90px;
+            height: 90px;
+            display: block;
+            border-radius: 50%;
+        }
+        .user-list .user-info {
+            width: 900px;
+            height: 160px;
+            margin-left: 10px;
+        }
+        .user-info .username {
+            width: 100%;
+            height: 35px;
+            line-height: 35px;
+            font-size: 16px;
+            color: #222;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .user-info .username:hover {
+            color: #00a1d6;
+        }
+        .user-info .user-post-follower-info {
+            width: 100%;
+            height: 20px;
+            font-size: 12px;
+            line-height: 20px;
+            color: #6d757a;
+            display: flex;
+            justify-content: start;
+        }
+        .user-info .signature {
+            width: 100%;
+            height: 20px;
+            font-size: 12px;
+            line-height: 20px;
+            color: #6d757a;
+        }
+        .user-info .post-list {
+            width: 100%;
+            height: 85px;
+            display: flex;
+            justify-content: start;
+        }
+        .post-list .post {
+            margin-top: 5px;
+            margin-right: 20px;
+            width: 250px;
+            height: 80px;
+            display: flex;
+            justify-content: start;
+        }
+        .post .post-cover {
+            width: 130px;
+            height: 100%;
+            display: block;
+        }
+        .post .post-title-create-time {
+            padding-left: 5px;
+            width: 100px;
+            height: 100%;
+        }
+        .post-title-create-time .post-title {
+            font-size: 12px;
+            color: #222;
+            cursor: pointer;
+        }
+        .post-title:hover {
+            color: #00a1d6;
+        }
+        .post-title-create-time .post-create-time {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #99a2aa;
+        }
+        .all-posts {
+            width: 100px;
+            height: 100%;
+            padding-top: 60px;
+        }
+        .all-posts span {
+            font-size: 12px;
+            cursor: pointer;
+            color: #00a1d6;
+        }
+        .all-posts span:hover {
+            color: #f281bd;
+        }
+
 
     </style>
 </head>
 <body>
     <!-- 用户导航栏 -->
-    <div th:replace="~{/commons/user-nav-bar :: user-nav-bar}"></div>
+    <div th:replace="~{/user/search-engine/user-nav-bar :: user-nav-bar}"></div>
+    <!-- 头部搜索栏 -->
+    <div th:replace="~{/user/search-engine/user-search-header :: user-search-header}"></div>
+    <!-- 主页面 -->
+    <div class="main">
+        <div class="main-header">共查到46个用户</div>
 
-    <h1>用户列表</h1>
+        <div class="user-list">
+            <!-- 头像 -->
+            <img class="avatar" src="/images/BillieEilishDonuts.png">
+            <!-- 信息栏 -->
+            <div class="user-info">
+                <div class="username"><span style="color: #f25d8e">moon</span>light</div>
+                <div class="user-post-follower-info">
+                    <div class="post-info mr-3">文章：55</div>
+                    <div class="follower-info">粉丝：1002</div>
+                </div>
+                <div class="signature">
+                    我怎么感觉整个黑夜在震动
+                </div>
+                <div class="post-list">
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">数据库框架学习笔记1</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">数据库框架学习笔记2</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">数据库框架学习笔记3</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all-posts">
+                        <span>全部55篇文章></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="user-list">
+            <!-- 头像 -->
+            <img class="avatar" src="/images/DefaultAvatar.png">
+            <!-- 信息栏 -->
+            <div class="user-info">
+                <div class="username"><span style="color: #f25d8e">Moon</span>light</div>
+                <div class="user-post-follower-info">
+                    <div class="post-info mr-3">文章：10</div>
+                    <div class="follower-info">粉丝：5</div>
+                </div>
+                <div class="signature">
+                    这里是我的简介
+                </div>
+                <div class="post-list">
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">Spring框架学习笔记1</span>
+                            <div class="post-create-time">
+                                2021-05-06
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">Spring框架学习笔记2</span>
+                            <div class="post-create-time">
+                                2021-05-07
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">Spring框架学习笔记3</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all-posts">
+                        <span>全部10篇文章></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="user-list">
+            <!-- 头像 -->
+            <img class="avatar" src="/images/DefaultAvatar.png">
+            <!-- 信息栏 -->
+            <div class="user-info">
+                <div class="username"><span style="color: #f25d8e">moon</span></div>
+                <div class="user-post-follower-info">
+                    <div class="post-info mr-3">文章：10</div>
+                    <div class="follower-info">粉丝：4</div>
+                </div>
+                <div class="signature">
+                    @Bean | Get busy living or get busy dying
+                </div>
+                <div class="post-list">
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">Mybatis 01</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">Mybatis 02</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">Mybatis 03</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all-posts">
+                        <span>全部10篇文章></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="user-list">
+            <!-- 头像 -->
+            <img class="avatar" src="/images/BillieEilishDonuts.png">
+            <!-- 信息栏 -->
+            <div class="user-info">
+                <div class="username">我以为世界是座宁静的宇宙</div>
+                <div class="user-post-follower-info">
+                    <div class="post-info mr-3">文章：55</div>
+                    <div class="follower-info">粉丝：1002</div>
+                </div>
+                <div class="signature">
+                    我怎么感觉整个黑夜在震动
+                </div>
+                <div class="post-list">
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">数据库框架学习笔记1</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">数据库框架学习笔记2</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post">
+                        <img class="post-cover" src="/images/carousel-default.png">
+                        <div class="post-title-create-time">
+                            <span class="post-title">数据库框架学习笔记3</span>
+                            <div class="post-create-time">
+                                2021-05-08
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all-posts">
+                        <span>全部20篇文章></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- jquery-3.5.1.js -->
     <script th:src="@{/js/jquery-3.5.1.js}"></script>
     <!-- bootstrap.bundle.js -->
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script>
+
+    </script>
 </body>
 </html>
